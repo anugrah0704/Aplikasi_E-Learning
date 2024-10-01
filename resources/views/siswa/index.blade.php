@@ -45,7 +45,7 @@
                             <hr>
                             <h2 id="Bola Voly"><i> Bola Voly</i></h2>
                             <hr>
-                            <img src="foto/Voly.jpg" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/Voly.jpg" alt="" align="left" width="30%" hspace="10">
                             <p align="justify"> &nbsp;&nbsp;&nbsp;Ekstrakurikuler Bola Voli merupakan bagian integral dari
                                 mata pelajaran Pendidikan Jasmani Olahraga dan Kesehatan. Penyelenggaraan ekstrakurikuler
                                 Bola Voli di SMP 2 Jekulo kudus bertujuan untuk mengembangkan aspek kebugaran jasmani,
@@ -75,7 +75,7 @@
                             <hr>
                             <h2 id="Pencak Silat" align="right">Pencak Silat</h2>
                             <hr>
-                            <img src="foto/Pencak silat.png" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/Pencak silat.png" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;Ekskurikuler beladiri pencak silat adalah wadah bagi siswa yang baru
                                 ingin mengenal dan yang telah memiliki kemampuan dalam beladiri pencak silat. Sehingga
@@ -92,7 +92,7 @@
                             <hr>
                             <h2 id="Sepak Bola">Sepak Bola</h2>
                             <hr>
-                            <img src="foto/sepak bola.jpg" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/sepak bola.jpg" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 Kegiatan ekstrakurikuler sepakbola merupakan kegiatan sekolah yang dilakukan di luar jam
                                 pelajaran dengan tujuan untuk memperdalam dan memperluas pengetahuan, meningkatkan prestasi,
@@ -102,7 +102,7 @@
                             <hr>
                             <h2 id="Komputer" align="right">Komputer</h2>
                             <hr>
-                            <img src="foto/komputer.png" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/komputer.png" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 Ekskul Komputer, adalah kegiatan life skill mengenalkan anak pada peralatan multimedia
                                 seperti komputer, dan melatih siswa agar mampu mengoperasi alat-alat sederhana seperti
@@ -114,7 +114,7 @@
                             <hr>
                             <h2 id="OSN Matematika">OSN Matematika</h2>
                             <hr>
-                            <img src="foto/OSN Matematika.png" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/OSN Matematika.png" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 OSN atau olimpiade sains nasional, merupakan sebuah kegiatan rutin pemerintah dalam
                                 menyaring siswa-siswa yang berprestasi. OSN diadakan secara bertahap, mulai dari tingkat
@@ -126,7 +126,7 @@
                             <hr>
                             <h2 id="Seni Musik" align="right">Seni Musik</h2>
                             <hr>
-                            <img src="foto/musk.jpg" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/musk.jpg" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 Ekstra kurikuler Musik adalah kegiatan yang diselenggarakan diluar jam pelajaran yang
                                 tercantum dalam susunan program sesuai dengan keadaan dan kebutuhan sekolah. Kegiatan ini
@@ -139,7 +139,7 @@
                             <hr>
                             <h2 id="Bola Basket">Bola Basket</h2>
                             <hr>
-                            <img src="foto/basket.jpeg" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/basket.jpeg" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bola basket adalah olahraga bola berkelompok yang terdiri atas
                                 dua tim beranggotakan masing-masing lima orang yang saling bertanding mencetak poin dengan
@@ -160,7 +160,7 @@
                             <hr>
                             <h2 id="Sepak Takraw" align="right">Sepak Takraw</h2>
                             <hr>
-                            <img src="foto/takrow.jpg" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/takrow.jpg" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bola basket adalah olahraga bola berkelompok yang terdiri atas
                                 dua tim beranggotakan masing-masing lima orang yang saling bertanding mencetak poin dengan
@@ -174,7 +174,7 @@
                             <hr>
                             <h2 id="Story Telling">Story Telling</h2>
                             <hr>
-                            <img src="foto/STORY-TELLING1-1.jpg" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/STORY-TELLING1-1.jpg" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salah satu EKSTRAKURIKULER di SMP 2 JEKULO KUDUS adalah STORY
                                 TELLING Story Telling adalah salah satu cabang lomba bergengsi dan banyak diminati terutama
@@ -194,7 +194,7 @@
                             <hr>
                             <h2 id="Seni Tari" align="right">Seni Tari</h2>
                             <hr>
-                            <img src="foto/tari.png" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/tari.png" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ekstrakulikuler Seni Tari adalah sebuah wadah untuk
                                 memperdalam pengetahuan dan wawasan bagi siswa-siswi SMP 2 JEKULO KUDUS tentang seni tari,
@@ -213,7 +213,7 @@
                             <hr>
                             <h2 id="Mading">Mading</h2>
                             <hr>
-                            <img src="foto/mading.jpg" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/mading.jpg" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kegiatan mengelola media sekolah atau kegiatan
                                 jurnalistikmerupakan proses pembelajaran yang menarik dan penuh manfaat,kegiatan jurnalistik
@@ -225,7 +225,7 @@
                             <hr>
                             <h2 id="Tata Boga" align="right">Tata Boga</h2>
                             <hr>
-                            <img src="foto/tata boga.png" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/tata boga.png" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ekstrakurikuler Tata Boga merupakan ekstra pilihan untuk siswa
                                 kelas 7, 8 dan 9 . Program keterampilan ini sangat dibutuhkan oleh siswa terutama siswa
@@ -239,7 +239,7 @@
                             <hr>
                             <h2 id="Pramuka">Pramuka</h2>
                             <hr>
-                            <img src="foto/pramuka.jpg" alt="" align="left" width="30%" hspace="30">
+                            <img src="admin/img/pramuka.jpg" alt="" align="left" width="30%" hspace="30">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ekstrakurikuler Pramuka adalah salah satu kegiatan di sekolah
                                 yang bertujuan untuk mengembangkan jiwa kepemimpinan, kemandirian, keberanian, kerjasama,
@@ -274,7 +274,7 @@
                             <hr>
                             <h2 id="OSN IPA" align="right">OSN IPA</h2>
                             <hr>
-                            <img src="foto/osn.jpg" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/osn.jpg" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ekstrakurikuler OSN IPA merupakan ekstrakurikuler yang
                                 diadakan untuk mempersiapkan olimpiade sains khususnya untuk Ilmu Pengetahuan Alam.
@@ -285,7 +285,7 @@
                             <hr>
                             <h2 id="OSN IPS">OSN IPS</h2>
                             <hr>
-                            <img src="foto/osn.jpg" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/osn.jpg" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ekstrakurikuler OSN IPS ini menjadi wadah bagi siswa yang
                                 berminat untuk mendalami ilmu-ilmu sosial. Dengan pelatih handal , SMP YPVDP berusaha untuk
@@ -294,7 +294,7 @@
                             <hr>
                             <h2 id="Futsal" align="right">Futsal</h2>
                             <hr>
-                            <img src="foto/futsal.jpg" alt="" align="right" width="30%" hspace="10">
+                            <img src="admin/img/futsal.jpg" alt="" align="right" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Futsal adalah salah satu olahraga paling populer di kalangan anak muda sekarang, karena olahraga ini adalah turunan dari sepak bola tapi dengan jumlah pemain yang lebih sedikit dan luas lapangan yang lebih kecil.Ekstrakurikuler futsal diadakan dengan tujuan menyediakan wadah untuk siswa menyalurkan hobinya dan menghadirkan corak positif kepada para siswa yaitu sifat-sifat sportifitas serta mencetak bibit-bibit baru olahragawan yang berprestasi di tingkat lokal, nasional maupun internasional.
                             </p><br><br><br><br>
@@ -302,7 +302,7 @@
                             <hr>
                             <h2 id="Seni Baca Al-Qur'an">Seni Baca Al-Qur'an</h2>
                             <hr>
-                            <img src="foto/Agama.png" alt="" align="left" width="30%" hspace="10">
+                            <img src="admin/img/Agama.png" alt="" align="left" width="30%" hspace="10">
                             <p align="justify">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seni Baca Al-Qur'an merupakan extrakurikuler pilian bagi seluruh peserta didik kelas 7,8 dan 9.
                             </p><br><br><br><br>

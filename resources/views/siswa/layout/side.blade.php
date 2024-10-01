@@ -94,23 +94,63 @@
         </a>
         <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="forms-elements.html">
-              <i class="bi bi-circle"></i><span>Bahasa Indonesia</span>
+            <a href="{{route('siswa.bhs_indo')}}">
+              <i class="bi bi-circle"></i><span>BAHASA INDONESIA</span>
             </a>
           </li>
           <li>
             <a href="forms-layouts.html" class="active">
-              <i class="bi bi-circle"></i><span>Bahasa Inggris</span>
+              <i class="bi bi-circle"></i><span>BAHASA INGGRIS</span>
             </a>
           </li>
           <li>
             <a href="forms-editors.html">
-              <i class="bi bi-circle"></i><span>Bahasa Jawa</span>
+              <i class="bi bi-circle"></i><span>BAHASA JAWA</span>
             </a>
           </li>
           <li>
             <a href="forms-validation.html">
               <i class="bi bi-circle"></i><span>BK</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>iNFORMATIKA</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>IPA</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>IPS</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>MATEMATIKA</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>PAI</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>PJOK</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>PPKN</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>SENI BUDAYA</span>
             </a>
           </li>
         </ul>

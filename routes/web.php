@@ -8,3 +8,4 @@ use App\Http\Controllers\BerandaController;
 // });
 
 Route::get('/', [BerandaController::class, 'index'])->name('siswa.index');
+Route::get('/bhsINDO', [BerandaController::class, 'indo'])->name('siswa.bhs_indo');
