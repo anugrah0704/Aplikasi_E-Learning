@@ -1,10 +1,24 @@
-@include('siswa.layout.header')
-@include('siswa.layout.side')
 
-<div class="container-fluid px-4">
 
-        @yield('konten')
+  <!-- ======= Header ======= -->
+  @include('siswa.layout.header')
 
-@include('siswa.layout.footer')
+  <!-- ======= Sidebar ======= -->
+  @include('siswa.layout.side')
 
-</div>
+  <!-- ======= Konten Utama ======= -->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>@yield('page-title')</h1>
+    </div><!-- Akhir Judul Halaman -->
+
+    <section class="section dashboard">
+      @yield('konten')
+    </section>
+  </main><!-- Akhir #main -->
+
+  <!-- ======= Footer ======= -->
+  @include('siswa.layout.footer')
+
+
+</html>
