@@ -20,12 +20,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h1>BAHASA INDONESIA</h1>
+                <h1>MATEMATIKA</h1>
                 <div class="content">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('siswa.index')}}">Home</a></li>
                         <li class="breadcrumb-item"><span class="no-link">My courses</span></li>
-                        <li class="breadcrumb-item"><a href="#" >BAHASA INDONESIA</a></li>
+                        <li class="breadcrumb-item"><a href="#" >MATEMATIKA</a></li>
                     </ol>
                 </div>
             </div>

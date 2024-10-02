@@ -11,9 +11,6 @@ class BerandaController extends Controller
     {
         return view('siswa.index');
     }
-    public function indo()
-    {
-        return view('siswa.pelajaran.bhs_indo');
-    }
+
 
 }

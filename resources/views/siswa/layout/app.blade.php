@@ -1,5 +1,3 @@
-
-
   <!-- ======= Header ======= -->
   @include('siswa.layout.header')
 
@@ -20,5 +18,3 @@
   <!-- ======= Footer ======= -->
   @include('siswa.layout.footer')
 
-
-</html>
