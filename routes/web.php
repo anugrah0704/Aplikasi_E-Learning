@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelajaranController;
+use App\Http\Controllers\GuruController;
+
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -20,3 +23,8 @@ Route::get('/AGAMA', [PelajaranController::class, 'agama'])->name('siswa.pai');
 Route::get('/PJOK', [PelajaranController::class, 'pjok'])->name('siswa.pjok');
 Route::get('/SENI BUDAYA', [PelajaranController::class, 'seni'])->name('siswa.seni');
 Route::get('/PPKN', [PelajaranController::class, 'ppkn'])->name('siswa.ppkn');
+Route::get('/User Profil', [PelajaranController::class, 'profil'])->name('siswa.profil_siswa');
+Route::get('/Jadwal', [PelajaranController::class, 'jadwal'])->name('siswa.jadwal');
+
+
+Route::get('/index', [GuruController::class, 'index'])->name('guru.index');

@@ -3,7 +3,6 @@
     <style>
         .container-fluid {
             background-color: white;
-
         }
 
         h1 {
@@ -30,4 +29,7 @@
                 </div>
             </div>
         </div>
+
+
+
     @endsection
