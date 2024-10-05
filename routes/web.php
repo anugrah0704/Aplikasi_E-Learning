@@ -4,7 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\AdminController;
 
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::resource('/admin/users', UserController::class);
+});
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -28,3 +34,7 @@ Route::get('/Jadwal', [PelajaranController::class, 'jadwal'])->name('siswa.jadwa
 
 
 Route::get('/index', [GuruController::class, 'index'])->name('guru.index');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
