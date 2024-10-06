@@ -1,4 +1,4 @@
-@extends('siswa.layout.app')
+@extends('layout.app')
 @section('konten')
 
 

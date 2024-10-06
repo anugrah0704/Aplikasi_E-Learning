@@ -5,18 +5,34 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\Auth\LoginController;
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::resource('courses', CourseController::class);
 
-    Route::resource('/admin/users', UserController::class);
+// Dashboard routes for admin, guru, and siswa
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
+
+Route::middleware(['auth', 'role:guru'])->group(function () {
+    Route::get('/guru/index', [GuruController::class, 'index'])->name('guru.index');
+});
+
+Route::middleware(['auth', 'role:siswa'])->group(function () {
+    Route::get('/siswa/index', [SiswaController::class, 'index'])->name('siswa.index');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/', [BerandaController::class, 'index'])->name('siswa.index');
+Route::get('/siswa/index', [SiswaController::class, 'index'])->name('siswa.index');
 Route::get('/bhsINDO', [PelajaranController::class, 'indo'])->name('siswa.bhs_indo');
 Route::get('/bhsINGGRIS', [PelajaranController::class, 'inggris'])->name('siswa.bhs_inggris');
 Route::get('/bhsJAWA', [PelajaranController::class, 'jawa'])->name('siswa.bhs_jawa');
@@ -33,7 +49,7 @@ Route::get('/User Profil', [PelajaranController::class, 'profil'])->name('siswa.
 Route::get('/Jadwal', [PelajaranController::class, 'jadwal'])->name('siswa.jadwal');
 
 
-Route::get('/index', [GuruController::class, 'index'])->name('guru.index');
+Route::get('/guru/index', [GuruController::class, 'index'])->name('guru.index');
 
 Auth::routes();
 

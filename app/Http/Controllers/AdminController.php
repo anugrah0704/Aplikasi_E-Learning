@@ -16,8 +16,8 @@ class AdminController extends Controller
 
         // Contoh data untuk ditampilkan di dashboard
         $totalSiswa = User::where('role', 'siswa')->count();
-    $totalGuru = User::where('role', 'guru')->count();
-    $totalMataPelajaran = Course::count();
+        $totalGuru = User::where('role', 'guru')->count();
+        $totalMataPelajaran = Course::count();
 
     return view('admin.dashboard', compact('totalSiswa', 'totalGuru', 'totalMataPelajaran'));
     }

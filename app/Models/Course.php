@@ -16,4 +16,9 @@ class Course extends Model
     ];
 
     // Definisikan relasi jika perlu
+    public function guru()
+{
+    return $this->belongsTo(User::class, 'users_id');
+}
+
 }

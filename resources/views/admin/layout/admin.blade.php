@@ -1,10 +1,10 @@
 
 
   <!-- ======= Header ======= -->
-  @include('siswa.layout.header')
+  @include('admin.layout.header')
 
   <!-- ======= Sidebar ======= -->
-  @include('siswa.layout.side')
+  @include('admin.layout.side')
 
   <!-- ======= Konten Utama ======= -->
   <main id="main" class="main">
@@ -18,7 +18,7 @@
   </main><!-- Akhir #main -->
 
   <!-- ======= Footer ======= -->
-  @include('siswa.layout.footer')
+  @include('admin.layout.footer')
 
 
 </html>
