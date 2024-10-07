@@ -57,19 +57,19 @@ Route::middleware(['auth'])->group(function () {
         return (new RoleMiddleware)->handle(request(), function () use ($id) {
             return app()->call('App\Http\Controllers\AdminController@editSiswa', ['id' => $id]);
         }, 'admin');
-    })->name('admin.siswa.edit');
+    })->name('admin.siswa.editSiswa');
 
     Route::post('/admin/siswa/update/{id}', function ($id) {
         return (new RoleMiddleware)->handle(request(), function () use ($id) {
             return app()->call('App\Http\Controllers\AdminController@updateSiswa', ['id' => $id]);
         }, 'admin');
-    })->name('admin.siswa.update');
+    })->name('admin.siswa.updateSiswa');
 
     Route::delete('/admin/siswa/delete/{id}', function ($id) {
         return (new RoleMiddleware)->handle(request(), function () use ($id) {
             return app()->call('App\Http\Controllers\AdminController@deleteSiswa', ['id' => $id]);
         }, 'admin');
-    })->name('admin.siswa.delete');
+    })->name('admin.siswa.deleteSiswa');
 
 
 

@@ -24,6 +24,25 @@ class AdminController extends Controller
     return view('admin.dashboard', compact('totalSiswa', 'totalGuru', 'totalMataPelajaran'));
     }
 
+// ==================================================================================================================
+// ==================================================================================================================
+
+
+    public function search(Request $request)
+{
+    $search = $request->get('search');
+
+    // Filter berdasarkan role siswa
+    $siswa = User::where('role', 'siswa')  // Filter untuk peran siswa
+                ->where(function ($query) use ($search) {
+                    $query->where('nis', 'like', "%$search%")
+                          ->orWhere('username', 'like', "%$search%");
+                })
+                ->paginate(10); // Menggunakan paginasi dengan 10 siswa per halaman
+
+    return view('admin.siswa.index', compact('siswa'));
+}
+
 
 // =====================================================================================================================
 // =================================================================================================================
@@ -46,54 +65,74 @@ class AdminController extends Controller
     {
         // Validasi input
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'nis' => 'required|integer|unique:users,nis',
+            'username' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:users,email', // email opsional
+            'kelas' => 'required|string|max:5',
+            'gender' => 'required|string|max:10',
+            'alamat' => 'required|string|max:50',
         ]);
 
         // Simpan siswa sebagai user dengan role siswa
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'nis' => $request->nis,
+            'username' => $request->username,
+            'email' => $request->email,        // Email bisa kosong
+            'password' => bcrypt('123456'),  // Password otomatis '123456'
+            'kelas' => $request->kelas,
+            'gender' => $request->gender,
+            'alamat' => $request->alamat,
             'role' => 'siswa',
         ]);
 
-        return redirect('/admin/siswa/index')->with('success', 'Data Siswa berhasil ditambahkan');
+        return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil ditambahkan');
 
     }
 
     // Form edit siswa
     public function editSiswa($id)
     {
-        $siswa = User::find($id);
+        // Cari siswa berdasarkan id
+        $siswa = User::where('role', 'siswa')->findOrFail($id);
+
         return view('admin.siswa.edit', compact('siswa'));
     }
 
     // Update siswa
     public function updateSiswa(Request $request, $id)
     {
-        $siswa = User::find($id);
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'kelas' => 'required|string|max:100',
-        ]);
+       // Validasi input
+       $request->validate([
+        'nis' => 'required|integer|unique:users,nis,'.$id,
+        'username' => 'required|string|max:255',
+        'email' => 'nullable|email|unique:users,email,'.$id,  // email opsional
+        'kelas' => 'required|string|max:5',
+        'gender' => 'required|string|max:10',
+        'alamat' => 'required|string|max:50',
+    ]);
 
-        $siswa->update([
-            'name' => $request->nama,
-            'email' => $request->email,
-            'kelas' => $request->kelas,
-        ]);
+    // Cari siswa berdasarkan id dan update
+    $siswa = User::where('role', 'siswa')->findOrFail($id);
+    $siswa->update([
+        'nis' => $request->nis,
+        'username' => $request->username,
+        'email' => $request->email, // Email bisa kosong
+        'kelas' => $request->kelas,
+        'gender' => $request->gender,
+        'alamat' => $request->alamat,
+    ]);
 
-        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diupdate');
+    return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil diupdate');
     }
 
     // Hapus siswa
     public function deleteSiswa($id)
     {
-        User::destroy($id);
-        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil dihapus');
+        // Cari siswa berdasarkan id dan hapus
+        $siswa = User::where('role', 'siswa')->findOrFail($id);
+        $siswa->delete();
+
+        return redirect('/admin/siswa/')->with('success', 'Data siswa berhasil dihapus');
     }
 
 

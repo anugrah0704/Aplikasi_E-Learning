@@ -9,6 +9,9 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+  <!-- CSS Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
   <!-- Favicons -->
   <link href="{{asset('admin')}}/img/favicon.png" rel="icon">
   <link href="{{asset('admin')}}/img/apple-touch-icon.png" rel="apple-touch-icon">
