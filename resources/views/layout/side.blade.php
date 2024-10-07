@@ -4,13 +4,32 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('admin.dashboard')}}">
+          <i class="bi bi-grid"></i>
+          <span>DASHBOARD</span>
+        </a>
+      </li><!-- End Dashboard Admin  -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('guru.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>DASHBOARD</span>
+        </a>
+      </li><!-- End Dashboard Guru  -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('siswa.index')}}">
           <i class="bi bi-grid"></i>
           <span>DASHBOARD</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li><!-- End Dashboard Siswa  -->
 
-
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('courses.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>Manajemen Mata Pelajaran</span>
+        </a>
+      </li><!-- End Courses  -->
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">

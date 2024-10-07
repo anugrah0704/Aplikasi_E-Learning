@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class GuruController extends Controller
 {
     //
@@ -11,4 +12,5 @@ class GuruController extends Controller
     {
         return view('guru.index');
     }
+    
 }

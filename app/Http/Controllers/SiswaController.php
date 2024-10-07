@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class SiswaController extends Controller
 {
     //
@@ -11,4 +12,6 @@ class SiswaController extends Controller
     {
         return view('siswa.index');
     }
+
+
 }
