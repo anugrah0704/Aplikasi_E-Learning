@@ -9,6 +9,11 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Storage;
+
+Route::get('/', function () {
+    return redirect()->route('login'); // Redirect to login page
+});
 
 Route::middleware(['auth'])->group(function () {
     // Route Dashboard Admin
@@ -35,6 +40,12 @@ Route::middleware(['auth'])->group(function () {
 
 
     // CRUD untuk Siswa (Hanya admin yang bisa mengakses)
+    Route::get('/admin/siswa/search', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\AdminController@searchSiswa');
+        }, 'admin');
+    })->name('admin.siswa.search');
+
     Route::get('/admin/siswa', function () {
         return (new RoleMiddleware)->handle(request(), function () {
             return app()->call('App\Http\Controllers\AdminController@listSiswa');
@@ -70,6 +81,19 @@ Route::middleware(['auth'])->group(function () {
             return app()->call('App\Http\Controllers\AdminController@deleteSiswa', ['id' => $id]);
         }, 'admin');
     })->name('admin.siswa.deleteSiswa');
+
+    // untuk import excel siswa
+    Route::post('/admin/siswa/import', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\AdminController@importSiswa');
+        }, 'admin');
+    })->name('admin.siswa.import'); // Route untuk meng-handle upload Excel
+
+    // route untuk Download Excel siswa
+    Route::get('/admin/siswa/download-template', function () {
+        $filePath = public_path('templates/template_siswa.xlsx'); // pastikan file ada di folder public/templates
+        return response()->download($filePath, 'template_siswa.xlsx');
+    })->name('admin.siswa.downloadTemplateSiswa');
 
 
 
@@ -156,8 +180,6 @@ Route::get('/SENI BUDAYA', [PelajaranController::class, 'seni'])->name('siswa.se
 Route::get('/PPKN', [PelajaranController::class, 'ppkn'])->name('siswa.ppkn');
 Route::get('/User Profil', [PelajaranController::class, 'profil'])->name('siswa.profil_siswa');
 Route::get('/Jadwal', [PelajaranController::class, 'jadwal'])->name('siswa.jadwal');
-
-
 
 
 Auth::routes();
