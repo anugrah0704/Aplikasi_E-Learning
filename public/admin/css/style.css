@@ -17,6 +17,7 @@ body {
   font-family: 'Times New Roman', Times, serif, sans-serif;
   background: #f6f9ff;
   color: #444444;
+height: 100%; /* Pastikan html dan body memenuhi tinggi layar */
 }
 
 a {
@@ -42,9 +43,11 @@ h6 {
 # Main
 --------------------------------------------------------------*/
 #main {
+  min-height: 100vh; /* Memastikan tinggi minimal halaman penuh */
   margin-top: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
+  flex: 1;  /* Konten utama akan menyesuaikan ruang yang ada */
 }
 
 @media (max-width: 1199px) {
@@ -634,6 +637,7 @@ h6 {
   #main,
   #footer {
     margin-left: 300px;
+    flex: 1;  /* Konten utama akan menyesuaikan ruang yang ada */
   }
 }
 
@@ -1212,20 +1216,20 @@ h6 {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  padding: 20px 0;
-  font-size: 14px;
-  transition: all 0.3s;
-  border-top: 1px solid #cddfff;
-}
+    padding: 20px 0;
+    font-size: 14px;
+    transition: all 0.3s;
+    border-top: 1px solid #cddfff;
+  }
 
-.footer .copyright {
-  text-align: center;
-  color: #012970;
-}
+  .footer .copyright {
+    text-align: center;
+    color: #012970;
+  }
 
-.footer .credits {
-  padding-top: 5px;
-  text-align: center;
-  font-size: 13px;
-  color: #012970;
-}
+  .footer .credits {
+    padding-top: 5px;
+    text-align: center;
+    font-size: 13px;
+    color: #012970;
+  }

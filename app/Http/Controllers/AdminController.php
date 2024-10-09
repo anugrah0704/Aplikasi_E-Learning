@@ -101,10 +101,7 @@ class AdminController extends Controller
     }
 
     // Form tambah siswa
-    public function createSiswa()
-    {
-        return view('admin.siswa.create');
-    }
+
 
     public function storeSiswa(Request $request)
     {
@@ -136,14 +133,6 @@ class AdminController extends Controller
 
     }
 
-    // Form edit siswa
-    public function editSiswa($id)
-    {
-        // Cari siswa berdasarkan id
-        $siswa = User::where('role', 'siswa')->findOrFail($id);
-
-        return view('admin.siswa.edit', compact('siswa'));
-    }
 
     // Update siswa
     public function updateSiswa(Request $request, $id)
@@ -189,23 +178,68 @@ class AdminController extends Controller
 // =================================================================================================================
 
 
+    // Tampilkan daftar siswa
+    public function listGuru()
+    {
+        $guru = User::where('role', 'guru')->get();
+        return view('admin.guru.index', compact('guru'));
+    }
+
     public function storeGuru(Request $request)
     {
         // Validasi input
         $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         // Simpan guru sebagai user dengan role guru
         User::create([
-            'name' => $request->name,
+            'username' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt('123456'),  // Password otomatis '123456'
             'role' => 'guru',
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Data Guru berhasil ditambahkan');
+        return redirect('/admin/guru/')->with('success', 'Data Guru berhasil ditambahkan');
+    }
+
+    // Update siswa
+    public function updateGuru(Request $request, $id)
+    {
+       // Validasi input
+       $request->validate([
+        'nis' => 'required|integer|unique:users,nis,'.$id,
+        'nisn' => 'required|string|max:15',
+        'username' => 'required|string|max:255',
+        'telepon' => 'required|string|max:20',
+        'gender' => 'required|string|max:10',
+        'alamat' => 'required|string|max:50',
+    ]);
+
+    // Cari siswa berdasarkan id dan update
+    $siswa = User::where('role', 'siswa')->findOrFail($id);
+    $siswa->update([
+        'nis' => $request->nis,
+        'nisn' => $request->nisn,
+        'username' => $request->username,
+        'telepon' => $request->telepon,
+        'kelas' => $request->kelas,
+        'gender' => $request->gender,
+        'alamat' => $request->alamat,
+    ]);
+
+    return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil diupdate');
+    }
+
+    // Hapus siswa
+    public function deleteGuru($id)
+    {
+        // Cari siswa berdasarkan id dan hapus
+        $siswa = User::where('role', 'siswa')->findOrFail($id);
+        $siswa->delete();
+
+        return redirect('/admin/siswa/')->with('success', 'Data siswa berhasil dihapus');
     }
 }

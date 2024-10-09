@@ -39,6 +39,13 @@
       </li><!-- End Courses  -->
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('admin.guru.index') }}">
+          <i class="bi bi-grid"></i>
+          <span>Daftar Guru</span>
+        </a>
+      </li><!-- End Courses  -->
+
+      <li class="nav-item">
         <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>PELAJARAN</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>

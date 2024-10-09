@@ -9,10 +9,7 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{asset('kaidmin')}}/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{asset('kaidmin')}}/css/plugins.min.css" />
-    <link rel="stylesheet" href="{{asset('kaidmin')}}/css/kaiadmin.min.css" />
+
 
     <!-- Link ke Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

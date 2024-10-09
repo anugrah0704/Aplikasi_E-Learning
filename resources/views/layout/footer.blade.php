@@ -32,47 +32,15 @@
   <!-- Template Main JS File -->
   <script src="{{asset('admin')}}/js/main.js"></script>
 
-
-
-  <script src="{{asset('kaidmin')}}/js/plugin/webfont/webfont.min.js"></script>
-    <!-- Fonts and icons -->
-    <script src="{{asset('kaidmin')}}/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-    WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
-        custom: {
-        families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-        ],
-        urls: ["{{asset('kaidmin')}}/css/fonts.min.css"],
-        },
-        active: function () {
-        sessionStorage.fonts = true;
-        },
-    });
-    </script>
-
-<script src="{{asset('kaidmin')}}/js/core/jquery-3.7.1.min.js"></script>
-<script src="{{asset('kaidmin')}}/js/core/popper.min.js"></script>
-<script src="{{asset('kaidmin')}}/js/core/bootstrap.min.js"></script>
-
-<!-- jQuery Scrollbar -->
-<script src="{{asset('kaidmin')}}/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <!-- Datatables -->
-<script src="{{asset('kaidmin')}}/js/plugin/datatables/datatables.min.js"></script>
-<!-- Kaiadmin JS -->
-<script src="{{asset('kaidmin')}}/js/kaiadmin.min.js"></script>
-<!-- Kaiadmin DEMO methods, don't include it in your project! -->
-<script src="{{asset('kaidmin')}}/js/setting-demo2.js"></script>
+<script src="{{asset('admin')}}/js/datatables.min.js"></script>
+
 <script>
   $(document).ready(function () {
     $("#basic-datatables").DataTable({});
 
     $("#multi-filter-select").DataTable({
-      pageLength: 5,
+      pageLength: 10,
       initComplete: function () {
         this.api()
           .columns()

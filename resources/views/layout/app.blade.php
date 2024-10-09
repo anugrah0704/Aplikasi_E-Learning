@@ -1,20 +1,23 @@
-  <!-- ======= Header ======= -->
-  @include('layout.header')
+<div class="wrapper">
+    <!-- ======= Header ======= -->
+    @include('layout.header')
 
-  <!-- ======= Sidebar ======= -->
-  @include('layout.side')
+    <div class="content-area">
+      <!-- ======= Sidebar ======= -->
+      @include('layout.side')
 
-  <!-- ======= Konten Utama ======= -->
-  <main id="main" class="main">
-    <div class="pagetitle">
-      <h1>@yield('page-title')</h1>
-    </div><!-- Akhir Judul Halaman -->
+      <!-- ======= Konten Utama ======= -->
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <h1>@yield('page-title')</h1>
+        </div>
 
-    <section class="section dashboard">
-      @yield('konten')
-    </section>
-  </main><!-- Akhir #main -->
+        <section class="section dashboard">
+          @yield('konten')
+        </section>
+      </main>
+    </div>
 
-  <!-- ======= Footer ======= -->
-  @include('layout.footer')
-
+    <!-- ======= Footer ======= -->
+    @include('layout.footer')
+  </div>

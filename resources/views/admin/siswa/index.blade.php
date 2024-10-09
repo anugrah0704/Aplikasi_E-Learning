@@ -30,12 +30,59 @@
     .btn-action {
         margin-right: 5px; /* Memberikan jarak antara tombol dalam tabel */
     }
+    .table-responsive {
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    thead th {
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    tfoot th {
+        background-color: #f4f4f4;
+    }
+
+    .btn-action {
+        margin-right: 5px; /* Spasi antar tombol dalam kolom aksi */
+    }
+
+    .dataTables_filter {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        float: right;
+    }
+
 </style>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <h1><i class="fas fa-users"></i> Daftar Siswa</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-users"></i> Daftar Siswa</h1>
+            </div>
         </div>
     </div>
 </div>
