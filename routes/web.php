@@ -95,7 +95,8 @@ Route::middleware(['auth'])->group(function () {
         return response()->download($filePath, 'template_siswa.xlsx');
     })->name('admin.siswa.downloadTemplateSiswa');
 
-
+// =====================================================================================================================================
+// =====================================================================================================================================
 
     // CRUD untuk Guru (Hanya admin yang bisa mengakses)
     Route::get('/admin/guru', function () {
@@ -114,25 +115,38 @@ Route::middleware(['auth'])->group(function () {
         return (new RoleMiddleware)->handle(request(), function () {
             return app()->call('App\Http\Controllers\AdminController@storeGuru');
         }, 'admin');
-    })->name('admin.guru.store');
+    })->name('admin.guru.storeGuru');
 
     Route::get('/admin/guru/edit/{id}', function ($id) {
         return (new RoleMiddleware)->handle(request(), function () use ($id) {
             return app()->call('App\Http\Controllers\AdminController@editGuru', ['id' => $id]);
         }, 'admin');
-    })->name('admin.guru.edit');
+    })->name('admin.guru.editGuru');
 
     Route::post('/admin/guru/update/{id}', function ($id) {
         return (new RoleMiddleware)->handle(request(), function () use ($id) {
             return app()->call('App\Http\Controllers\AdminController@updateGuru', ['id' => $id]);
         }, 'admin');
-    })->name('admin.guru.update');
+    })->name('admin.guru.updateGuru');
 
     Route::delete('/admin/guru/delete/{id}', function ($id) {
         return (new RoleMiddleware)->handle(request(), function () use ($id) {
             return app()->call('App\Http\Controllers\AdminController@deleteGuru', ['id' => $id]);
         }, 'admin');
-    })->name('admin.guru.delete');
+    })->name('admin.guru.deleteGuru');
+
+    // untuk import excel guru
+    Route::post('/admin/guru/import', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\AdminController@importguru');
+        }, 'admin');
+    })->name('admin.guru.import'); // Route untuk meng-handle upload Excel
+
+    // route untuk Download Excel guru
+    Route::get('/admin/guru/download-template', function () {
+        $filePath = public_path('templates/template_guru.xlsx'); // pastikan file ada di folder public/templates
+        return response()->download($filePath, 'template_guru.xlsx');
+    })->name('admin.guru.downloadTemplateGuru');
 });
 
 // Routes untuk Mata Pelajaran

@@ -200,6 +200,10 @@
                                     <label for="alamat">Alamat:</label>
                                     <input type="text" class="form-control" name="alamat" id="alamat" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="tgl_lahir">Tanggal Lahir:</label>
+                                    <input type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" required>
+                                </div>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Simpan
                                 </button>
@@ -222,6 +226,7 @@
                                 <th>Kelas</th>
                                 <th>Gender</th>
                                 <th>Alamat</th>
+                                <th>Tanggal Lahir</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -235,30 +240,33 @@
                                 <th>Kelas</th>
                                 <th>Gender</th>
                                 <th>Alamat</th>
+                                <th>Tanggal Lahir</th>
                                 <th>Aksi</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach ($siswa as $data)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->nis }}</td>
-                                    <td>{{ $data->nisn }}</td>
-                                    <td>{{ $data->username }}</td>
-                                    <td>{{ $data->telepon }}</td>
-                                    <td>{{ $data->kelas }}</td>
-                                    <td>{{ $data->gender }}</td>
-                                    <td>{{ $data->alamat }}</td>
+                            @foreach ($users as $user)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $user->siswa->nis }}</td> <!-- Akses NIS dari relasi siswa -->
+                                <td>{{ $user->siswa->nisn }}</td> <!-- Akses NISN dari relasi siswa -->
+                                <td>{{ $user->username }}</td> <!-- Akses username dari tabel users -->
+                                <td>{{ $user->siswa->telepon }}</td> <!-- Akses telepon dari relasi siswa -->
+                                <td>{{ $user->siswa->kelas }}</td> <!-- Akses kelas dari relasi siswa -->
+                                <td>{{ $user->siswa->gender }}</td> <!-- Akses gender dari relasi siswa -->
+                                <td>{{ $user->siswa->alamat }}</td> <!-- Akses alamat dari relasi siswa -->
+                                <td>{{ $user->siswa->tgl_lahir }}</td> <!-- Akses tanggal lahir dari relasi siswa -->
+
                                     <td>
                                         <!-- Menempatkan semua tombol dalam satu kolom -->
                                         <div class="d-flex justify-content-center">
                                             <!-- Tombol Edit membuka modal edit -->
-                                            <button class="btn btn-warning btn-action" data-toggle="modal" data-target="#editSiswaModal-{{ $data->id }}">
+                                            <button class="btn btn-warning btn-action" data-toggle="modal" data-target="#editSiswaModal-{{ $user->id }}">
                                                 <i class="fas fa-edit"></i>
                                             </button>
 
                                             <!-- Modal Edit Siswa -->
-                                            <div class="modal fade" id="editSiswaModal-{{ $data->id }}" tabindex="-1" aria-labelledby="editSiswaModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="editSiswaModal-{{ $user->id }}" tabindex="-1" aria-labelledby="editSiswaModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -268,40 +276,44 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="{{ route('admin.siswa.updateSiswa', $data->id) }}" method="POST">
+                                                            <form action="{{ route('admin.siswa.updateSiswa', $user->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('POST') <!-- Spoofing Method POST untuk Update -->
 
                                                                 <div class="form-group">
                                                                     <label for="nis">NIS:</label>
-                                                                    <input type="text" class="form-control" name="nis" value="{{ $data->nis }}" required>
+                                                                    <input type="text" class="form-control" name="nis" value="{{ $user->nis }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="nisn">NISN:</label>
-                                                                    <input type="text" class="form-control" name="nisn" value="{{ $data->nisn }}" required>
+                                                                    <input type="text" class="form-control" name="nisn" value="{{ $user->nisn }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="username">Nama:</label>
-                                                                    <input type="text" class="form-control" name="username" value="{{ $data->username }}" required>
+                                                                    <input type="text" class="form-control" name="username" value="{{ $user->username }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="kelas">Kelas:</label>
-                                                                    <input type="text" class="form-control" name="kelas" value="{{ $data->kelas }}" required>
+                                                                    <input type="text" class="form-control" name="kelas" value="{{ $user->kelas }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="telepon">Telepon:</label>
-                                                                    <input type="text" class="form-control" name="telepon" value="{{ $data->telepon }}" required>
+                                                                    <input type="text" class="form-control" name="telepon" value="{{ $user->telepon }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="gender">Gender:</label>
                                                                     <select name="gender" class="form-control" required>
-                                                                        <option value="Laki-laki" {{ $data->gender == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                                                        <option value="Perempuan" {{ $data->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                                                        <option value="Laki-laki" {{ $user->gender == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                                                        <option value="Perempuan" {{ $user->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="alamat">Alamat:</label>
-                                                                    <input type="text" class="form-control" name="alamat" value="{{ $data->alamat }}" required>
+                                                                    <input type="text" class="form-control" name="alamat" value="{{ $user->alamat }}" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="tgl_lahir">Tanggal Lahir:</label>
+                                                                    <input type="date" class="form-control" name="tgl_lahir" value="{{ $user->tgl_lahir }}" required>
                                                                 </div>
 
                                                                 <button type="submit" class="btn btn-primary">
@@ -314,7 +326,7 @@
                                             </div>
 
                                             <!-- Form untuk delete -->
-                                            <form action="{{ route('admin.siswa.deleteSiswa', $data->id) }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('admin.siswa.deleteSiswa', $user->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-action" onclick="return confirm('Yakin ingin menghapus?')">

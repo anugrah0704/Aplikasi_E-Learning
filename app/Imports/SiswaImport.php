@@ -1,35 +1,46 @@
 <?php
-
-// app/Imports/SiswaImport.php
-
 namespace App\Imports;
 
+use App\Models\Siswa;
 use App\Models\User;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class SiswaImport implements ToModel, WithHeadingRow
+class SiswaImport implements ToCollection
 {
-    /**
-     * Method untuk membuat model user dari baris Excel
-     *
-     * @param array $row
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        // Pastikan kolom dari excel sesuai dengan tabel users
-        return new User([
-            'nis'      => $row['nis'],  // Sesuaikan dengan header kolom di file Excel
-            'nisn'      => $row['nisn'],
-            'username' => $row['username'],
-            'telepon'    => $row['telepon'],
-            'kelas'    => $row['kelas'],
-            'gender'   => $row['gender'],
-            'alamat'   => $row['alamat'],
-            'role'     => 'siswa', // Set role sebagai siswa
-            'password' => Hash::make('123456') // Password default, bisa diubah sesuai kebutuhan
-        ]);
+        foreach ($rows as $key => $row)
+        {
+            // Skip the first row (header)
+            if ($key == 0) {
+                continue;
+            }
+
+
+            // Create user for each siswa
+            $user = User::create([
+                'username' => $row[2], // Kolom username di Excel
+                'password' => bcrypt('123456'), // Password default
+                'role' => 'siswa',
+            ]);
+
+            // Create siswa record
+            Siswa::create([
+                'user_id' => $user->id, // Hubungkan dengan user yang baru dibuat
+                'nis' => $row[0], // Kolom NIS di Excel
+                'nisn' => $row[1], // Kolom NISN di Excel
+                'telepon' => $row[3], // Kolom Telepon di Excel
+                'kelas' => $row[4], // Kolom Kelas di Excel
+                'gender' => $row[5], // Kolom Gender di Excel
+                'alamat' => $row[6], // Kolom Alamat di Excel
+                'tgl_lahir' => $row[7], // Kolom Tanggal Lahir di Excel
+
+            ]);
+        }
     }
+
+
+
 }
