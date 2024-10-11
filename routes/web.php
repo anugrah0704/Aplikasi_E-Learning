@@ -10,6 +10,8 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\GuruMapelController;
+
 
 Route::get('/', function () {
     return redirect()->route('login'); // Redirect to login page
@@ -147,6 +149,151 @@ Route::middleware(['auth'])->group(function () {
         $filePath = public_path('templates/template_guru.xlsx'); // pastikan file ada di folder public/templates
         return response()->download($filePath, 'template_guru.xlsx');
     })->name('admin.guru.downloadTemplateGuru');
+
+
+
+
+// =====================================================================================================================================
+// =====================================================================================================================================
+
+// Routes untuk Mata Pelajaran
+
+// Route untuk daftar mata pelajaran
+    // Route untuk daftar mata pelajaran
+    Route::get('/admin/mapel', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\MapelController@index');
+        }, 'admin');
+    })->name('admin.mapel.index');
+
+    // Route untuk form tambah mata pelajaran
+    Route::get('/admin/mapel/create', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\MapelController@create');
+        }, 'admin');
+    })->name('admin.mapel.create');
+
+    // Route untuk menyimpan mata pelajaran baru
+    Route::post('/admin/mapel/store', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\MapelController@store');
+        }, 'admin');
+    })->name('admin.mapel.store');
+
+    // Route untuk edit mata pelajaran
+    Route::get('/admin/mapel/edit/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\MapelController@edit', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.mapel.edit');
+
+    // Route untuk update mata pelajaran
+    Route::post('/admin/mapel/update/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\MapelController@update', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.mapel.update');
+
+    // Route untuk delete mata pelajaran
+    Route::delete('/admin/mapel/delete/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\MapelController@destroy', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.mapel.delete');
+
+
+// =====================================================================================================================================
+// =====================================================================================================================================
+
+
+     // Route untuk daftar kelas (hanya admin yang bisa mengakses)
+     Route::get('/admin/kelas', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\KelasController@index');
+        }, 'admin');
+    })->name('admin.kelas.index');
+
+    // Route untuk form tambah kelas
+    Route::get('/admin/kelas/create', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\KelasController@create');
+        }, 'admin');
+    })->name('admin.kelas.create');
+
+    // Route untuk menyimpan kelas baru
+    Route::post('/admin/kelas/store', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\KelasController@store');
+        }, 'admin');
+    })->name('admin.kelas.store');
+
+    // Route untuk form edit kelas
+    Route::get('/admin/kelas/edit/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\KelasController@edit', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.kelas.edit');
+
+    // Route untuk update kelas
+    Route::post('/admin/kelas/update/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\KelasController@update', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.kelas.update');
+
+    // Route untuk menghapus kelas
+    Route::delete('/admin/kelas/delete/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\KelasController@destroy', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.kelas.destroy');
+
+
+// =====================================================================================================================================
+// =====================================================================================================================================
+
+    // Route untuk daftar Guru dengan Mata Pelajaran
+    Route::get('/admin/guru-mapel', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\GuruMapelController@index');
+        }, 'admin');
+    })->name('admin.guru-mapel.index');
+
+    // Route untuk form tambah Guru ke Mata Pelajaran
+    Route::get('/admin/guru-mapel/create', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\GuruMapelController@create');
+        }, 'admin');
+    })->name('admin.guru-mapel.create');
+
+    // Route untuk menyimpan Guru ke Mata Pelajaran baru
+    Route::post('/admin/guru-mapel/store', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\GuruMapelController@store');
+        }, 'admin');
+    })->name('admin.guru-mapel.store');
+
+    // Route untuk edit Guru ke Mata Pelajaran
+    Route::get('/admin/guru-mapel/edit/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\GuruMapelController@edit', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.guru-mapel.edit');
+
+    // Route untuk update Guru ke Mata Pelajaran
+    Route::post('/admin/guru-mapel/update/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\GuruMapelController@update', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.guru-mapel.update');
+
+    // Route untuk delete Guru ke Mata Pelajaran
+    Route::delete('/admin/guru-mapel/destroy/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\GuruMapelController@destroy', ['id' => $id]);
+        }, 'admin');
+    })->name('admin.guru-mapel.destroy');
+
 });
 
 // Routes untuk Mata Pelajaran

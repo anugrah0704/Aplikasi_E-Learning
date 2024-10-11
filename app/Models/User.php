@@ -51,5 +51,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(guru::class);
     }
-
+    public function GuruMapel()
+    {
+        return $this->hasOne(gurumapel::class);
+    }
 }
