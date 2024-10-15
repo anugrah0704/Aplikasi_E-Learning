@@ -6,10 +6,66 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Guru;
+use App\Models\Siswa;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'identifier' => 'required|string', // Bisa email, NIP, atau NIS
+            'password' => 'required|string',
+        ]);
+
+        // Cek apakah login sebagai admin (Email)
+        if (filter_var($request->identifier, FILTER_VALIDATE_EMAIL)) {
+            $credentials = [
+                'email' => $request->identifier,
+                'password' => $request->password,
+            ];
+
+            if (Auth::attempt($credentials)) {
+                if (Auth::user()->role == 'admin') {
+                    return redirect()->route('admin.dashboard'); // Redirect ke dashboard admin
+                }
+            }
+        }
+
+        // Cek apakah login sebagai guru (NIP)
+        $guru = Guru::where('nip', $request->identifier)->first();
+        if ($guru) {
+            $credentials = [
+                'id' => $guru->user_id, // Menggunakan user_id dari guru
+                'password' => $request->password,
+            ];
+
+            if (Auth::attempt($credentials)) {
+                return redirect()->route('guru.index'); // Redirect ke dashboard guru
+            }
+        }
+
+        // Cek apakah login sebagai siswa (NIS)
+        $siswa = Siswa::where('nis', $request->identifier)->first();
+        if ($siswa) {
+            $credentials = [
+                'id' => $siswa->user_id, // Menggunakan user_id dari siswa
+                'password' => $request->password,
+            ];
+
+            if (Auth::attempt($credentials)) {
+                return redirect()->route('siswa.index'); // Redirect ke dashboard siswa
+            }
+        }
+
+        // Jika login gagal
+        return back()->withErrors([
+            'identifier' => 'Email/NIP/NIS atau password salah.',
+        ]);
+    }
 
     protected function redirectTo()
     {

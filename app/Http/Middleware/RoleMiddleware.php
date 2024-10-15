@@ -8,10 +8,15 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, $role)
     {
-        if (Auth::check() && Auth::user()->role == $role) {
-            return $next($request);
+        // Cek apakah user yang login
+        if (Auth::check()) {
+            // Cek apakah peran user sesuai
+            if (Auth::user()->role === $role) {
+                return $next($request);
+            }
         }
 
-        return redirect('/home'); // Redirect jika peran tidak sesuai
+        // Jika tidak sesuai, redirect atau tampilkan pesan error
+        return redirect('/home')->with('error', 'Akses ditolak, Anda bukan siswa.');
     }
 }

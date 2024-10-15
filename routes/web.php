@@ -17,6 +17,7 @@ Route::get('/', function () {
     return redirect()->route('login'); // Redirect to login page
 });
 
+
 Route::middleware(['auth'])->group(function () {
     // Route Dashboard Admin
     Route::get('/admin/dashboard', function () {
@@ -39,6 +40,34 @@ Route::middleware(['auth'])->group(function () {
         }, 'siswa');
     })->name('siswa.index');
 
+
+// =====================================================================================================================================
+// =====================================================================================================================================
+
+
+   // Route untuk melihat profil siswa
+    Route::get('/siswa/profile/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\SiswaController@profileSiswa', ['id' => $id]);
+        }, 'siswa'); // Hanya siswa yang dapat mengakses route ini
+    })->name('siswa.profil_siswa');
+
+    // Route Profile Guru
+    Route::get('/guru/profil/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\GuruController@profilGuru', ['id' => $id]);
+        }, 'guru'); // Hanya guru yang dapat mengakses route ini
+    })->name('guru.profil_guru');
+
+    // Route Profile Admin
+    Route::get('/admin/profile/{id}', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\AdminController@profil', ['id' => request()->route('id')]);
+        }, 'admin');
+    })->name('admin.profil_admin');
+
+// =====================================================================================================================================
+// =====================================================================================================================================
 
 
     // CRUD untuk Siswa (Hanya admin yang bisa mengakses)
@@ -152,13 +181,9 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
 // =====================================================================================================================================
 // =====================================================================================================================================
 
-// Routes untuk Mata Pelajaran
-
-// Route untuk daftar mata pelajaran
     // Route untuk daftar mata pelajaran
     Route::get('/admin/mapel', function () {
         return (new RoleMiddleware)->handle(request(), function () {
@@ -273,12 +298,6 @@ Route::middleware(['auth'])->group(function () {
         }, 'admin');
     })->name('admin.guru-mapel.store');
 
-    // Route untuk edit Guru ke Mata Pelajaran
-    Route::get('/admin/guru-mapel/edit/{id}', function ($id) {
-        return (new RoleMiddleware)->handle(request(), function () use ($id) {
-            return app()->call('App\Http\Controllers\GuruMapelController@edit', ['id' => $id]);
-        }, 'admin');
-    })->name('admin.guru-mapel.edit');
 
     // Route untuk update Guru ke Mata Pelajaran
     Route::post('/admin/guru-mapel/update/{id}', function ($id) {
@@ -293,6 +312,43 @@ Route::middleware(['auth'])->group(function () {
             return app()->call('App\Http\Controllers\GuruMapelController@destroy', ['id' => $id]);
         }, 'admin');
     })->name('admin.guru-mapel.destroy');
+
+
+// =====================================================================================================================================
+// =====================================================================================================================================
+
+
+    // Route untuk materi guru
+    Route::get('/guru/materi', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\MateriController@index');
+        }, 'guru');
+    })->name('guru.materi.index');
+
+    // Route untuk menyimpan materi baru
+    Route::post('/guru/materi/store', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\MateriController@store');
+        }, 'guru');
+    })->name('guru.materi.store');
+
+    // Route untuk menampilkan daftar materi bagi siswa
+    Route::get('/siswa/materi', function () {
+        return (new RoleMiddleware)->handle(request(), function () {
+            return app()->call('App\Http\Controllers\MateriController@indexSiswa');
+        }, 'siswa');  // Sesuaikan dengan peran siswa
+    })->name('siswa.materi.index');
+
+
+        // Route untuk menampilkan materi bagi siswa berdasarkan ID
+    Route::get('/siswa/materi/{id}', function ($id) {
+        return (new RoleMiddleware)->handle(request(), function () use ($id) {
+            return app()->call('App\Http\Controllers\MateriController@detailMateri', ['id' => $id]);
+        }, 'siswa');  // Sesuaikan dengan peran siswa
+    })->name('siswa.materi.detail');
+
+
+
 
 });
 

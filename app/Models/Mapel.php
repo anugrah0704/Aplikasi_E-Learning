@@ -14,4 +14,14 @@ class Mapel extends Model
         'kode_mapel',
         'nama_mapel',
     ];
+
+    public function GuruMapel()
+    {
+        return $this->hasOne(guru::class);
+    }
+    // Relasi ke Materi
+    public function materi()
+    {
+        return $this->hasMany(Materi::class);
+    }
 }

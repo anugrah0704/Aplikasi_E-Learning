@@ -11,13 +11,26 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // Tambahkan atribut 'role' yang mengidentifikasi apakah pengguna admin, guru, atau siswa
+    public function isAdmin() {
+        return $this->role === 'admin';
+    }
+
+    public function isGuru() {
+        return $this->role === 'guru';
+    }
+
+    public function isSiswa() {
+        return $this->role === 'siswa';
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'username', 'email', 'password', 'role'
+        'username', 'email', 'password','kelas_id', 'role'
     ];
 
     /**
@@ -54,5 +67,10 @@ class User extends Authenticatable
     public function GuruMapel()
     {
         return $this->hasOne(gurumapel::class);
+    }
+    // Relasi ke model Kelas
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 }

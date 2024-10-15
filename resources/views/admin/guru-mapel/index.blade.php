@@ -16,7 +16,7 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Nama Guru</th>
+                <th>Nama Pengajar</th>
                 <th>Mata Pelajaran</th>
                 <th>Kelas</th>
                 <th>Aksi</th>

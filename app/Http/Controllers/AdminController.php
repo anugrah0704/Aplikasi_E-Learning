@@ -4,22 +4,49 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Kelas;
 use App\Models\Course;
 use App\Models\Siswa; // pastikan Anda telah membuat model Siswa
 use App\Models\Guru; // pastikan Anda telah membuat model Guru
 use App\Imports\SiswaImport;
 use App\Imports\GuruImport;
-
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
 
+    public function profil($id)
+{
+    // Cek apakah user yang login adalah admin
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        // Mengambil data user berdasarkan id
+        $admin = User::find($id); // Ganti dengan model User sesuai dengan tabel Anda
+
+        // Cek apakah user ditemukan
+        if (!$admin) {
+            return redirect()->back()->with('error', 'Admin tidak ditemukan');
+        }
+
+        // Tampilkan halaman profil admin
+        return view('admin.profil_admin', compact('admin'));
+    }
+
+    // Jika user bukan admin, redirect atau tampilkan pesan error
+    return redirect('/home')->with('error', 'Akses ditolak, Anda bukan admin.');
+}
+
+
+
+
+
+
+
+
     public function index()
     {
         // Kamu bisa mengambil data dari database dan mengirimkannya ke view jika diperlukan
         // Misalnya mengambil jumlah siswa, guru, dll.
-
         // Contoh data untuk ditampilkan di dashboard
         $totalSiswa = User::where('role', 'siswa')->count();
         $totalGuru = User::where('role', 'guru')->count();
@@ -100,50 +127,52 @@ class AdminController extends Controller
     // Tampilkan daftar siswa
     public function listSiswa()
     {
+        $kelas = Kelas::all(); // Mengambil semua kelas
         $users = User::has('siswa')->where('role', 'siswa')->get();
 
-        return view('admin.siswa.index', compact('users'));
+        return view('admin.siswa.index', compact('users','kelas'));
     }
 
     // Form tambah siswa
 
 
     public function storeSiswa(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'nis' => 'required|string|max:20|unique:siswa,nis',
-            'nisn' => 'required|string|max:20',
-            'username' => 'required|string|max:255|unique:users,username',
-            'telepon' => 'required|string|max:20',
-            'kelas' => 'required|string|max:10',
-            'gender' => 'required|in:Laki-laki,Perempuan',
-            'alamat' => 'required|string|max:255',
-            'tgl_lahir' => 'required|string|max:30',
-        ]);
+{
+    // Validasi input
+    $request->validate([
+        'nis' => 'required|string|max:20|unique:siswa,nis',
+        'nisn' => 'required|string|max:20',
+        'username' => 'required|string|max:255|unique:users,username',
+        'telepon' => 'required|string|max:20',
+        'kelas_id' => 'required|exists:kelas,id', // Pastikan kelas_id ada di tabel kelas
+        'gender' => 'required|in:Laki-laki,Perempuan',
+        'alamat' => 'required|string|max:255',
+        'tgl_lahir' => 'required|string|max:30',
+    ]);
 
-        // Simpan siswa sebagai user dengan role siswa
-        $user = User::create([
-            'username' => $request->username,
-            'password' => bcrypt('123456'),
-            'role' => 'siswa',
-        ]);
+    // Simpan siswa sebagai user dengan role siswa dan kelas_id
+    $user = User::create([
+        'username' => $request->username,
+        'password' => bcrypt('123456'),
+        'role' => 'siswa',
+        'kelas_id' => $request->kelas_id, // Simpan kelas_id di tabel users
+    ]);
 
-        // Pastikan user_id terkait dengan siswa
-        Siswa::create([
-            'user_id' => $user->id, // Menghubungkan siswa dengan user
-            'nis' => $request->nis,
-            'nisn' => $request->nisn,
-            'telepon' => $request->telepon,
-            'kelas' => $request->kelas,
-            'gender' => $request->gender,
-            'alamat' => $request->alamat,
-            'tgl_lahir' => $request->tgl_lahir,
-        ]);
+    // Simpan data siswa dengan user_id terkait
+    Siswa::create([
+        'user_id' => $user->id, // Menghubungkan siswa dengan user
+        'nis' => $request->nis,
+        'nisn' => $request->nisn,
+        'telepon' => $request->telepon,
+        'gender' => $request->gender,
+        'alamat' => $request->alamat,
+        'tgl_lahir' => $request->tgl_lahir,
+    ]);
 
-        return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil ditambahkan');
+    return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil ditambahkan');
+}
 
-    }
+
 
 
     // Update siswa

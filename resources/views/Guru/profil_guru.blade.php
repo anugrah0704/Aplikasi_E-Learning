@@ -1,10 +1,12 @@
 @extends('layout.app')
 @section('konten')
 
+
     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
       <li class="dropdown-header">
-        <h6>{{ $siswa->user->username ?? 'Tidak ada data' }}</h6>
-      </li>s
+        <h6>Kevin Anderson</h6>
+        <span>Web Designer</span>
+      </li>
       <li>
         <hr class="dropdown-divider">
       </li>
@@ -62,7 +64,7 @@
 <h1>Profile</h1>
 <nav>
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{route('siswa.index')}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{route('guru.index')}}">Home</a></li>
     <li class="breadcrumb-item">Users</li>
     <li class="breadcrumb-item active">Profile</li>
   </ol>
@@ -77,7 +79,8 @@
       <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
         <img src="admin/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-        <h2>{{ $siswa->user->username ?? 'Tidak ada data' }}</h2>
+        <h2>Kevin Anderson</h2>
+        <h3>Web Designer</h3>
         <div class="social-links mt-2">
           <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
           <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -101,7 +104,7 @@
           </li>
 
           <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profil-edit">Edit Profile</button>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
           </li>
 
           <li class="nav-item">
@@ -120,35 +123,41 @@
 
             <div class="row">
               <div class="col-lg-3 col-md-4 label ">Full Name</div>
-              <div class="col-lg-9 col-md-8">{{ $siswa->user->username ?? 'Tidak ada data' }}</div>
+              <div class="col-lg-9 col-md-8">Kevin Anderson</div>
             </div>
 
             <div class="row">
               <div class="col-lg-3 col-md-4 label">Gender</div>
-              <div class="col-lg-9 col-md-8">{{ $siswa->gender ?? 'Tidak ada data' }}</div>
+              <div class="col-lg-9 col-md-8">Laki-laki</div>
             </div>
 
             <div class="row">
               <div class="col-lg-3 col-md-4 label">NIS</div>
-              <div class="col-lg-9 col-md-8">{{ $siswa->nis ?? 'Tidak ada data' }}</div>
+              <div class="col-lg-9 col-md-8">21350385</div>
             </div>
 
             <div class="row">
               <div class="col-lg-3 col-md-4 label">Address</div>
-              <div class="col-lg-9 col-md-8">{{ $siswa->alamat ?? 'Tidak ada data' }}</div>
+              <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
             </div>
 
             <div class="row">
               <div class="col-lg-3 col-md-4 label">Phone</div>
-              <div class="col-lg-9 col-md-8">{{ $siswa->telepon ?? 'Tidak ada data' }}</div>
+              <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
             </div>
 
             <div class="row">
                 <div class="col-lg-3 col-md-4 label">Kelas</div>
-                <div class="col-lg-9 col-md-8">{{ $siswa->kelas ?? 'Tidak ada data' }}</div>
+                <div class="col-lg-9 col-md-8">sembilan</div>
               </div>
 
-          <div class="tab-pane fade profile-edit pt-3" id="profil-edit">
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">Email</div>
+              <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
             <!-- Profile Edit Form -->
             <form>
@@ -305,4 +314,3 @@
 </main>
 
 @endsection
-

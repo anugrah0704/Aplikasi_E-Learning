@@ -23,7 +23,13 @@ class Guru extends Model
     // Relasi ke model User
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Relasi ke Materi (sebagai pengunggah materi)
+    public function materi()
+    {
+        return $this->hasMany(Materi::class);
     }
 
 }

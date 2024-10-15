@@ -18,4 +18,18 @@ class Kelas extends Model
     {
         return $this->hasOne(guru::class);
     }
+    // Relasi ke Materi
+    public function materi()
+    {
+        return $this->hasMany(Materi::class);
+    }
+        public function siswa()
+    {
+        return $this->hasMany(Siswa::class); // Setiap kelas memiliki banyak siswa
+    }
+    // Relasi ke siswa (user)
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

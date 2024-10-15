@@ -17,7 +17,7 @@ class Siswa extends Model
         'telepon',
         'alamat',
         'tgl_lahir',
-        'kelas',
+        'kelas_id',
         'gender',
     ];
 
@@ -25,6 +25,10 @@ class Siswa extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');// Gantilah 'kelas_id' sesuai dengan nama kolom di tabel siswa yang merujuk ke kelas
     }
 
 }

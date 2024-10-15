@@ -2,35 +2,13 @@
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
+    @if(auth()->user()->isAdmin())
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('admin.dashboard')}}">
           <i class="bi bi-grid"></i>
           <span>DASHBOARD</span>
         </a>
       </li><!-- End Dashboard Admin  -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('guru.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>DASHBOARD</span>
-        </a>
-      </li><!-- End Dashboard Guru  -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('siswa.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>DASHBOARD</span>
-        </a>
-      </li><!-- End Dashboard Siswa  -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('courses.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Manajemen Mata Pelajaran</span>
-        </a>
-      </li><!-- End Courses  -->
-
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('admin.siswa.index') }}">
@@ -61,7 +39,6 @@
           <span>Master Kelas</span>
         </a>
       </li><!-- End Master Mapel  -->
-
 
       <li class="nav-heading">Pages</li>
 
@@ -94,11 +71,75 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('siswa.profil_siswa')}}">
+        <a class="nav-link collapsed" href="{{ route('admin.profil_admin', ['id' => $admin->id]) }}">Lihat Profil</a>
+">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
+
+
+      @endif
+
+
+
+{{-- =============================================================================================================== --}}
+{{-- =============================================================================================================== --}}
+
+
+
+      @if(auth()->user()->isGuru())
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('guru.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>DASHBOARD</span>
+        </a>
+      </li><!-- End Dashboard Guru  -->
+
+      <li class="nav-heading">Halaman Utama</li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('guru.materi.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>Management Materi</span>
+        </a>
+      </li><!-- End Management Materi  -->
+
+      @endif
+
+
+{{-- =============================================================================================================== --}}
+{{-- =============================================================================================================== --}}
+
+
+      @if(auth()->user()->isSiswa())
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('siswa.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>DASHBOARD</span>
+        </a>
+      </li><!-- End Dashboard Siswa  -->
+
+      <li class="nav-heading">Halaman Utama</li>
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('siswa.materi.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>Materi</span>
+        </a>
+      </li><!-- End Dashboard Siswa  -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('siswa.profil_siswa', ['id' => $user->id ?? '']) }}">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+      @endif
+
     </ul>
 
   </aside><!-- End Sidebar-->

@@ -186,9 +186,15 @@
                                     <input type="text" class="form-control" name="telepon" id="telepon" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="kelas">Kelas:</label>
-                                    <input type="text" class="form-control" name="kelas" id="kelas" required>
+                                    <label for="kelas_id">Kelas:</label>
+                                    <select name="kelas_id" id="kelas_id" class="form-control" required>
+                                        <option value="">Pilih Kelas</option>
+                                        @foreach ($kelas as $k)
+                                            <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="gender">Gender:</label>
                                     <select name="gender" id="gender" class="form-control" required>
@@ -252,7 +258,7 @@
                                 <td>{{ $user->siswa->nisn }}</td> <!-- Akses NISN dari relasi siswa -->
                                 <td>{{ $user->username }}</td> <!-- Akses username dari tabel users -->
                                 <td>{{ $user->siswa->telepon }}</td> <!-- Akses telepon dari relasi siswa -->
-                                <td>{{ $user->siswa->kelas }}</td> <!-- Akses kelas dari relasi siswa -->
+                                <td>{{ $user->kelas ? $user->kelas->nama_kelas : 'Tidak ada kelas' }}</td> <!-- Cek jika kelas ada -->
                                 <td>{{ $user->siswa->gender }}</td> <!-- Akses gender dari relasi siswa -->
                                 <td>{{ $user->siswa->alamat }}</td> <!-- Akses alamat dari relasi siswa -->
                                 <td>{{ $user->siswa->tgl_lahir }}</td> <!-- Akses tanggal lahir dari relasi siswa -->
