@@ -32,7 +32,8 @@
                     <tr>
                         <td>1</td>
                         <td>{{ $materi->judul }}</td>
-                        <td><a href="{{ asset($materi->file_path) }}" class="btn btn-primary" download>Download</a></td>
+                        <td><a href="{{ Storage::url($materi->file_path) }}" class="btn btn-primary" download>Download</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

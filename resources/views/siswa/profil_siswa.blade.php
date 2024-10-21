@@ -145,10 +145,9 @@
 
             <div class="row">
                 <div class="col-lg-3 col-md-4 label">Kelas</div>
-                <div class="col-lg-9 col-md-8">{{ $siswa->kelas ?? 'Tidak ada data' }}</div>
-              </div>
-
-          <div class="tab-pane fade profile-edit pt-3" id="profil-edit">
+                <div class="col-lg-9 col-md-8">{{ $siswa->users->kelas_id ?? 'Tidak ada data' }}</div>
+            </div>
+        <div class="tab-pane fade profile-edit pt-3" id="profil-edit">
 
             <!-- Profile Edit Form -->
             <form>

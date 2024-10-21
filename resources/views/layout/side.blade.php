@@ -10,6 +10,8 @@
         </a>
       </li><!-- End Dashboard Admin  -->
 
+      <li class="nav-heading">Halaman Utama</li>
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('admin.siswa.index') }}">
           <i class="bi bi-grid"></i>
@@ -99,6 +101,13 @@
       <li class="nav-heading">Halaman Utama</li>
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('guru.manajemen-ujian.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>Management Ujian</span>
+        </a>
+      </li><!-- End Management Materi  -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('guru.materi.index')}}">
           <i class="bi bi-grid"></i>
           <span>Management Materi</span>
@@ -122,6 +131,13 @@
 
       <li class="nav-heading">Halaman Utama</li>
 
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('siswa.ujian.index')}}">
+          <i class="bi bi-grid"></i>
+          <span>Ujian</span>
+        </a>
+      </li><!-- End Ujian  -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('siswa.materi.index')}}">

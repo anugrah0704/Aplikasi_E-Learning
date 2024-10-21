@@ -32,4 +32,8 @@ class Guru extends Model
         return $this->hasMany(Materi::class);
     }
 
+    public function ujian()
+    {
+        return $this->hasMany(Ujian::class);
+    }
 }

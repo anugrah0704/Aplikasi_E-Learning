@@ -24,4 +24,9 @@ class Mapel extends Model
     {
         return $this->hasMany(Materi::class);
     }
+    // Relasi ke Ujian
+    public function ujians()
+    {
+        return $this->hasMany(Ujian::class, 'mapel_id');
+    }
 }
