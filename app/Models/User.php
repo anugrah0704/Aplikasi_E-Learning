@@ -56,10 +56,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function siswa()
-    {
-        return $this->hasOne(Siswa::class);
-    }
+
     public function guru()
     {
         return $this->hasOne(guru::class);
@@ -72,5 +69,22 @@ class User extends Authenticatable
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'kelas_id');
+    }
+    // Relasi ke tabel siswa
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class, 'user_id');
+    }
+
+    // Relasi ke jawaban pilihan ganda
+    public function jawabanSiswaPilgan()
+    {
+        return $this->hasMany(JawabanSiswaPilgan::class, 'siswa_id');
+    }
+
+    // Relasi ke jawaban essay
+    public function jawabanSiswaEssay()
+    {
+        return $this->hasMany(JawabanSiswaEssay::class, 'siswa_id');
     }
 }

@@ -26,7 +26,7 @@ class ManajemenPilihanGandaController extends Controller
             'pilihan_b' => 'required',
             'pilihan_c' => 'required',
             'pilihan_d' => 'required',
-            'pilihan_e' => 'required',
+            'pilihan_e' => '',
             'kunci_jawaban' => 'required',
         ]);
 
@@ -54,7 +54,7 @@ class ManajemenPilihanGandaController extends Controller
             'pilihan_b' => 'required',
             'pilihan_c' => 'required',
             'pilihan_d' => 'required',
-            'pilihan_e' => 'required',
+            'pilihan_e' => '',
             'kunci_jawaban' => 'required',
         ]);
 

@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Soal</th>
+                        <th>Pertanyaan</th>
                         <th>Tanggal Buat</th>
                         <th>Edit</th>
                         <th>Hapus</th>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="soal">Soal</label>
+                        <label for="soal">Pertanyaan</label>
                         <textarea class="form-control" name="soal" required></textarea>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editSoalEssayModalLabel">Edit Soal Essay</h5>
+                    <h5 class="modal-title" id="editSoalEssayModalLabel">Edit Pertanyaan Essay</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -1,34 +1,43 @@
 @extends('layout.app')
 
 @section('konten')
-    <div class="container">
-        <h3>Menu Manajemen Ujian / Tugas</h3>
+<div class="container mt-5">
+    <!-- Header Section -->
+    <div class="text-center mb-4">
+        <h3 class="font-weight-bold">Menu Manajemen Ujian / Tugas</h3>
+        <p class="text-muted">Daftar Ujian berdasarkan Mata Pelajaran dan Pengajar</p>
+    </div>
 
+    <!-- Tabel Ujian -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Daftar Ujian</h5>
+        </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
+            <table class="table table-bordered table-hover table-striped mb-0">
+                <thead class="bg-secondary text-white">
+                    <tr class="text-center">
                         <th>No</th>
-                        <th>Mapel</th>
-                        <th>Pengajar</th> <!-- Menampilkan nama guru -->
+                        <th>Mata Pelajaran</th>
+                        <th>Pengajar</th>
                         <th>Jumlah Ujian</th>
-                        <th>View</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($ujians as $ujian)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{ $ujian->mapel ? $ujian->mapel->nama_mapel : 'Tidak ada mapel' }}</td>
                             <td>{{ $ujian->guru ? $ujian->guru->user->username : 'Tidak ada guru' }}</td>
-                            <td>{{ $ujian->guru_count }}</td> <!-- Menampilkan jumlah ujian per guru -->
-                            <td>
+                            <td class="text-center">{{ $ujian->guru_count }}</td> <!-- Jumlah Ujian -->
+                            <td class="text-center">
                                 @if (isset($ujian->id))
-                                    <a href="{{ route('siswa.ujian.view', $ujian->id) }}" class="btn btn-primary">
-                                        <i class="fa fa-search"></i>
+                                    <a href="{{ route('siswa.ujian.view', $ujian->id) }}" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-search"></i> Lihat
                                     </a>
                                 @else
-                                    <span>Tidak tersedia</span>
+                                    <span class="text-muted">Tidak tersedia</span>
                                 @endif
                             </td>
                         </tr>
@@ -37,4 +46,5 @@
             </table>
         </div>
     </div>
+</div>
 @endsection

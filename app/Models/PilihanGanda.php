@@ -21,10 +21,10 @@ class PilihanGanda extends Model
         'kunci_jawaban',
     ];
 
-    // Relasi ke model Ujian
+    // Relasi dengan ujian
     public function ujian()
     {
-        return $this->belongsTo(Ujian::class);
+        return $this->belongsTo(Ujian::class, 'ujian_id');
     }
 
 }

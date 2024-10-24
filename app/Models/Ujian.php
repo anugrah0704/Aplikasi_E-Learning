@@ -38,4 +38,15 @@ class Ujian extends Model
     {
         return $this->belongsTo(Guru::class, 'user_id'); // guru_id adalah foreign key yang merujuk ke tabel users
     }
+    // Relasi dengan soal pilihan ganda
+    public function pilihanGanda()
+    {
+        return $this->hasMany(PilihanGanda::class, 'ujian_id');
+    }
+
+    // Relasi ke Soal Essay
+    public function essay()
+    {
+        return $this->hasMany(Essay::class, 'ujian_id');
+    }
 }

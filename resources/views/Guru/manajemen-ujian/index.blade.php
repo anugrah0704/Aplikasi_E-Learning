@@ -34,7 +34,10 @@
                         <td>{{ $item->info_ujian }}</td>
                         <td>{{ $item->mapel->nama_mapel }}</td> <!-- singular 'mapel' -->
 
-                        <td>{{ $item->telah_ujian ? 'Sudah' : 'Belum' }}</td>
+                        <td>
+                            <a href="{{ route('guru.manajemen-ujian.koreksi.daftar-siswa', $item->id) }}" class="btn btn-info">
+                                <i class="fa-solid fa-magnifying-glass"></i></a>
+                        </td>
                         <td>
                             <a href="{{ route('guru.manajemen-ujian.detailsoal', $item->id) }}" class="btn btn-info">
                                 <i class="fa-solid fa-magnifying-glass"></i></a>

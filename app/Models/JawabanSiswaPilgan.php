@@ -2,32 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class JawabanSiswaPilgan extends Model
 {
-    use HasFactory;
-
     protected $table = 'jawaban_siswa_pilgan';
 
-    // Fields yang bisa diisi (mass-assignable)
     protected $fillable = [
-        'hasil_ujian_id',
-        'soal_id',
+        'siswa_id',
+        'ujian_id',
+        'pilihan_ganda_id',
         'jawaban_siswa',
-        'benar'
+        'nilai_pg'
     ];
 
-    // Relasi ke hasil ujian
-    public function hasilUjian()
+    public function siswa()
     {
-        return $this->belongsTo(HasilUjian::class, 'hasil_ujian_id');
+        return $this->belongsTo(Siswa::class, 'siswa_id');
     }
 
-    // Relasi ke soal pilihan ganda
-    public function soal()
+    public function ujian()
     {
-        return $this->belongsTo(PilihanGanda::class, 'soal_id');
+        return $this->belongsTo(Ujian::class, 'ujian_id');
     }
 }

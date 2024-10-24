@@ -13,10 +13,10 @@ class JawabanSiswaEssay extends Model
 
     // Fields yang bisa diisi (mass-assignable)
     protected $fillable = [
-        'hasil_ujian_id',
-        'soal_id',
+        'siswa_id',
+        'ujian_id',
+        'essay_id',
         'jawaban_siswa',
-        'nilai'
     ];
 
     // Relasi ke hasil ujian
@@ -29,5 +29,14 @@ class JawabanSiswaEssay extends Model
     public function soal()
     {
         return $this->belongsTo(Essay::class, 'soal_id');
+    }
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'siswa_id');
+    }
+
+    public function ujian()
+    {
+        return $this->belongsTo(Ujian::class, 'ujian_id');
     }
 }

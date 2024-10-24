@@ -393,43 +393,6 @@ Route::middleware(['auth'])->group(function () {
 // ======================      Route untuk Manajemen Ujian / Tugas  Essay dan pilihan ganda        ======================================================
 // =====================================================================================================================================
 
-// Route::get('/guru/manajemen_ujian/essay/{ujian_id}', function ($ujian_id) {
-//     return (new RoleMiddleware)->handle(request(), function () use ($ujian_id) {
-//         return app()->call('App\Http\Controllers\EssayController@index', ['ujian_id' => $ujian_id]);
-//     }, 'guru');  // Hanya peran guru yang dapat mengakses
-// })->name('guru.manajemen-ujian.essay');
-
-// Route::post('/guru/manajemen_ujian/essay/{ujian_id}', function ($ujian_id) {
-//     return (new RoleMiddleware)->handle(request(), function () use ($ujian_id) {
-//         return app()->call('App\Http\Controllers\EssayController@store', ['ujian_id' => $ujian_id]);
-//     }, 'guru');  // Hanya peran guru yang dapat mengakses
-// })->name('guru.manajemen-ujian.essay.store');
-
-// Route untuk menampilkan daftar soal pilihan ganda
-// Route::get('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}', function ($ujian_id) {
-//     return (new RoleMiddleware)->handle(request(), function () use ($ujian_id) {
-//         return app()->call('App\Http\Controllers\ManajemenPilihanGandaController@index', ['ujian_id' => $ujian_id]);
-//     }, 'guru');  // Hanya peran guru yang dapat mengakses
-// })->name('guru.manajemen-ujian.pilihan-ganda');
-
-
-// Route::post('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}', function ($ujian_id) {
-//     return (new RoleMiddleware)->handle(request(), function () use ($ujian_id) {
-//         return app()->call('App\Http\Controllers\ManajemenPilihanGandaController@storePilgan', ['ujian_id' => $ujian_id]);
-//     }, 'guru');  // Hanya peran guru yang dapat mengakses
-// })->name('guru.manajemen-ujian.pilihan-ganda.storePilgan');
-
-// Route::put('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}/{id}', function ($ujian_id, $id) {
-//     return (new RoleMiddleware)->handle(request(), function () use ($ujian_id, $id) {
-//         return app()->call('App\Http\Controllers\ManajemenPilihanGandaController@update', ['ujian_id' => $ujian_id, 'id' => $id]);
-//     }, 'guru');  // Hanya peran guru yang dapat mengakses
-// })->name('guru.manajemen-ujian.pilihan-ganda.update');
-
-// Route::delete('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}/{id}', function ($ujian_id, $id) {
-//     return (new RoleMiddleware)->handle(request(), function () use ($ujian_id, $id) {
-//         return app()->call('App\Http\Controllers\ManajemenPilihanGandaController@destroy', ['ujian_id' => $ujian_id, 'id' => $id]);
-//     }, 'guru');  // Hanya peran guru yang dapat mengakses
-// })->name('guru.manajemen-ujian.pilihan-ganda.destroy');
 
 
 });
@@ -439,12 +402,26 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/siswa/ujian', [UjianController::class, 'index'])->name('siswa.ujian.index');
     Route::get('/siswa/ujian/{id}', [UjianController::class, 'view'])->name('siswa.ujian.view');
     Route::get('/siswa/ujian/kerjakan/{ujian_id}', [UjianController::class, 'kerjakan'])->name('siswa.ujian.kerjakan');
-    Route::get('/ujian/mulai/pilgan/{id}', [UjianController::class, 'mulaiPilgan'])->name('siswa.ujian.mulai.pilgan');
-    Route::post('/ujian/submit/pilgan/{id}', [UjianController::class, 'submitPilgan'])->name('siswa.ujian.submit.pilgan');
+
+    Route::get('/siswa/ujian/{id}/pilgan', [UjianController::class, 'mulaiPilgan'])->name('siswa.ujian.mulai.pilgan');
+    Route::post('/siswa/ujian/{id}/pilgan/submit', [UjianController::class, 'submitPilgan'])->name('siswa.ujian.submit.pilgan');
+    Route::get('/siswa/ujian/{id}/nilai/pilgan', [UjianController::class, 'hasilUjian'])->name('siswa.ujian.nilai.pilgan');
+
+    Route::get('/siswa/ujian/{id}/essay', [UjianController::class, 'mulaiEssay'])->name('siswa.ujian.mulai.essay');
+    Route::get('/ujian/essay/{id}', [UjianController::class, 'tampilEssay'])->name('siswa.ujian.mulai.essay');
+    Route::post('/ujian/essay/{id}', [UjianController::class, 'submitEssay'])->name('siswa.ujian.submitEssay');
+    Route::get('/ujian/nilai-essay/{id}', [UjianController::class, 'nilaiEssay'])->name('siswa.ujian.nilai.essay');
+
+
 });
 
+// =====================================================================================================================================
+// ======================      Route untuk Manajemen Ujian / Tugas  HAL GURU        ====================================================
+// ======================                   Route untuk Login Guru        ======================================================
+// =====================================================================================================================================
 
 
+//
 Route::group(['middleware' => ['auth']], function () {
 
     // Route untuk menampilkan soal pilihan ganda
@@ -463,6 +440,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/guru/manajemen-ujian/essay/{ujian_id}', [EssayController::class, 'store'])->name('guru.manajemen-ujian.essay.store');
     Route::put('/guru/manajemen-ujian/essay/{ujian_id}/{id}', [EssayController::class, 'update'])->name('guru.manajemen-ujian.essay.update');
     Route::delete('/guru/manajemen-ujian/essay/{ujian_id}/{id}', [EssayController::class, 'destroy'])->name('guru.manajemen-ujian.essay.destroy');
+
+    // Route untuk daftar siswa yang ikut ujian
+Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa', [UjianController::class, 'daftarSiswa'])->name('guru.manajemen-ujian.koreksi.daftar-siswa');
+
+// Route untuk analisa pilihan ganda
+Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/pg/{siswa_id}', [UjianController::class, 'analisaPilihanGanda'])->name('guru.manajemen-ujian.koreksi.analisaPG');
+
+// Route untuk koreksi essay
+Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/essay/{siswa_id}', [UjianController::class, 'koreksiEssay'])->name('guru.manajemen-ujian.koreksi.koreksiEssay');
+Route::post('/guru/manajemen-ujian/koreksi/{ujian_id}/essay/{siswa_id}/simpan', [UjianController::class, 'simpanKoreksiEssay'])->name('guru.manajemen-ujian.koreksi.simpanKoreksiEssay');
+
+
 });
 
 
