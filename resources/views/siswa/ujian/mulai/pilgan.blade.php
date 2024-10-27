@@ -2,44 +2,57 @@
 
 @section('konten')
 <div class="container mt-5">
-    <h3>{{ $ujian->judul }}</h3>
-    <p>Mata Pelajaran: {{ $ujian->mapel->nama_mapel ?? 'Tidak Ada' }}</p>
-    <p>Waktu Pengerjaan: {{ $ujian->waktu_pengerjaan }} Menit</p>
+    <!-- Header Ujian -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h3 class="card-title font-weight-bold">{{ $ujian->judul }}</h3>
+            <p class="card-text">Mata Pelajaran: <strong>{{ $ujian->mapel->nama_mapel ?? 'Tidak Ada' }}</strong></p>
+            <p class="card-text">Waktu Pengerjaan: <strong>{{ $ujian->waktu_pengerjaan }} Menit</strong></p>
+            <a href="{{ route('siswa.ujian.kerjakan', ['ujian_id' => $ujian->id]) }}" class="btn btn-secondary mb-3">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+    </div>
 
+    <!-- Form Ujian -->
     <form action="{{ route('siswa.ujian.submit.pilgan', $ujian->id) }}" method="POST">
         @csrf
 
         @foreach($soals as $index => $soal)
-        <div class="card mb-3">
+        <div class="card mb-3 shadow-sm">
             <div class="card-body">
-                <h5>Soal #{{ $index + 1 }}</h5>
-                <p>{{ $soal->soal }}</p>
+                <h5 class="card-title">Soal #{{ $index + 1 }}</h5>
+                <p class="card-text">{{ $soal->soal }}</p>
 
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="kunci_jawaban[{{ $soal->id }}]" value="A" id="pilihanA{{ $soal->id }}">
-                    <label for="pilihanA{{ $soal->id }}" class="form-check-label">{{ $soal->pilihan_a }}</label>
+                <!-- Pilihan Jawaban -->
+                <div class="form-check my-2">
+                    <input type="radio" class="form-check-input" name="kunci_jawaban[{{ $soal->id }}]" value="A" id="pilihanA{{ $soal->id }}" required>
+                    <label for="pilihanA{{ $soal->id }}" class="form-check-label">A. {{ $soal->pilihan_a }}</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check my-2">
                     <input type="radio" class="form-check-input" name="kunci_jawaban[{{ $soal->id }}]" value="B" id="pilihanB{{ $soal->id }}">
-                    <label for="pilihanB{{ $soal->id }}" class="form-check-label">{{ $soal->pilihan_b }}</label>
+                    <label for="pilihanB{{ $soal->id }}" class="form-check-label">B. {{ $soal->pilihan_b }}</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check my-2">
                     <input type="radio" class="form-check-input" name="kunci_jawaban[{{ $soal->id }}]" value="C" id="pilihanC{{ $soal->id }}">
-                    <label for="pilihanC{{ $soal->id }}" class="form-check-label">{{ $soal->pilihan_c }}</label>
+                    <label for="pilihanC{{ $soal->id }}" class="form-check-label">C. {{ $soal->pilihan_c }}</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check my-2">
                     <input type="radio" class="form-check-input" name="kunci_jawaban[{{ $soal->id }}]" value="D" id="pilihanD{{ $soal->id }}">
-                    <label for="pilihanD{{ $soal->id }}" class="form-check-label">{{ $soal->pilihan_d }}</label>
+                    <label for="pilihanD{{ $soal->id }}" class="form-check-label">D. {{ $soal->pilihan_d }}</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check my-2">
                     <input type="radio" class="form-check-input" name="kunci_jawaban[{{ $soal->id }}]" value="E" id="pilihanE{{ $soal->id }}">
-                    <label for="pilihanE{{ $soal->id }}" class="form-check-label">{{ $soal->pilihan_e }}</label>
+                    <label for="pilihanE{{ $soal->id }}" class="form-check-label">E. {{ $soal->pilihan_e }}</label>
                 </div>
             </div>
         </div>
         @endforeach
 
-        <button type="submit" class="btn btn-primary btn-block">Kirim Jawaban</button>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-block py-3">
+            <i class="fas fa-paper-plane"></i> Kirim Jawaban
+        </button>
     </form>
 </div>
 @endsection

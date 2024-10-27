@@ -16,8 +16,8 @@ class HasilUjian extends Model
         'ujian_id',
         'siswa_id',
         'nilai_pilgan',
-        'nilai_essay',
-        'status_selesai'
+        'total_nilai_essay',
+
     ];
 
     // Relasi ke model Ujian

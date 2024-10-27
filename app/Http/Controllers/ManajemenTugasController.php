@@ -6,18 +6,28 @@ use App\Models\Ujian; // Pastikan hanya ada satu 'use' statement untuk import mo
 use App\Models\Mapel;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManajemenTugasController extends Controller
 {
     public function index()
     {
-         // Ambil data ujian dan mata pelajaran dari database
-        $ujianTugas = Ujian::paginate(10);
-        $mapels = Mapel::all(); // Ambil semua mata pelajaran
-        $kelases = Kelas::all(); // Ambil semua kelas
+        // Ambil ID guru yang sedang login
+        $guruId = Auth::user()->guru->id;
 
+        // Ambil data ujian/tugas hanya untuk guru yang sedang login
+        $ujianTugas = Ujian::where('user_id', $guruId)
+            ->with(['mapel', 'kelas'])
+            ->paginate(10);
+
+        // Ambil semua data mapel dan kelas untuk dropdown
+        $mapels = Mapel::all();
+        $kelases = Kelas::all();
+
+        // Kirim data ke view
         return view('guru.manajemen-ujian.index', compact('ujianTugas', 'mapels', 'kelases'));
     }
+
 
     public function show($id)
     {
@@ -27,21 +37,13 @@ class ManajemenTugasController extends Controller
     }
 
 
-    public function create()
-    {
-        // Ambil semua mapel dan kelas untuk dropdown di form
-        $mapels = Mapel::all();
-        $kelases = Kelas::all();
-        return view('guru.manajemen-ujian.create', compact('mapels', 'kelases'));
-    }
-
     public function store(Request $request)
     {
         // Validasi data input
         $validated = $request->validate([
             'judul' => 'required|string|max:150',
-            'mapel_id' => 'required|exists:mapels,id', // Perbaiki table menjadi 'mapels'
-            'kelas_id' => 'required|exists:kelas,id', // Perbaiki table menjadi 'kelases'
+            'mapel_id' => 'required|exists:mapels,id', // Pastikan nama tabel benar
+            'kelas_id' => 'required|exists:kelas,id', // Pastikan nama tabel benar
             'waktu_pengerjaan' => 'required|integer',
             'info_ujian' => 'required|string',
             'bobot_pilihan_ganda' => 'required|integer|min:0|max:100',
@@ -51,19 +53,14 @@ class ManajemenTugasController extends Controller
 
         // Simpan data ujian dengan user_id
         $validated['user_id'] = auth()->user()->guru->id; // Mengisi user_id dengan ID guru yang sedang login
+
         // Simpan data ujian
         Ujian::create($validated);
+
+        // Kembali ke halaman index dengan pesan sukses
         return redirect()->route('guru.manajemen-ujian.index')->with('success', 'Ujian berhasil ditambahkan.');
     }
 
-    public function edit($id)
-    {
-        // Mengambil data ujian berdasarkan id
-        $ujian = Ujian::findOrFail($id);
-        $mapels = Mapel::all();
-        $kelases = Kelas::all();
-        return view('ujian.edit', compact('ujian', 'mapels', 'kelases'));
-    }
 
     public function update(Request $request, $id)
     {

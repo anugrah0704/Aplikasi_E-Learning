@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\GuruMapelController;
 use App\Http\Controllers\EssayController;
 use App\Http\Controllers\UjianController;
+use App\Http\Controllers\KoreksiEssayController;
 use App\Http\Controllers\ManajemenPilihanGandaController;
 
 Route::get('/', function () {
@@ -421,7 +422,7 @@ Route::group(['middleware' => ['auth']], function () {
 // =====================================================================================================================================
 
 
-//
+//==============================    Route Guru ==========================================================
 Route::group(['middleware' => ['auth']], function () {
 
     // Route untuk menampilkan soal pilihan ganda
@@ -442,14 +443,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/guru/manajemen-ujian/essay/{ujian_id}/{id}', [EssayController::class, 'destroy'])->name('guru.manajemen-ujian.essay.destroy');
 
     // Route untuk daftar siswa yang ikut ujian
-Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa', [UjianController::class, 'daftarSiswa'])->name('guru.manajemen-ujian.koreksi.daftar-siswa');
+    Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa', [UjianController::class, 'daftarSiswa'])->name('guru.manajemen-ujian.koreksi.daftar-siswa');
 
-// Route untuk analisa pilihan ganda
-Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/pg/{siswa_id}', [UjianController::class, 'analisaPilihanGanda'])->name('guru.manajemen-ujian.koreksi.analisaPG');
+    // Route untuk analisa pilihan ganda
+    Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/pg/{siswa_id}', [UjianController::class, 'analisaPilihanGanda'])->name('guru.manajemen-ujian.koreksi.analisa_pg');
 
-// Route untuk koreksi essay
-Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/essay/{siswa_id}', [UjianController::class, 'koreksiEssay'])->name('guru.manajemen-ujian.koreksi.koreksiEssay');
-Route::post('/guru/manajemen-ujian/koreksi/{ujian_id}/essay/{siswa_id}/simpan', [UjianController::class, 'simpanKoreksiEssay'])->name('guru.manajemen-ujian.koreksi.simpanKoreksiEssay');
+    // Route untuk koreksi essay
+    Route::get('/guru/koreksi/{ujian_id}/{siswa_id}', [KoreksiEssayController::class, 'showKoreksi'])->name('guru.manajemen-ujian.koreksi.koreksi_essay');
+    Route::post('/guru/manajemen-ujian/koreksi/nilai/{jawaban_id}', [KoreksiEssayController::class, 'KoreksiNilai'])->name('guru.manajemen-ujian.koreksi.koreksiNilai');
+
+
+
+
 
 
 });

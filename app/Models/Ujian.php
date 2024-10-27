@@ -19,8 +19,14 @@ class Ujian extends Model
         'bobot_pilihan_ganda',
         'bobot_essay',
         'terbit',
+        'total_nilai_essay',
         'user_id' // Tambahkan ini
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     // Relasi ke model Mapel
     public function mapel()
@@ -49,4 +55,8 @@ class Ujian extends Model
     {
         return $this->hasMany(Essay::class, 'ujian_id');
     }
+    public function jawabanEssay()
+{
+    return $this->hasMany(JawabanSiswaEssay::class, 'ujian_id');
+}
 }

@@ -17,12 +17,16 @@ class UjianController extends Controller
 {
     public function index()
     {
-        // Mengambil jumlah ujian yang dikelompokkan berdasarkan guru
-        $ujians = Ujian::with(['mapel', 'guru.user'])
-        ->withCount('guru') // Hitung jumlah ujian per guru
+         // Ambil ID kelas dari siswa yang sedang login
+    $kelasId = Auth::user()->kelas_id;
+
+    // Ambil ujian yang sesuai dengan kelas siswa
+    $ujians = Ujian::where('kelas_id', $kelasId)
+        ->with(['mapel', 'guru.user'])
+        ->withCount('guru')
         ->get();
 
-        return view('siswa.ujian.index', compact('ujians'));
+    return view('siswa.ujian.index', compact('ujians'));
     }
 
     public function view($id)
@@ -57,7 +61,7 @@ class UjianController extends Controller
         // Mengambil detail ujian dan soal pilihan ganda yang terkait dengan ujian
         $ujian = Ujian::with('pilihanGanda')->findOrFail($id);
 
-        // Ambil soal terkait ujian
+        // Mengambil soal-soal pilihan ganda terkait ujian
         $soals = $ujian->pilihanGanda;
 
         // Mengambil data siswa yang sedang login
@@ -75,25 +79,63 @@ class UjianController extends Controller
         $siswaId = auth()->user()->siswa->id;
 
         // Ambil jawaban dari form
-        $jawabanSiswa = $request->input('kunci_jawaban');
+        $jawabanSiswa = $request->input('kunci_jawaban'); // format: ['soal_id' => 'jawaban']
 
-        // Simpan jawaban ke database
+        // Inisialisasi variabel untuk menghitung nilai
+        $jumlahBenar = 0;
+        $totalSoal = count($jawabanSiswa); // Total soal yang dijawab
+
+        // Loop setiap jawaban untuk menyimpan dan mengecek kebenaran
         foreach ($jawabanSiswa as $soalId => $jawaban) {
-            JawabanSiswaPilgan::create([
-                'siswa_id' => $siswaId,
-                'ujian_id' => $ujian->id,
-                'pilihan_ganda_id' => $soalId,
-                'jawaban_siswa' => $jawaban
-            ]);
+            $soal = PilihanGanda::findOrFail($soalId); // Ambil soal pilihan ganda berdasarkan ID
+
+            // Cek apakah jawaban siswa untuk soal ini sudah ada
+            $existingJawaban = JawabanSiswaPilgan::where('siswa_id', $siswaId)
+                ->where('ujian_id', $ujian->id)
+                ->where('pilihan_ganda_id', $soalId)
+                ->first();
+
+            if ($existingJawaban) {
+                // Update jawaban jika sudah ada
+                $existingJawaban->update([
+                    'jawaban_siswa' => $jawaban,
+                    'updated_at' => now()
+                ]);
+            } else {
+                // Insert jawaban baru jika belum ada
+                JawabanSiswaPilgan::create([
+                    'siswa_id' => $siswaId,
+                    'ujian_id' => $ujian->id,
+                    'pilihan_ganda_id' => $soalId,
+                    'jawaban_siswa' => $jawaban,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+
+            // Cek apakah jawaban siswa benar
+            if ($jawaban == $soal->kunci_jawaban) {
+                $jumlahBenar++;
+            }
         }
 
-        // Redirect ke halaman hasil
+        // Hitung nilai pilihan ganda (nilai_pg)
+        $nilai_pg = $totalSoal > 0 ? ($jumlahBenar / $totalSoal) * 100 : 0;
+
+        // Simpan nilai_pg ke tabel jawaban_siswa_pilgan jika diperlukan
+        DB::table('jawaban_siswa_pilgan')
+            ->where('siswa_id', $siswaId)
+            ->where('ujian_id', $ujian->id)
+            ->update(['nilai_pg' => $nilai_pg]);
+
+        // Redirect ke halaman hasil ujian dengan pesan sukses
         return redirect()->route('siswa.ujian.nilai.pilgan', $ujian->id)->with('success', 'Jawaban berhasil disimpan.');
     }
 
+
     public function hasilUjian($id)
     {
-        // Ambil detail ujian
+        // Ambil detail ujian beserta soal pilihan ganda
         $ujian = Ujian::with(['pilihanGanda'])->findOrFail($id);
 
         // Ambil id siswa dari session atau model
@@ -104,7 +146,7 @@ class UjianController extends Controller
                             ->where('ujian_id', $ujian->id)
                             ->pluck('jawaban_siswa', 'pilihan_ganda_id');
 
-        // Inisialisasi variabel skor
+        // Inisialisasi variabel untuk menghitung nilai
         $jumlahBenar = 0;
 
         // Periksa jawaban pilihan ganda
@@ -114,13 +156,14 @@ class UjianController extends Controller
             }
         }
 
-        // Hitung skor
+        // Hitung skor dan bulatkan
         $totalSoal = $ujian->pilihanGanda->count();
-        $skor = $totalSoal > 0 ? ($jumlahBenar / $totalSoal) * 100 : 0;
+        $skor = $totalSoal > 0 ? round(($jumlahBenar / $totalSoal) * 100) : 0;
 
         // Kirim data ke view
         return view('siswa.ujian.nilai.pilgan', compact('ujian', 'jawabanSiswa', 'jumlahBenar', 'totalSoal', 'skor'));
     }
+
 
 // ==================================================================================================================
 // ==================================================================================================================
@@ -150,16 +193,34 @@ public function submitEssay(Request $request, $id)
 
     // Loop dan simpan jawaban siswa ke dalam database
     foreach ($request->jawaban as $soalId => $jawaban) {
-        JawabanSiswaEssay::create([
-            'siswa_id' => $siswaId,
-            'ujian_id' => $ujian->id,
-            'essay_id' => $soalId,
-            'jawaban_siswa' => $jawaban
-        ]);
+        $existingJawaban = JawabanSiswaEssay::where('siswa_id', $siswaId)
+            ->where('ujian_id', $ujian->id)
+            ->where('essay_id', $soalId)
+            ->first();
+
+        if ($existingJawaban) {
+            // Update jawaban jika sudah ada
+            $existingJawaban->update([
+                'jawaban_siswa' => $jawaban,
+                'updated_at' => now()
+            ]);
+        } else {
+            // Insert jawaban baru jika belum ada
+            JawabanSiswaEssay::create([
+                'siswa_id' => $siswaId,
+                'ujian_id' => $ujian->id,
+                'essay_id' => $soalId,
+                'jawaban_siswa' => $jawaban,
+                'nilai_essay' => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
     }
 
-    return redirect()->route('siswa.ujian.nilai.essay')->with('success', 'Jawaban berhasil disimpan.');
+    return redirect()->route('siswa.ujian.nilai.essay', ['id' => $ujian->id])->with('success', 'Jawaban berhasil disimpan.');
 }
+
 
 public function nilaiEssay($id)
 {
@@ -200,20 +261,38 @@ public function nilaiEssay($id)
 
 public function daftarSiswa($ujian_id)
 {
-    // Ambil daftar siswa yang telah mengerjakan ujian
+    // Ambil kelas_id dari ujian yang dipilih
+    $kelas_id = DB::table('ujian')->where('id', $ujian_id)->value('kelas_id');
+
     $siswaSudahUjian = DB::table('siswa')
         ->join('users', 'siswa.user_id', '=', 'users.id')
         ->join('kelas', 'users.kelas_id', '=', 'kelas.id') // Join ke tabel kelas
-        ->join('jawaban_siswa_pilgan', 'siswa.id', '=', 'jawaban_siswa_pilgan.siswa_id')
-        ->leftJoin('jawaban_siswa_essay', 'siswa.id', '=', 'jawaban_siswa_essay.siswa_id')
-        ->join('ujian', 'jawaban_siswa_pilgan.ujian_id', '=', 'ujian.id')
-        ->select('siswa.nisn', 'siswa.nis', 'users.username as nama_siswa', 'kelas.nama_kelas as kelas', 'jawaban_siswa_pilgan.nilai_pg', 'jawaban_siswa_essay.nilai_essay', 'ujian.judul')
-        ->where('ujian.id', $ujian_id)
+        ->leftJoin('jawaban_siswa_pilgan', function ($join) use ($ujian_id) {
+            $join->on('siswa.id', '=', 'jawaban_siswa_pilgan.siswa_id')
+                 ->where('jawaban_siswa_pilgan.ujian_id', $ujian_id);
+        })
+        ->leftJoin('hasil_ujian', function ($join) use ($ujian_id) {
+            $join->on('hasil_ujian.siswa_id', '=', 'siswa.id')
+                 ->where('hasil_ujian.ujian_id', $ujian_id);
+        })
+        ->select(
+            'siswa.id as siswa_id',
+            'siswa.nisn',
+            'users.username as nama_siswa',
+            'kelas.nama_kelas as kelas',  // Nama kelas dari tabel kelas
+            'jawaban_siswa_pilgan.nilai_pg',
+            'hasil_ujian.total_nilai_essay',
+            DB::raw("'$ujian_id' as ujian_id")
+        )
+        ->where('kelas.id', $kelas_id) // Filter berdasarkan kelas ujian
         ->distinct()
-        ->get(); // Jalankan query untuk mendapatkan hasil
+        ->get();
 
     return view('guru.manajemen-ujian.koreksi.daftar-siswa', compact('siswaSudahUjian'));
 }
+
+
+
 
 
 
@@ -280,6 +359,11 @@ private function hitungNilaiPG($jawabanPG)
     }
     return $nilai; // Mengembalikan total nilai PG
 }
+
+
+// ==================================================================================================================
+// ===================================== Koreksi Ujian Siswa Essay =========================================================
+// ==================================================================================================================
 
 
 // Method untuk menampilkan halaman koreksi essay

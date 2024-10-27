@@ -17,6 +17,7 @@ class JawabanSiswaEssay extends Model
         'ujian_id',
         'essay_id',
         'jawaban_siswa',
+        'nilai_essay'
     ];
 
     // Relasi ke hasil ujian

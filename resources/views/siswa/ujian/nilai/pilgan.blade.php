@@ -12,7 +12,7 @@
     <!-- Score Section -->
     <div class="card shadow mb-4">
         <div class="card-body text-center">
-            <h5 class="card-title">Skor Anda: <span class="text-success">{{ $skor }}%</span></h5>
+            <h5 class="card-title">Skor Anda: <span class="text-success">{{ $skor }}</span></h5>
             <p><strong>Total Soal:</strong> {{ $totalSoal }}</p>
             <p><strong>Jawaban Benar:</strong> {{ $jumlahBenar }}</p>
         </div>
