@@ -28,14 +28,18 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $soal->soal }}</td>
-                            <td>{{ $jawabanSiswa[$soal->id] ?? 'Belum Dijawab' }}</td>
                             <td>
-                                @if($soal->nilai !== null)
-                                    <span class="badge bg-success">{{ $soal->nilai }}</span>
+                                {{ $jawabanSiswa[$soal->id]->jawaban_siswa ?? 'Belum Dijawab' }}
+                            </td>
+                            <td>
+                                @if(isset($jawabanSiswa[$soal->id]) && $jawabanSiswa[$soal->id]->nilai_essay !== null)
+                                    <span class="badge bg-success">{{ $jawabanSiswa[$soal->id]->nilai_essay }}</span>
                                 @else
                                     <span class="badge bg-warning text-dark">Belum Dinilai</span>
                                 @endif
                             </td>
+
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -43,8 +47,8 @@
 
             <!-- Total and Final Score -->
             <div class="alert alert-info mt-4">
-                <strong>Nilai Total: </strong> {{ $nilaiTotal }} / {{ $jumlahSoal * 100 }}<br>
-                <strong>Nilai Akhir: </strong> {{ number_format($nilaiAkhir, 2) }}%
+                <strong>Nilai Total: </strong> {{ $nilaiTotal }} <br>
+
             </div>
 
             <!-- Back Button -->

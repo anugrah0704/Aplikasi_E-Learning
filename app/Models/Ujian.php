@@ -19,7 +19,7 @@ class Ujian extends Model
         'bobot_pilihan_ganda',
         'bobot_essay',
         'terbit',
-        'total_nilai_essay',
+
         'user_id' // Tambahkan ini
     ];
 
@@ -49,6 +49,10 @@ class Ujian extends Model
     {
         return $this->hasMany(PilihanGanda::class, 'ujian_id');
     }
+    public function soal()
+{
+    return $this->hasMany(PilihanGanda::class, 'ujian_id', 'id');
+}
 
     // Relasi ke Soal Essay
     public function essay()

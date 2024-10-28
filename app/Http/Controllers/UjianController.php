@@ -6,6 +6,7 @@ use DB;
 use App\Models\Ujian;
 use App\Models\User;
 use App\Models\Siswa;
+use App\Models\HasilUjian;
 use App\Models\PilihanGanda;
 use App\Models\Essay;
 use App\Models\JawabanSiswaPilgan;
@@ -221,39 +222,34 @@ public function submitEssay(Request $request, $id)
     return redirect()->route('siswa.ujian.nilai.essay', ['id' => $ujian->id])->with('success', 'Jawaban berhasil disimpan.');
 }
 
+// Halaman menampilkan Nilai Siswa Essay di halaman siswa
+public function showNilaiEssay($ujian_id)
+    {
+        // Ambil data ujian dengan soal essay terkait
+        $ujian = Ujian::with('essay')->findOrFail($ujian_id);
 
-public function nilaiEssay($id)
-{
-    // Ambil detail ujian berdasarkan ID beserta relasi soal essay
-    $ujian = Ujian::with('essay')->findOrFail($id);
+        // Ambil ID siswa dari sesi atau autentikasi
+        $siswaId = Auth::user()->siswa->id;
 
-    // Ambil id siswa dari session atau auth
-    $siswaId = auth()->user()->siswa->id;
+        // Ambil jawaban essay siswa beserta nilai_essay dari tabel jawaban_siswa_essay
+        $jawabanSiswa = JawabanSiswaEssay::where('siswa_id', $siswaId)
+                                         ->where('ujian_id', $ujian->id)
+                                         ->get()
+                                         ->keyBy('essay_id'); // Mengelompokkan berdasarkan essay_id
 
-    // Ambil jawaban essay siswa
-    $jawabanSiswa = JawabanSiswaEssay::where('siswa_id', $siswaId)
-                                     ->where('ujian_id', $ujian->id)
-                                     ->pluck('jawaban_siswa', 'essay_id');
+        // Ambil nilai total essay yang sudah dikoreksi oleh guru dari tabel hasil_ujian
+        $hasilUjian = HasilUjian::where('siswa_id', $siswaId)
+                                ->where('ujian_id', $ujian->id)
+                                ->first();
 
-    // Hitung skor essay
-    $nilaiTotal = 0;
-    $jumlahSoal = $ujian->essay->count();
+        // Jika data hasil ujian ditemukan, ambil total nilai essay dan hitung nilai akhir
+        $nilaiTotal = $hasilUjian ? $hasilUjian->total_nilai_essay : 0;
+        $jumlahSoal = $ujian->essay->count();
 
-    foreach ($ujian->essay as $soal) {
-        // Misalkan kita cek apakah jawaban sudah dinilai oleh guru
-        // Jika sudah dinilai, gunakan skor dari database
-        if (isset($jawabanSiswa[$soal->id])) {
-            $nilaiSoal = $soal->nilai ?? 0; // Nilai diisi oleh guru
-            $nilaiTotal += $nilaiSoal;
-        }
+
+
+        return view('siswa.ujian.nilai.essay', compact('ujian', 'jawabanSiswa', 'nilaiTotal'));
     }
-
-    // Hitung nilai akhir dalam bentuk persentase (0 - 100)
-    $nilaiAkhir = $jumlahSoal > 0 ? ($nilaiTotal / ($jumlahSoal * 100)) * 100 : 0;
-
-    return view('siswa.ujian.nilai.essay', compact('ujian', 'jawabanSiswa', 'nilaiTotal', 'jumlahSoal', 'nilaiAkhir'));
-}
-
 // ==================================================================================================================
 // ===================================== Koreksi Ujian Siswa =========================================================
 // ==================================================================================================================
@@ -293,59 +289,55 @@ public function daftarSiswa($ujian_id)
 
 
 
-
-
-
-// Method untuk menampilkan daftar siswa yang ikut ujian dan mengerjakan soal
-// public function daftarSiswa($ujian_id)
-// {
-//     // Ambil data ujian berdasarkan ID
-//     $ujian = Ujian::with('mapel', 'guru')->findOrFail($ujian_id);
-
-//     // Ambil kelas terkait ujian (misalnya, ambil dari objek ujian atau dari request)
-//     $kelasId = $ujian->kelas_id; // Pastikan field kelas_id ada di tabel ujian
-
-//     // Ambil jumlah total soal yang diujikan
-//     $totalSoalPG = PilihanGanda::where('ujian_id', $ujian_id)->count();
-//     $totalSoalEssay = Essay::where('ujian_id', $ujian_id)->count();
-
-//     // Ambil data siswa yang telah mengerjakan semua soal (baik PG maupun Essay) berdasarkan kelas
-//     $siswaList = User::where('role', 'siswa')
-//         ->whereHas('siswa', function ($query) use ($kelasId) {
-//             $query->where('kelas_id', $kelasId); // Filter berdasarkan kelas
-//         })
-//         ->where(function($query) use ($ujian_id, $totalSoalPG, $totalSoalEssay) {
-//             $query->whereHas('jawabanSiswaPilgan', function($query) use ($ujian_id, $totalSoalPG) {
-//                 $query->where('ujian_id', $ujian_id)
-//                       ->havingRaw('COUNT(*) >= ?', [$totalSoalPG]); // Cek apakah jawaban PG selesai
-//             })
-//             ->whereHas('jawabanSiswaEssay', function($query) use ($ujian_id, $totalSoalEssay) {
-//                 $query->where('ujian_id', $ujian_id)
-//                       ->havingRaw('COUNT(*) >= ?', [$totalSoalEssay]); // Cek apakah jawaban Essay selesai
-//             });
-//         })
-//         ->paginate(10);
-
-//     return view('guru.manajemen-ujian.koreksi.daftar-siswa', compact('ujian', 'siswaList'));
-// }
-
-
 // Method untuk menampilkan halaman analisa nilai PG
 public function analisaPilihanGanda($ujian_id, $siswa_id)
 {
-    $ujian = Ujian::findOrFail($ujian_id);
-    $siswa = Siswa::findOrFail($siswa_id);
+    // Ambil data ujian, soal pilihan ganda, dan jawaban siswa
+    $ujian = Ujian::with('soal')->findOrFail($ujian_id);
 
-    // Ambil jawaban siswa dari tabel jawaban_siswa_pilgan
-    $jawabanPG = JawabanSiswaPilgan::where('ujian_id', $ujian_id)
-                                    ->where('siswa_id', $siswa_id)
-                                    ->get();
+    // Ambil data siswa beserta user dan kelas
+    $siswa = Siswa::with('user.kelas')->findOrFail($siswa_id);
 
-    // Logika untuk analisa jawaban PG, misalnya menghitung nilai
-    $nilaiPG = $this->hitungNilaiPG($jawabanPG);
+    // Ambil jawaban pilihan ganda siswa berdasarkan ujian dan siswa
+    $jawabanSiswa = JawabanSiswaPilgan::where('ujian_id', $ujian_id)
+                                        ->where('siswa_id', $siswa_id)
+                                        ->get()
+                                        ->keyBy('pilihan_ganda_id'); // Mengindeks berdasarkan pilihan_ganda_id
 
-    return view('guru.manajemen-ujian.koreksi.analisa_pg', compact('ujian', 'siswa', 'jawabanPG', 'nilaiPG'));
+    $jumlahBenar = 0;
+    $jumlahSalah = 0;
+    $tidakDijawab = 0;
+
+    // Loop soal untuk analisis jawaban
+    foreach ($ujian->soal as $soal) {
+        $jawaban = $jawabanSiswa->get($soal->id);
+
+        if ($jawaban) {
+            if ($jawaban->jawaban_siswa == $soal->kunci_jawaban) { // Membandingkan jawaban siswa dengan kunci jawaban
+                $soal->jawaban_siswa = $jawaban->jawaban_siswa; // Simpan jawaban siswa
+                $soal->analisa = 'Benar';
+                $jumlahBenar++;
+            } else {
+                $soal->jawaban_siswa = $jawaban->jawaban_siswa; // Simpan jawaban siswa
+                $soal->analisa = 'Salah';
+                $jumlahSalah++;
+            }
+        } else {
+            // Jika jawaban tidak ada, beri tanda tidak dijawab
+            $soal->jawaban_siswa = 'Tidak Dijawab';
+            $soal->analisa = 'Tidak Dijawab';
+            $tidakDijawab++;
+        }
+    }
+
+    // Ambil nama pengguna siswa
+    $namaSiswa = $siswa->user->username;
+
+    return view('guru.manajemen-ujian.koreksi.analisa_pg', compact('ujian', 'siswa', 'namaSiswa', 'jumlahBenar', 'jumlahSalah', 'tidakDijawab'));
 }
+
+
+
 
 // Fungsi tambahan untuk menghitung nilai pilihan ganda
 private function hitungNilaiPG($jawabanPG)

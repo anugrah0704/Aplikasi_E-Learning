@@ -411,7 +411,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/siswa/ujian/{id}/essay', [UjianController::class, 'mulaiEssay'])->name('siswa.ujian.mulai.essay');
     Route::get('/ujian/essay/{id}', [UjianController::class, 'tampilEssay'])->name('siswa.ujian.mulai.essay');
     Route::post('/ujian/essay/{id}', [UjianController::class, 'submitEssay'])->name('siswa.ujian.submitEssay');
-    Route::get('/ujian/nilai-essay/{id}', [UjianController::class, 'nilaiEssay'])->name('siswa.ujian.nilai.essay');
+    Route::get('/ujian/nilai-essay/{id}', [UjianController::class, 'showNilaiEssay'])->name('siswa.ujian.nilai.essay');
 
 
 });
@@ -451,9 +451,6 @@ Route::group(['middleware' => ['auth']], function () {
     // Route untuk koreksi essay
     Route::get('/guru/koreksi/{ujian_id}/{siswa_id}', [KoreksiEssayController::class, 'showKoreksi'])->name('guru.manajemen-ujian.koreksi.koreksi_essay');
     Route::post('/guru/manajemen-ujian/koreksi/nilai/{jawaban_id}', [KoreksiEssayController::class, 'KoreksiNilai'])->name('guru.manajemen-ujian.koreksi.koreksiNilai');
-
-
-
 
 
 
