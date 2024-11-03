@@ -38,11 +38,6 @@ class AdminController extends Controller
 
 
 
-
-
-
-
-
     public function index()
     {
         // Kamu bisa mengambil data dari database dan mengirimkannya ke view jika diperlukan

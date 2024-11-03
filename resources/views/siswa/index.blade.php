@@ -1,49 +1,76 @@
-@extends('layout.app')
+@extends('layout_new.app')
 @section('konten')
 
 <style>
-body, h2, h1 {
-    font-family: 'Times New Roman', Times, serif, sans-serif;
-}
+    body, h2, h1 {
+        font-family: 'Times New Roman', Times, serif, sans-serif;
+    }
+    .ekskul-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .ekskul-item {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .ekskul-item:hover {
+        background-color: #f0f0f0;
+    }
+    #myBtn {
+        display: none; /* Tombol "Go to top" disembunyikan awalnya */
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #555;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+    }
+    #myBtn:hover {
+        background-color: #333;
+    }
 </style>
 <body>
-    <hidden onclick="topFunction()" id="myBtn" title="Go to top"></hidden>
 
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">Home Page</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Home</li>
-                    </ol>
-                    <div class="row">
-                        <hr>
-                        <h1 align="center">
-                            Ekstrakulikuler
-                        </h1>
-                        <hr>
-                        <div>
-                            <tr>
-                                <td><a href="#Bola Voly">Bola Voly</a></td> |
-                                <td><a href="#Pencak Silat">Pencak Silat</a></td> |
-                                <td><a href="#Sepak Bola">Sepak Bola</a></td> |
-                                <td><a href="#Komputer">Komputer</a></td> |
-                                <td><a href="#OSN Matematika">OSN Matematika</a></td> |
-                                <td><a href="#Seni Musik">Seni Musik</a></td> |
-                                <td><a href="#Bola Basket">Bola Basket</a></td> |
-                                <td><a href="#Sepak Takraw">Sepak Takraw</a></td> |
-                                <td><a href="#Story Telling">Story Telling</a></td> |
-                                <td><a href="#Seni Tari">Seni Tari</a></td> |
-                                <td><a href="#PMR">PMR</a></td> |
-                                <td><a href="#Mading">Mading</a></td> |
-                                <td><a href="#Tata Boga">Tata Boga</a></td> |
-                                <td><a href="#Pramuka">Pramuka</a></td> |
-                                <td><a href="#OSN IPA">OSN IPA</a></td> |
-                                <td><a href="#OSN IPS">OSN IPS</a></td> |
-                                <td><a href="#Futsal">Futsal</a></td> |
-                                <td><a href="#Seni Baca Al-Qur'an">Seni Baca Al-Qur'an</a></td>
-                            </tr>
-                        </div>
+
+<!-- Tombol Go to Top -->
+<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4 text-center text-primary">Home Page</h1>
+
+            <hr>
+            <h2 class="text-center">Ekstrakurikuler</h2>
+            <div class="ekskul-list">
+                <a href="#Bola Voly" class="ekskul-item">Bola Voly</a>
+                <a href="#Pencak Silat" class="ekskul-item">Pencak Silat</a>
+                <a href="#Sepak Bola" class="ekskul-item">Sepak Bola</a>
+                <a href="#Komputer" class="ekskul-item">Komputer</a>
+                <a href="#OSN Matematika" class="ekskul-item">OSN Matematika</a>
+                <a href="#Seni Musik" class="ekskul-item">Seni Musik</a>
+                <a href="#Bola Basket" class="ekskul-item">Bola Basket</a>
+                <a href="#Sepak Takraw" class="ekskul-item">Sepak Takraw</a>
+                <a href="#Story Telling" class="ekskul-item">Story Telling</a>
+                <a href="#Seni Tari" class="ekskul-item">Seni Tari</a>
+                <a href="#PMR" class="ekskul-item">PMR</a>
+                <a href="#Mading" class="ekskul-item">Mading</a>
+                <a href="#Tata Boga" class="ekskul-item">Tata Boga</a>
+                <a href="#Pramuka" class="ekskul-item">Pramuka</a>
+                <a href="#OSN IPA" class="ekskul-item">OSN IPA</a>
+            </div>
                         <div>
                             <hr>
                             <h2 id="Bola Voly"> Bola Voly</h2>
@@ -312,20 +339,25 @@ body, h2, h1 {
 
                         </div>
                     </div>
-                </div>
-            </main>
-    <script>
-    // Get the button
-    let mybutton = document.getElementById("myBtn");
+                </main>
+            </div>
+            <script>
+                // Tampilkan tombol ketika halaman di-scroll lebih dari 100px
+                window.onscroll = function() { scrollFunction() };
+                function scrollFunction() {
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        document.getElementById("myBtn").style.display = "block";
+                    } else {
+                        document.getElementById("myBtn").style.display = "none";
+                    }
+                }
 
-
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-    </script>
+                // Fungsi scroll ke atas
+                function topFunction() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+                </script>
     </body>
 
 

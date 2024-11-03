@@ -5,6 +5,7 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\LoginController;
@@ -12,9 +13,16 @@ use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\GuruMapelController;
 use App\Http\Controllers\EssayController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\MateriSiswaController;
+use App\Http\Controllers\TugasSiswaController;
 use App\Http\Controllers\UjianController;
 use App\Http\Controllers\KoreksiEssayController;
 use App\Http\Controllers\ManajemenPilihanGandaController;
+use App\Http\Controllers\ManajemenTugasController;
+use App\Http\Controllers\profileController;
+use App\Exports\SiswaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
     return redirect()->route('login'); // Redirect to login page
@@ -48,12 +56,7 @@ Route::middleware(['auth'])->group(function () {
 // =====================================================================================================================================
 
 
-   // Route untuk melihat profil siswa
-    Route::get('/siswa/profile/{id}', function ($id) {
-        return (new RoleMiddleware)->handle(request(), function () use ($id) {
-            return app()->call('App\Http\Controllers\SiswaController@profileSiswa', ['id' => $id]);
-        }, 'siswa'); // Hanya siswa yang dapat mengakses route ini
-    })->name('siswa.profil_siswa');
+
 
     // Route Profile Guru
     Route::get('/guru/profil/{id}', function ($id) {
@@ -317,39 +320,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.guru-mapel.destroy');
 
 
-// =====================================================================================================================================
-// ======================      Route untuk materi guru        ======================================================
-// =====================================================================================================================================
 
-
-    // Route untuk materi guru
-    Route::get('/guru/materi', function () {
-        return (new RoleMiddleware)->handle(request(), function () {
-            return app()->call('App\Http\Controllers\MateriController@index');
-        }, 'guru');
-    })->name('guru.materi.index');
-
-    // Route untuk menyimpan materi baru
-    Route::post('/guru/materi/store', function () {
-        return (new RoleMiddleware)->handle(request(), function () {
-            return app()->call('App\Http\Controllers\MateriController@store');
-        }, 'guru');
-    })->name('guru.materi.store');
-
-    // Route untuk menampilkan daftar materi bagi siswa
-    Route::get('/siswa/materi', function () {
-        return (new RoleMiddleware)->handle(request(), function () {
-            return app()->call('App\Http\Controllers\MateriController@indexSiswa');
-        }, 'siswa');  // Sesuaikan dengan peran siswa
-    })->name('siswa.materi.index');
-
-
-        // Route untuk menampilkan materi bagi siswa berdasarkan ID
-    Route::get('/siswa/materi/{id}', function ($id) {
-        return (new RoleMiddleware)->handle(request(), function () use ($id) {
-            return app()->call('App\Http\Controllers\MateriController@detailMateri', ['id' => $id]);
-        }, 'siswa');  // Sesuaikan dengan peran siswa
-    })->name('siswa.materi.detail');
 
 
 // =====================================================================================================================================
@@ -395,9 +366,15 @@ Route::middleware(['auth'])->group(function () {
 // =====================================================================================================================================
 
 
-
 });
 
+// =====================================================================================================================================
+// ======================      Route untuk Manajemen Ujian / Tugas  HAL SISWA        ====================================================
+// ======================                   Route untuk Login SISWA        ======================================================
+// =====================================================================================================================================
+
+
+//==============================    Route SISWA ==========================================================
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/siswa/ujian', [UjianController::class, 'index'])->name('siswa.ujian.index');
@@ -414,6 +391,39 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ujian/nilai-essay/{id}', [UjianController::class, 'showNilaiEssay'])->name('siswa.ujian.nilai.essay');
 
 
+
+
+    Route::get('/User Profil', [ProfileController::class, 'profil'])->name('siswa.profil_siswa');
+    // Route untuk menampilkan profil siswa berdasarkan ID
+    Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
+
+// ======================      Route untuk materi siswa        ======================================================
+
+
+    // Route untuk menampilkan daftar materi bagi siswa
+    Route::get('/siswa/materi', [MateriController::class, 'indexSiswa'])->name('siswa.materi.index');
+    // Route untuk menampilkan materi bagi siswa berdasarkan ID
+    Route::get('/siswa/materi/{id}', [MateriController::class, 'detailMateri'])->name('siswa.materi.detail');
+
+    Route::get('siswa/tugas/{id}', [TugasSiswaController::class, 'show'])->name('siswa.tugas.show');
+
+    Route::get('/siswa/tugas', [TugasSiswaController::class, 'indexSiswa'])->name('siswa.tugas.index');
+
+
+    // Route untuk menampilkan form pengumpulan tugas
+    Route::get('/siswa/tugas/{id}/submit', [TugasSiswaController::class, 'formPengumpulan'])->name('siswa.tugas.submit');
+
+    // Route untuk menyimpan tugas yang dikumpulkan
+    Route::post('/siswa/tugas/{id}/submit', [TugasSiswaController::class, 'submitTugas'])->name('siswa.tugas.submitTugas');
+
+    // Route untuk form edit pengumpulan tugas (GET)
+    Route::get('/siswa/pengumpulan/{id}/edit', [TugasSiswaController::class, 'formEditPengumpulan'])->name('siswa.tugas.edit');
+
+    // Route untuk update pengumpulan tugas (PUT)
+    Route::put('/siswa/pengumpulan/{id}', [TugasSiswaController::class, 'updateTugasSiswa'])->name('siswa.tugas.updateTugasSiswa');
+
+    Route::delete('/siswa/pengumpulan/{id}', [TugasSiswaController::class, 'destroyTugasSiswa'])->name('siswa.tugas.destroyTugasSiswa');
 });
 
 // =====================================================================================================================================
@@ -424,38 +434,91 @@ Route::group(['middleware' => ['auth']], function () {
 
 //==============================    Route Guru ==========================================================
 Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('guru/tugas-siswa')->name('guru.tugas-siswa.')->group(function () {
+        Route::get('/create', [TugasSiswaController::class, 'create'])->name('create');
+        Route::post('/', [TugasSiswaController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [TugasSiswaController::class, 'edit'])->name('edit'); // Rute untuk halaman edit
+        Route::put('/{id}', [TugasSiswaController::class, 'update'])->name('update'); // Rute untuk update tugas
+        Route::get('/', [TugasSiswaController::class, 'index'])->name('index'); // Rute untuk daftar tugas
+        Route::get('/{id}', [TugasSiswaController::class, 'show'])->name('showguru');
+        Route::delete('/{id}', [TugasSiswaController::class, 'destroy'])->name('destroy');
 
-    // Route untuk menampilkan soal pilihan ganda
-    Route::get('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}', [ManajemenPilihanGandaController::class, 'index'])->name('guru.manajemen-ujian.pilihan-ganda');
+    });
 
-    // Route untuk menyimpan soal pilihan ganda
-    Route::post('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}', [ManajemenPilihanGandaController::class, 'storePilgan'])->name('guru.manajemen-ujian.pilihan-ganda.storePilgan');
 
-    // Route untuk mengupdate soal pilihan ganda
-    Route::put('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}/{id}', [ManajemenPilihanGandaController::class, 'update'])->name('guru.manajemen-ujian.pilihan-ganda.update');
+// ======================      Route untuk materi guru        ======================================================
+// =====================================================================================================================================
 
-    // Route untuk menghapus soal pilihan ganda
-    Route::delete('/guru/manajemen_ujian/pilihan-ganda/{ujian_id}/{id}', [ManajemenPilihanGandaController::class, 'destroy'])->name('guru.manajemen-ujian.pilihan-ganda.destroy');
+    Route::prefix('guru/materi')->name('guru.materi.')->group(function () {
+        // Route untuk menampilkan daftar materi
+        Route::get('', [MateriController::class, 'index'])->name('index');
+        // Route untuk menyimpan materi baru
+        Route::post('/store', [MateriController::class, 'store'])->name('store');
+        // Route untuk mengupdate materi
+        Route::put('/{id}', [MateriController::class, 'update'])->name('update');
 
-    Route::get('/guru/manajemen-ujian/essay/{ujian_id}', [EssayController::class, 'index'])->name('guru.manajemen-ujian.essay');
-    Route::post('/guru/manajemen-ujian/essay/{ujian_id}', [EssayController::class, 'store'])->name('guru.manajemen-ujian.essay.store');
-    Route::put('/guru/manajemen-ujian/essay/{ujian_id}/{id}', [EssayController::class, 'update'])->name('guru.manajemen-ujian.essay.update');
-    Route::delete('/guru/manajemen-ujian/essay/{ujian_id}/{id}', [EssayController::class, 'destroy'])->name('guru.manajemen-ujian.essay.destroy');
+        Route::delete('/{id}', [MateriController::class, 'destroy'])->name('destroy');
 
-    // Route untuk daftar siswa yang ikut ujian
-    Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa', [UjianController::class, 'daftarSiswa'])->name('guru.manajemen-ujian.koreksi.daftar-siswa');
+    });
 
-    // Route untuk analisa pilihan ganda
-    Route::get('/guru/manajemen-ujian/koreksi/{ujian_id}/pg/{siswa_id}', [UjianController::class, 'analisaPilihanGanda'])->name('guru.manajemen-ujian.koreksi.analisa_pg');
+    // ======================================= route untuk manajemen ujian ==========================================
+    Route::prefix('guru/manajemen-ujian')->name('guru.manajemen-ujian.')->group(function () {
+
+        Route::get('/create', [ManajemenTugasController::class, 'create'])->name('create');
+        // Route untuk menampilkan soal pilihan ganda
+        Route::get('/pilihan-ganda/{ujian_id}', [ManajemenPilihanGandaController::class, 'index'])->name('pilihan-ganda');
+        // Route untuk menyimpan soal pilihan ganda
+        Route::post('/pilihan-ganda/{ujian_id}', [ManajemenPilihanGandaController::class, 'storePilgan'])->name('pilihan-ganda.storePilgan');
+        // Route untuk mengupdate soal pilihan ganda
+        Route::put('/pilihan-ganda/{ujian_id}/{id}', [ManajemenPilihanGandaController::class, 'update'])->name('pilihan-ganda.update');
+        // Route untuk menghapus soal pilihan ganda
+        Route::delete('/pilihan-ganda/{ujian_id}/{id}', [ManajemenPilihanGandaController::class, 'destroy'])->name('pilihan-ganda.destroy');
+
+
+        Route::get('/essay/{ujian_id}', [EssayController::class, 'index'])->name('essay');
+        Route::post('/essay/{ujian_id}', [EssayController::class, 'store'])->name('essay.store');
+        Route::put('/essay/{ujian_id}/{id}', [EssayController::class, 'update'])->name('essay.update');
+        Route::delete('/essay/{ujian_id}/{id}', [EssayController::class, 'destroy'])->name('essay.destroy');
+
+        // Route untuk daftar siswa yang ikut ujian
+        Route::get('/koreksi/{ujian_id}/daftar-siswa', [UjianController::class, 'daftarSiswa'])->name('koreksi.daftar-siswa');
+        Route::get('/daftar-siswa/{ujian_id}', [UjianController::class, 'daftarSiswa'])->name('daftar-siswa');
+
+        // Route untuk analisa pilihan ganda
+        Route::get('/koreksi/{ujian_id}/pg/{siswa_id}', [UjianController::class, 'analisaPilihanGanda'])->name('koreksi.analisa_pg');
+        // Route untuk koreksi Nilai Essay
+        Route::post('/koreksi/nilai/{jawaban_id}', [KoreksiEssayController::class, 'KoreksiNilai'])->name('koreksi.koreksiNilai');
+    });
 
     // Route untuk koreksi essay
     Route::get('/guru/koreksi/{ujian_id}/{siswa_id}', [KoreksiEssayController::class, 'showKoreksi'])->name('guru.manajemen-ujian.koreksi.koreksi_essay');
-    Route::post('/guru/manajemen-ujian/koreksi/nilai/{jawaban_id}', [KoreksiEssayController::class, 'KoreksiNilai'])->name('guru.manajemen-ujian.koreksi.koreksiNilai');
+    // Route detail tugas siswa
+    Route::get('/guru/tugas-siswa/{id}', [TugasSiswaController::class, 'show'])->name('guru.tugas-siswa.showguru');
+    // route untuk tampilan daftar siswa
+    Route::get('/guru/daftar-siswa', [GuruController::class, 'daftarSiswa'])->name('guru.daftar_siswa');
+    // route untuk exports nilai ujian siswa
+    Route::get('guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa/export', [UjianController::class, 'exportExcel'])->name('guru.daftar-siswa.export');
+
+
+
+// routes/web.php
+Route::get('guru/tugas/{id}/detail', [TugasSiswaController::class, 'showTugas'])->name('guru.tugas-siswa.showguru');
+Route::post('guru/tugas/{id}/koreksi', [TugasSiswaController::class, 'koreksiTugas'])->name('guru.koreksiTugas');
 
 
 
 });
 
+
+
+//============================== route untuk ganti password ===================================================
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('change-password', [UserController::class, 'showChangePasswordForm'])->name('auth.change-password');
+    Route::post('change-password', [UserController::class, 'updatePasswordAdmin'])->name('change-password.update');
+    Route::post('change-password', [UserController::class, 'updatePasswordGuru'])->name('change-password.update');
+    Route::post('change-password', [UserController::class, 'updatePasswordSiswa'])->name('change-password.update');
+});
 
 
 
@@ -465,25 +528,6 @@ Route::resource('courses', CourseController::class);
 // Logout Route
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// // Dashboard routes for admin, guru, and siswa
-// Route::middleware(['auth', 'role:admin'])->group(function () {
-//     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-
-//     Route::get('/guru/index', [GuruController::class, 'index'])->name('guru.index');
-//     // Route untuk form tambah guru
-//     Route::get('/admin/guru/create', [AdminController::class, 'createGuru'])->name('admin.guru.create');
-//     Route::post('/admin/guru/store', [AdminController::class, 'storeGuru'])->name('admin.guru.store');
-
-//     Route::get('/siswa/index', [SiswaController::class, 'index'])->name('siswa.index');
-//     // Route untuk form tambah siswa
-//     Route::get('/admin/siswa/create', [AdminController::class, 'createSiswa'])->name('admin.siswa.create');
-//     Route::post('/admin/siswa/store', [AdminController::class, 'storeSiswa'])->name('admin.siswa.store');
-// });
-
-
-// Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-// Route::get('/guru/index', [GuruController::class, 'index'])->name('guru.index');
-// Route::get('/siswa/index', [SiswaController::class, 'index'])->name('siswa.index');
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -502,8 +546,10 @@ Route::get('/AGAMA', [PelajaranController::class, 'agama'])->name('siswa.pai');
 Route::get('/PJOK', [PelajaranController::class, 'pjok'])->name('siswa.pjok');
 Route::get('/SENI BUDAYA', [PelajaranController::class, 'seni'])->name('siswa.seni');
 Route::get('/PPKN', [PelajaranController::class, 'ppkn'])->name('siswa.ppkn');
-Route::get('/User Profil', [PelajaranController::class, 'profil'])->name('siswa.profil_siswa');
 Route::get('/Jadwal', [PelajaranController::class, 'jadwal'])->name('siswa.jadwal');
+
+
+
 
 
 Auth::routes();

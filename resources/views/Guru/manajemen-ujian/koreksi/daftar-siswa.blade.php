@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout_new.app')
 
 @section('konten')
 <div class="container">
@@ -11,9 +11,11 @@
             <a href="#" class="btn btn-primary text-white">
                 <i class="fas fa-print"></i> Cetak
             </a>
-            <a href="#" class="btn btn-success text-white">
+            <a href="{{ route('guru.daftar-siswa.export', $ujian_id) }}" class="btn btn-success">
                 <i class="fas fa-file-excel"></i> Export Excel
             </a>
+
+
         </div>
     </div>
 
@@ -64,7 +66,7 @@
                         @php
                             $total_nilai = ($siswa->nilai_pg ?? 0) + ($siswa->total_nilai_essay ?? 0);
                         @endphp
-                        <span class="badge bg-primary">{{ $total_nilai }}</span>
+                        <span class="badge bg-light">{{ $total_nilai }}</span>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm">

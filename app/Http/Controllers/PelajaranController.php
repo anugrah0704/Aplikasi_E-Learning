@@ -7,10 +7,7 @@ use Illuminate\Http\Request;
 class PelajaranController extends Controller
 {
     //
-    public function profil()
-    {
-        return view('siswa.profil_siswa');
-    }
+
     public function jadwal()
     {
         return view('siswa.jadwal');

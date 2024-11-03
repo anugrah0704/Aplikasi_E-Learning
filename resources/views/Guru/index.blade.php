@@ -1,64 +1,77 @@
-@extends('layout.app')
+@extends('layout_new.app')
+
 @section('konten')
-
-<div id="layoutSidenav_content">
-    <main>
-        <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">Halaman </li>
-            </ol>
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-primary text-white mb-4">
-                        <div class="card-body">Jumlah Siswa</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="#">0 Orang</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-warning text-white mb-4">
-                        <div class="card-body">Jumlah Guru</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="#">0 Orang</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-success text-white mb-4">
-                        <div class="card-body">Jumlah Siswa Lulus Ujian Nasional</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="#">0 Orang</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-danger text-white mb-4">
-                        <div class="card-body">Jumlah Siswa  Gagal Ujian Nasional</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="#">0 Orang</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Dashboard Guru</h3>
+    <div class="row mb-4">
+        <!-- Kelas yang Diampu -->
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="fas fa-chalkboard-teacher"></i> Kelas yang Diampu</h5>
+                    <p class="h3">{{ $guruMapels->count() }} Kelas</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xl">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-chart-bar me-1"></i>
-                            Persentase Kelulusan Siswa
-                        </div>
-                        <div class="card-body"><canvas id="myBarChart"height="70"></canvas></div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </main>
 
+        <!-- Siswa Binaan -->
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-success"><i class="fas fa-user-graduate"></i> Siswa Binaan</h5>
+                    <p class="h3">{{ $siswa->count() }} Siswa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mapel yang Diampu -->
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-info"><i class="fas fa-book-open"></i> Mapel yang Diampu</h5>
+                    <p class="h3">{{ $guruMapels->groupBy('mapel_id')->count() }} Mapel</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Materi/Modul -->
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-warning"><i class="fas fa-file-upload"></i> Upload Materi/Modul</h5>
+                    <p class="h3">{{ $materi->count() }} Materi</p> <!-- Menampilkan jumlah materi yang diupload -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabel Mata Pelajaran yang Diampu -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title text-center">Mata Pelajaran yang Diampu</h5>
+            <table class="table table-bordered text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th>No</th>
+                        <th>Kelas</th>
+                        <th>Nama Mapel</th>
+                        <th>Edit</th>
+                        <th>Hapus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($guruMapels as $index => $guruMapel)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $guruMapel->kelas->nama_kelas }}</td>
+                            <td>{{ $guruMapel->mapel->nama_mapel }}</td>
+                            <td><a href="#" class="btn btn-warning btn-sm">Edit</a></td>
+                            <td><a href="#" class="btn btn-danger btn-sm">Hapus</a></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection

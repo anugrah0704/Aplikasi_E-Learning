@@ -74,7 +74,6 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('admin.profil_admin', ['id' => $admin->id]) }}">Lihat Profil</a>
-">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>

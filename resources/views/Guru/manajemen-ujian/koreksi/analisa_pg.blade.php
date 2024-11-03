@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout_new.app')
 
 @section('konten')
 @if (session('error'))
@@ -70,10 +70,11 @@
 
             <!-- Back Button -->
             <div class="text-center">
-                <a href="{{ route('guru.manajemen-ujian.index') }}" class="btn btn-primary">
+                <a href="{{ route('guru.manajemen-ujian.daftar-siswa', ['ujian_id' => $ujian->id]) }}" class="btn btn-primary">
                     <i class="fas fa-arrow-left"></i> Kembali ke Daftar Ujian
                 </a>
             </div>
+
         </div>
     </div>
 </div>

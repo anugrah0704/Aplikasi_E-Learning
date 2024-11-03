@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ujian; // Pastikan hanya ada satu 'use' statement untuk import model
 use App\Models\Mapel;
+use App\Models\GuruMapel;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,21 @@ class ManajemenTugasController extends Controller
         return view('guru.manajemen-ujian.detailsoal', compact('ujian'));
     }
 
+    public function create()
+    {
+         // Ambil ID guru dari relasi
+        $guruId = Auth::user()->id; // Ganti dengan Auth::user()->id jika tidak menggunakan relasi
+
+        // Ambil data mapel dan kelas dari guru_mapels yang terkait dengan guru yang sedang login
+        $mapels = Mapel::whereIn('id', GuruMapel::where('user_id', $guruId)->pluck('mapel_id'))->get();
+        $kelases = Kelas::whereIn('id', GuruMapel::where('user_id', $guruId)->pluck('kelas_id'))->get();
+
+        // Ambil data ujian terkait dengan guru
+        $ujianTugas = Ujian::where('user_id', $guruId)->with(['mapel', 'kelas'])->paginate(10);
+
+        // Mengirim semua variabel ke view
+        return view('guru.manajemen-ujian.create', compact('ujianTugas', 'mapels', 'kelases'));
+    }
 
     public function store(Request $request)
     {

@@ -14,17 +14,18 @@ class KoreksiEssayController extends Controller
     public function showKoreksi($ujian_id, $siswa_id)
 {
     $ujian = Ujian::with([
-        'user', // Mengambil data user terkait ujian
-        'kelas', // Mengambil data kelas terkait ujian
+        'user.kelas', // Memuat data user dan kelas siswa dari tabel users
         'essay',
         'jawabanEssay' => function ($query) use ($siswa_id) {
-            $query->where('siswa_id', $siswa_id)
-                  ->with('siswa.kelas'); // Mengambil data kelas siswa
+            $query->where('siswa_id', $siswa_id);
         }
     ])->findOrFail($ujian_id);
 
     return view('guru.manajemen-ujian.koreksi.koreksi_essay', compact('ujian'));
 }
+
+
+
 
 
 

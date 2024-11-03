@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout_new.app')
 
 @section('konten')
 <div class="container mt-5">
@@ -11,11 +11,12 @@
             <a href="{{ route('siswa.ujian.kerjakan', ['ujian_id' => $ujian->id]) }}" class="btn btn-secondary mb-3">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
+            <div id="countdown" class="mt-3"></div>
         </div>
     </div>
 
     <!-- Form Ujian -->
-    <form action="{{ route('siswa.ujian.submit.pilgan', $ujian->id) }}" method="POST">
+    <form id="ujianForm" action="{{ route('siswa.ujian.submit.pilgan', $ujian->id) }}" method="POST">
         @csrf
 
         @foreach($soals as $index => $soal)
@@ -55,4 +56,32 @@
         </button>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Waktu pengerjaan dalam menit
+        const waktuPengerjaan = {{ $ujian->waktu_pengerjaan }};
+        const totalWaktu = waktuPengerjaan * 60; // Menghitung waktu dalam detik
+
+        // Menampilkan countdown
+        let waktuTersisa = totalWaktu;
+        const countdownElement = document.getElementById('countdown');
+
+        function updateCountdown() {
+            const menit = Math.floor(waktuTersisa / 60);
+            const detik = waktuTersisa % 60;
+            countdownElement.innerText = `Waktu Tersisa: ${menit} menit ${detik} detik`;
+
+            // Jika waktu habis, submit form
+            if (waktuTersisa <= 0) {
+                clearInterval(timer);
+                document.getElementById('ujianForm').submit();
+            }
+            waktuTersisa--;
+        }
+
+        // Memperbarui countdown setiap detik
+        const timer = setInterval(updateCountdown, 1000);
+    });
+</script>
 @endsection

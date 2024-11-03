@@ -1,32 +1,56 @@
-@extends('layout.app')
+@extends('layout_new.app')
 @section('konten')
 
 <style>
     .modal-header {
-        background-color: #f8f9fa;
+        background-color: #007bff;
+        color: #fff;
     }
-
     .modal-title {
         font-weight: bold;
     }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+    .table {
+        background-color: #fff;
     }
-
+    .table thead th {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+    }
+    .table tbody td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .btn {
+        font-size: 0.9rem;
+    }
 </style>
 
 <div class="container mt-4">
-    <h1>Daftar Materi</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Daftar Materi</h1>
 
-    <!-- Tombol Tambah Materi -->
-    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahMateriModal">
-        Tambah Materi
-    </button>
+
+
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahMateriModal">
+            Tambah Materi
+        </button>
+    </div>
+
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
 
     <!-- Tabel Daftar Materi -->
-    <table class="table table-bordered">
+    <table class="table table-bordered mt-3">
         <thead>
             <tr>
                 <th>No</th>
@@ -44,14 +68,68 @@
                     <td>{{ $m->judul }}</td>
                     <td>{{ $m->mapel->nama_mapel }}</td>
                     <td>{{ $m->kelas->nama_kelas }}</td>
+                    <td><a href="{{ asset('storage/' . $m->file_path) }}" target="_blank" class="btn btn-link">Lihat File</a></td>
                     <td>
-                        <a href="{{ asset('storage/' . $m->file_path) }}" target="_blank">Lihat File</a>
-                    </td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Hapus</button>
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMateriModal{{ $m->id }}">Edit</button>
+                        <form action="{{ route('guru.materi.destroy', $m->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus materi ini?')">Hapus</button>
+                        </form>
+
                     </td>
                 </tr>
+
+                <!-- Modal Edit Materi -->
+                <div class="modal fade" id="editMateriModal{{ $m->id }}" tabindex="-1" role="dialog" aria-labelledby="editMateriModalLabel{{ $m->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editMateriModalLabel{{ $m->id }}">Edit Materi</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('guru.materi.update', $m->id) }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="judul">Judul Modul / Materi</label>
+                                        <input type="text" name="judul" class="form-control" value="{{ $m->judul }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mapel_id">Mata Pelajaran</label>
+                                        <select name="mapel_id" class="form-control" required>
+                                            <option value="" disabled selected>Pilih Mata Pelajaran</option>
+                                            @foreach($mapels as $mapel)
+                                                <option value="{{ $mapel->mapel->id }}" {{ $m->mapel_id == $mapel->mapel->id ? 'selected' : '' }}>{{ $mapel->mapel->nama_mapel }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="kelas_id">Kelas</label>
+                                        <select name="kelas_id" class="form-control" required>
+                                            <option value="" disabled selected>Pilih Kelas</option>
+                                            @foreach($mapels as $kelas)
+                                                <option value="{{ $kelas->kelas->id }}" {{ $m->kelas_id == $kelas->kelas->id ? 'selected' : '' }}>{{ $kelas->kelas->nama_kelas }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="file">File</label>
+                                        <input type="file" name="file" class="form-control-file">
+                                        <small>Upload file jika ingin mengganti</small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             @empty
                 <tr>
                     <td colspan="6" class="text-center">Belum ada materi yang ditambahkan.</td>
@@ -82,8 +160,8 @@
                         <label for="mapel_id">Mata Pelajaran</label>
                         <select name="mapel_id" class="form-control" id="mapel_id" required>
                             <option value="" disabled selected>Pilih Mata Pelajaran</option>
-                            @foreach($mapel as $m)
-                                <option value="{{ $m->id }}">{{ $m->nama_mapel }}</option>
+                            @foreach($mapels as $guruMapel)
+                                <option value="{{ $guruMapel->mapel->id }}">{{ $guruMapel->mapel->nama_mapel }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -91,8 +169,8 @@
                         <label for="kelas_id">Kelas</label>
                         <select name="kelas_id" class="form-control" id="kelas_id" required>
                             <option value="" disabled selected>Pilih Kelas</option>
-                            @foreach($kelas as $k)
-                                <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                            @foreach($mapels as $guruMapel)
+                                <option value="{{ $guruMapel->kelas->id }}">{{ $guruMapel->kelas->nama_kelas }}</option>
                             @endforeach
                         </select>
                     </div>

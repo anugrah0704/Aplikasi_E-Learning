@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout_new.app')
 
 @section('konten')
 <div class="text-center mt-4">
@@ -30,9 +30,6 @@
                     <button type="submit" class="btn btn-success btn-lg px-4">
                         <i class="fas fa-paper-plane"></i> Kirim Jawaban
                     </button>
-                    <a href="{{ route('siswa.ujian.index') }}" class="btn btn-secondary btn-lg px-4">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
                 </div>
             </form>
         </div>

@@ -70,6 +70,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
+
     // Relasi ke tabel siswa
     public function siswa()
     {

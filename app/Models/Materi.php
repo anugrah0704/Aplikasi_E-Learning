@@ -10,16 +10,18 @@ class Materi extends Model
     protected $table = 'materi';
     protected $fillable = ['judul', 'mapel_id', 'kelas_id', 'file_path', 'user_id'];
 
-
-    public function kelas()
-    {
-        return $this->belongsTo(Kelas::class, 'kelas_id'); // Pastikan foreign key sesuai
-    }
-
+    // Relasi ke model Mapel
     public function mapel()
     {
-        return $this->belongsTo(Mapel::class, 'mapel_id'); // Pastikan foreign key sesuai
+        return $this->belongsTo(Mapel::class, 'mapel_id'); // pastikan kolom foreign key sesuai dengan nama kolom pada tabel materi
     }
+
+    // Relasi ke model Kelas
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id'); // pastikan kolom foreign key sesuai dengan nama kolom pada tabel materi
+    }
+
 
     public function guru()
     {

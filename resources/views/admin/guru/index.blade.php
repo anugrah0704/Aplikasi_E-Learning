@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout_new.app')
 
 @section('konten')
 
@@ -14,7 +14,7 @@
     }
 
     .content {
-        margin-left: 60px;
+        margin-left: 10px;
     }
 
     .button-group {
@@ -74,6 +74,9 @@
 
     .dataTables_wrapper .dataTables_paginate {
         float: right;
+    }
+    .card-header{
+        background-color: white;
     }
 </style>
 

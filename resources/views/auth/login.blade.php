@@ -1,82 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-
-@if(session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-@endif
-
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header text-center bg-primary text-white py-4 rounded-top">
+                    <h3 class="mb-0">{{ __('Login') }}</h3>
+                </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
+                    @if(session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <!-- Dropdown untuk memilih role -->
-                        <div class="row mb-3">
-                            <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Login As') }}</label>
-
-                            <div class="col-md-6">
-                                <select id="role" class="form-select" name="role" onchange="updateLoginField()" required>
-                                    <option value="admin">{{ __('Admin') }}</option>
-                                    <option value="siswa">{{ __('Siswa') }}</option>
-                                    <option value="guru">{{ __('Guru') }}</option>
-                                </select>
-                            </div>
-                        </div>
 
                         <!-- Input dinamis untuk email/NIS/NIP -->
-                        <div class="row mb-3">
-                            <label id="dynamic-label" for="identifier" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                        <div class="mb-4">
+                            <label id="dynamic-label" for="identifier" class="form-label">{{ __('Email/NIS/NIP Address') }}</label>
+                            <input id="identifier" type="text" class="form-control @error('identifier') is-invalid @enderror" name="identifier" value="{{ old('identifier') }}" required autofocus placeholder="Enter your email/nis/nip">
 
-                            <div class="col-md-6">
-                                <input id="identifier" type="text" class="form-control @error('identifier') is-invalid @enderror" name="identifier" value="{{ old('identifier') }}" required autofocus>
-
-                                @error('identifier')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            @error('identifier')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
                         </div>
 
                         <!-- Input password -->
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">{{ __('Password') }}</label>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="Enter your password">
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
                         </div>
 
                         <!-- Remember me -->
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
-                                </div>
-                            </div>
+                        <div class="mb-3 form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-                            </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                {{ __('Login') }}
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Exports\SiswaExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Ujian;
 use App\Models\User;
 use App\Models\Siswa;
@@ -284,7 +286,7 @@ public function daftarSiswa($ujian_id)
         ->distinct()
         ->get();
 
-    return view('guru.manajemen-ujian.koreksi.daftar-siswa', compact('siswaSudahUjian'));
+    return view('guru.manajemen-ujian.koreksi.daftar-siswa', compact('siswaSudahUjian','ujian_id'));
 }
 
 
@@ -393,5 +395,39 @@ public function simpanKoreksiEssay(Request $request, $ujian_id, $siswa_id)
     return redirect()->route('guru.manajemen-ujian.koreksi.daftar-siswa', $ujian_id)
                      ->with('success', 'Nilai Essay berhasil disimpan.');
 }
+
+public function exportExcel($ujian_id)
+{
+    // Ambil kelas_id dari ujian yang dipilih
+    $kelas_id = DB::table('ujian')->where('id', $ujian_id)->value('kelas_id');
+
+    // Ambil data siswa yang sudah mengikuti ujian
+    $siswaSudahUjian = DB::table('siswa')
+        ->join('users', 'siswa.user_id', '=', 'users.id')
+        ->join('kelas', 'users.kelas_id', '=', 'kelas.id')
+        ->leftJoin('jawaban_siswa_pilgan', function ($join) use ($ujian_id) {
+            $join->on('siswa.id', '=', 'jawaban_siswa_pilgan.siswa_id')
+                 ->where('jawaban_siswa_pilgan.ujian_id', $ujian_id);
+        })
+        ->leftJoin('hasil_ujian', function ($join) use ($ujian_id) {
+            $join->on('hasil_ujian.siswa_id', '=', 'siswa.id')
+                 ->where('hasil_ujian.ujian_id', $ujian_id);
+        })
+        ->select(
+            'siswa.nisn',
+            'users.username as nama_siswa',
+            'kelas.nama_kelas as kelas',
+            'jawaban_siswa_pilgan.nilai_pg',
+            'hasil_ujian.total_nilai_essay',
+            DB::raw("COALESCE(jawaban_siswa_pilgan.nilai_pg, 0) + COALESCE(hasil_ujian.total_nilai_essay, 0) as jumlah")
+        )
+        ->where('kelas.id', $kelas_id)
+        ->distinct()
+        ->get();
+
+    // Export data ke Excel
+    return Excel::download(new SiswaExport($siswaSudahUjian), 'daftar_siswa_ujian.xlsx');
+}
+
 
 }
