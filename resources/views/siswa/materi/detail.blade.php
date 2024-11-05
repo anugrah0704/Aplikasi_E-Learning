@@ -1,4 +1,4 @@
-@extends('layout_new.app')<!-- Pastikan layout utama digunakan -->
+@extends('layout2.app')<!-- Pastikan layout utama digunakan -->
 
 @section('konten')
 

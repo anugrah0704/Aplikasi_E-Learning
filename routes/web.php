@@ -500,7 +500,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa/export', [UjianController::class, 'exportExcel'])->name('guru.daftar-siswa.export');
 
 
-
+    Route::get('/guru/profil', [ProfileController::class, 'showProfilGuru'])->name('guru.profil.profil_guru');
+    // route untuk exports nilai tugas
+    Route::get('/guru/tugas/{id}/export-excel', [TugasSiswaController::class, 'exportExcel'])->name('guru.exportExcel');
 // routes/web.php
 Route::get('guru/tugas/{id}/detail', [TugasSiswaController::class, 'showTugas'])->name('guru.tugas-siswa.showguru');
 Route::post('guru/tugas/{id}/koreksi', [TugasSiswaController::class, 'koreksiTugas'])->name('guru.koreksiTugas');

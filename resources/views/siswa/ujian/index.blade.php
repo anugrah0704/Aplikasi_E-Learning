@@ -1,4 +1,4 @@
-@extends('layout_new.app')
+@extends('layout2.app')
 
 @section('konten')
 <div class="container mt-5">
@@ -15,7 +15,7 @@
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped mb-0">
-                <thead class="bg-secondary text-white">
+                <thead class="bg-dark text-white">
                     <tr class="text-center">
                         <th>No</th>
                         <th>Mata Pelajaran</th>

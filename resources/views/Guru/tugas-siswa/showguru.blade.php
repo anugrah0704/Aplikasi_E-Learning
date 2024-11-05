@@ -1,4 +1,4 @@
-@extends('layout_new.app')
+@extends('layout2.app')
 
 @section('konten')
 <div class="container mt-5">
@@ -59,7 +59,13 @@
             <!-- Tabel Pengumpulan Tugas -->
             <div class="mt-5">
                 <h4 class="text-primary text-center"><i class="fas fa-list mr-2"></i> Tabel Pengumpulan Tugas</h4>
-                <table class="table table-bordered table-striped mt-4">
+                <div class="text-end mb-3">
+                    <a href="{{ route('guru.exportExcel', $tugas->id) }}" class="btn btn-success">
+                        <i class="fas fa-file-excel mr-2"></i> Export Nilai ke Excel
+                    </a>
+                </div>
+
+                <table id="basic-datatables" class="table table-striped table-hover ">
                     <thead class="bg-light">
                         <tr>
                             <th>No</th>
@@ -88,16 +94,17 @@
                                 <td>{{ $pengumpulan->komentar ?? '-' }}</td>
                                 <td>{{ $pengumpulan->created_at ? $pengumpulan->created_at->format('d-m-Y H:i') : '-' }}</td>
                                 <td>
-                                    @if($pengumpulan->nilai)
-                                        <span>{{ $pengumpulan->nilai }}</span>
-                                    @else
-                                        <form action="{{ route('guru.koreksiTugas', $pengumpulan->id) }}" method="POST">
-                                            @csrf
-                                            <input type="number" name="nilai" class="form-control form-control-sm" placeholder="Masukkan nilai" min="0" max="100" required>
-                                            <button type="submit" class="btn btn-primary btn-sm mt-1"><i class="fas fa-save"></i> Simpan</button>
-                                        </form>
-                                    @endif
+                                    <form action="{{ route('guru.koreksiTugas', $pengumpulan->id) }}" method="POST">
+                                        @csrf
+                                        <div class="input-group">
+                                            <input type="number" name="nilai" class="form-control form-control-sm" value="{{ $pengumpulan->nilai ?? '' }}" placeholder="Masukkan nilai" min="0" max="100" required>
+                                            <button type="submit" class="btn btn-primary btn-sm ml-1">
+                                                <i class="fas fa-save"></i> Simpan
+                                            </button>
+                                        </div>
+                                    </form>
                                 </td>
+
 
                                 <td>
                                     <!-- Tindakan untuk mengedit atau menghapus jika diperlukan -->

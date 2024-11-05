@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\NilaiTugasExport;
 use Carbon\Carbon;
 use App\Models\GuruMapel;
 use App\Models\Tugas;
@@ -169,19 +171,29 @@ class TugasSiswaController extends Controller
     }
 
     public function koreksiTugas(Request $request, $id)
-    {
-        // Validasi input nilai
-        $request->validate([
-            'nilai' => 'required|numeric|min:0|max:100',
-        ]);
+{
+    // Validasi input nilai
+    $request->validate([
+        'nilai' => 'required|numeric|min:0|max:100',
+    ]);
 
-        // Mengambil data pengumpulan tugas berdasarkan ID
-        $pengumpulanTugas = PengumpulanTugas::findOrFail($id);
+    // Mengambil data pengumpulan tugas berdasarkan ID
+    $pengumpulanTugas = PengumpulanTugas::findOrFail($id);
+
+    // Periksa apakah nilai sudah ada dan berikan opsi koreksi
+    if ($pengumpulanTugas->nilai !== null) {
         $pengumpulanTugas->nilai = $request->input('nilai');
-        $pengumpulanTugas->save();
-
-        return redirect()->back()->with('success', 'Nilai dan komentar berhasil disimpan.');
+        $pesan = 'Nilai diperbarui berhasil!';
+    } else {
+        $pengumpulanTugas->nilai = $request->input('nilai');
+        $pesan = 'Nilai disimpan berhasil!';
     }
+
+    $pengumpulanTugas->save();
+
+    return redirect()->back()->with('success', $pesan);
+}
+
 
 
 // ====================================================================================================================
@@ -294,6 +306,9 @@ class TugasSiswaController extends Controller
 // ====================================================================================================================
 // ====================================================================================================================
 
-
+public function exportExcel($id)
+{
+    return Excel::download(new NilaiTugasExport($id), 'nilai_tugas.xlsx');
+}
 
 }

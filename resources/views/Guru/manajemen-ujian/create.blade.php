@@ -1,4 +1,4 @@
-@extends('layout_new.app') <!-- Atau layout yang sesuai -->
+@extends('layout2.app') <!-- Atau layout yang sesuai -->
 
 @section('konten')
 <div class="container">

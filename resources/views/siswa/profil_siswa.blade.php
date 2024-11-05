@@ -1,4 +1,4 @@
-@extends('layout_new.app')
+@extends('layout2.app')
 
 @section('konten')
     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
