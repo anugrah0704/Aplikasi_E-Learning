@@ -1,4 +1,4 @@
-@extends('layout_new.app')
+@extends('layout.app')
 
 @section('konten')
 

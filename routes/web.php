@@ -394,8 +394,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::get('/User Profil', [ProfileController::class, 'profil'])->name('siswa.profil_siswa');
-    // Route untuk menampilkan profil siswa berdasarkan ID
-    Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
+
+
+    Route::get('/siswa/edit', [ProfileController::class, 'edit'])->name('siswa.profil.edit');
+    Route::put('/siswa/update', [ProfileController::class, 'updateProfilSiswa'])->name('siswa.update');
+
+
 
 
 // ======================      Route untuk materi siswa        ======================================================
@@ -500,6 +505,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('guru/manajemen-ujian/koreksi/{ujian_id}/daftar-siswa/export', [UjianController::class, 'exportExcel'])->name('guru.daftar-siswa.export');
 
 
+
     Route::get('/guru/profil', [ProfileController::class, 'showProfilGuru'])->name('guru.profil.profil_guru');
     // route untuk exports nilai tugas
     Route::get('/guru/tugas/{id}/export-excel', [TugasSiswaController::class, 'exportExcel'])->name('guru.exportExcel');
@@ -508,6 +514,9 @@ Route::get('guru/tugas/{id}/detail', [TugasSiswaController::class, 'showTugas'])
 Route::post('guru/tugas/{id}/koreksi', [TugasSiswaController::class, 'koreksiTugas'])->name('guru.koreksiTugas');
 
 
+
+
+Route::put('/guru/profil/{id}', [ProfileController::class, 'updateProfilGuru'])->name('guru.profil.updateProfilGuru');
 
 });
 

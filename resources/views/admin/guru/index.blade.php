@@ -218,6 +218,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Foto</th>
                                 <th>NIP</th>
                                 <th>Nama</th>
                                 <th>Telepon</th>
@@ -231,6 +232,7 @@
                         <tfoot>
                             <tr>
                                 <th>No</th>
+                                <th>Foto</th>
                                 <th>NIP</th>
                                 <th>Nama</th>
                                 <th>Telepon</th>
@@ -245,6 +247,13 @@
                             @foreach ($users as $user)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if($user->foto)
+                                        <img src="{{ asset('images/profil_guru/' . $user->foto) }}" alt="Foto Guru" width="50" height="50">
+                                    @else
+                                        <img src="{{ asset('images/default.png') }}" alt="Default Foto" width="50" height="50">
+                                    @endif
+                                </td>
                                 <td>{{ $user->guru->nip }}</td> <!-- Akses NIP dari relasi guru -->
                                 <td>{{ $user->username }}</td> <!-- Akses username dari tabel users -->
                                 <td>{{ $user->guru->telepon }}</td> <!-- Akses telepon dari relasi guru -->
@@ -280,7 +289,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <!-- Form Edit Guru -->
-                                                <form action="{{ route('admin.guru.updateGuru', $user->id) }}" method="POST">
+                                                <form action="{{ route('admin.guru.updateGuru', $user->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('POST')
                                                     <div class="form-group">
@@ -314,6 +323,12 @@
                                                         <label for="tgl_lahir">Tanggal Lahir:</label>
                                                         <input type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" value="{{ $user->guru->tgl_lahir }}" required>
                                                     </div>
+                                                    <!-- Tambahkan input untuk upload foto -->
+                                                    <div class="form-group">
+                                                        <label for="foto">Foto Profil:</label>
+                                                        <input type="file" class="form-control-file" name="foto" accept="image/*">
+                                                    </div>
+
                                                     <button type="submit" class="btn btn-primary">
                                                         <i class="fas fa-save"></i> Simpan
                                                     </button>

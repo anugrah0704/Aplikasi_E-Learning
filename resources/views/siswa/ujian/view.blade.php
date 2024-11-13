@@ -19,7 +19,7 @@
         </div>
         <div class="table-responsive">
             <table class="table table-hover table-striped table-bordered">
-                <thead class="bg-secondary text-white">
+                <thead class="bg-dark text-white">
                     <tr>
                         <th>No</th>
                         <th>Nama Ujian</th>

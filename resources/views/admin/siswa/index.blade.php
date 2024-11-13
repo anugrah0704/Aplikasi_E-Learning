@@ -229,6 +229,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Foto</th>
                                 <th>NIS</th>
                                 <th>NISN</th>
                                 <th>Nama</th>
@@ -243,6 +244,7 @@
                         <tfoot>
                             <tr>
                                 <th>No</th>
+                                <th>Foto</th>
                                 <th>NIS</th>
                                 <th>NISN</th>
                                 <th>Nama</th>
@@ -258,6 +260,13 @@
                             @foreach ($users as $user)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if($user->foto)
+                                        <img src="{{ asset('images/profil_siswa/' . $user->foto) }}" alt="Foto Siswa" width="50" height="50">
+                                    @else
+                                        <img src="{{ asset('images/default.png') }}" alt="Default Foto" width="50" height="50">
+                                    @endif
+                                </td>
                                 <td>{{ $user->siswa->nis }}</td> <!-- Akses NIS dari relasi siswa -->
                                 <td>{{ $user->siswa->nisn }}</td> <!-- Akses NISN dari relasi siswa -->
                                 <td>{{ $user->username }}</td> <!-- Akses username dari tabel users -->
@@ -286,17 +295,17 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="{{ route('admin.siswa.updateSiswa', $user->id) }}" method="POST">
+                                                            <form action="{{ route('admin.siswa.updateSiswa', $user->id) }}" method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('POST') <!-- Spoofing Method POST untuk Update -->
 
                                                                 <div class="form-group">
                                                                     <label for="nis">NIS:</label>
-                                                                    <input type="text" class="form-control" name="nis" value="{{ $user->nis }}" required>
+                                                                    <input type="text" class="form-control" name="nis" value="{{ $user->siswa->nis }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="nisn">NISN:</label>
-                                                                    <input type="text" class="form-control" name="nisn" value="{{ $user->nisn }}" required>
+                                                                    <input type="text" class="form-control" name="nisn" value="{{ $user->siswa->nisn }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="username">Nama:</label>
@@ -304,11 +313,11 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="kelas">Kelas:</label>
-                                                                    <input type="text" class="form-control" name="kelas" value="{{ $user->kelas }}" required>
+                                                                    <input type="text" class="form-control" name="kelas" value="{{ $user->kelas->nama_kelas }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="telepon">Telepon:</label>
-                                                                    <input type="text" class="form-control" name="telepon" value="{{ $user->telepon }}" required>
+                                                                    <input type="text" class="form-control" name="telepon" value="{{ $user->siswa->telepon }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="gender">Gender:</label>
@@ -319,17 +328,24 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="alamat">Alamat:</label>
-                                                                    <input type="text" class="form-control" name="alamat" value="{{ $user->alamat }}" required>
+                                                                    <input type="text" class="form-control" name="alamat" value="{{ $user->siswa->alamat }}" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="tgl_lahir">Tanggal Lahir:</label>
-                                                                    <input type="date" class="form-control" name="tgl_lahir" value="{{ $user->tgl_lahir }}" required>
+                                                                    <input type="date" class="form-control" name="tgl_lahir" value="{{ $user->siswa->tgl_lahir }}" required>
+                                                                </div>
+
+                                                                <!-- Tambahkan input untuk upload foto -->
+                                                                <div class="form-group">
+                                                                    <label for="foto">Foto Profil:</label>
+                                                                    <input type="file" class="form-control-file" name="foto" accept="image/*">
                                                                 </div>
 
                                                                 <button type="submit" class="btn btn-primary">
                                                                     <i class="fas fa-save"></i> Simpan
                                                                 </button>
                                                             </form>
+
                                                         </div>
                                                     </div>
                                                 </div>

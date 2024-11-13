@@ -1,6 +1,5 @@
-@extends('layout2.app');
+@extends('layout2.app')
 @section('konten')
-
 <style>
     body, h2, h1 {
         font-family: 'Times New Roman', Times, serif, sans-serif;
@@ -359,6 +358,4 @@
                 }
                 </script>
     </body>
-
-
 @endsection

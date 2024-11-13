@@ -139,23 +139,27 @@ class AdminController extends Controller
         'nisn' => 'required|string|max:20',
         'username' => 'required|string|max:255|unique:users,username',
         'telepon' => 'required|string|max:20',
-        'kelas_id' => 'required|exists:kelas,id', // Pastikan kelas_id ada di tabel kelas
+        'kelas_id' => 'required|exists:kelas,id',
         'gender' => 'required|in:Laki-laki,Perempuan',
         'alamat' => 'required|string|max:255',
         'tgl_lahir' => 'required|string|max:30',
     ]);
+
+    // Path gambar default
+    $defaultPhoto = "images/default.png";
 
     // Simpan siswa sebagai user dengan role siswa dan kelas_id
     $user = User::create([
         'username' => $request->username,
         'password' => bcrypt('123456'),
         'role' => 'siswa',
-        'kelas_id' => $request->kelas_id, // Simpan kelas_id di tabel users
+        'kelas_id' => $request->kelas_id,
+        'foto' => $defaultPhoto, // Menambahkan foto profil default
     ]);
 
     // Simpan data siswa dengan user_id terkait
     Siswa::create([
-        'user_id' => $user->id, // Menghubungkan siswa dengan user
+        'user_id' => $user->id,
         'nis' => $request->nis,
         'nisn' => $request->nisn,
         'telepon' => $request->telepon,
@@ -170,27 +174,34 @@ class AdminController extends Controller
 
 
 
+
     // Update siswa
     public function updateSiswa(Request $request, $id)
-    {
-       // Validasi input
-       $request->validate([
-        'nis' => 'required|integer|unique:users,nis,'.$id,
+{
+    // Validasi input
+    $request->validate([
+        'nis' => 'required|integer|unique:siswa,nis,'.$id.',user_id',
         'nisn' => 'required|string|max:15',
         'username' => 'required|string|max:255',
         'telepon' => 'required|string|max:20',
-        'kelas' => 'required|string|max:5',
+        'kelas' => 'required|string|max:10',
         'gender' => 'required|string|max:10',
-        'alamat' => 'required|string|max:50',
+        'alamat' => 'required|string|max:255',
         'tgl_lahir' => 'required|string|max:30',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
     ]);
 
-    // Cari siswa berdasarkan id dan update
-    $siswa = User::where('role', 'siswa')->findOrFail($id);
+    // Cari user berdasarkan id dan update data umum
+    $user = User::where('role', 'siswa')->findOrFail($id);
+    $user->update([
+        'username' => $request->username,
+    ]);
+
+    // Cari data siswa terkait dan update detail khusus siswa
+    $siswa = $user->siswa; // Pastikan relasi ke siswa sudah ada
     $siswa->update([
         'nis' => $request->nis,
         'nisn' => $request->nisn,
-        'username' => $request->username,
         'telepon' => $request->telepon,
         'kelas' => $request->kelas,
         'gender' => $request->gender,
@@ -198,8 +209,22 @@ class AdminController extends Controller
         'tgl_lahir' => $request->tgl_lahir,
     ]);
 
-    return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil diupdate');
+    // Update atau simpan foto jika ada
+    if ($request->hasFile('foto')) {
+        if ($user->foto && file_exists(public_path('images/profil_siswa/' . $user->foto))) {
+            unlink(public_path('images/profil_siswa/' . $user->foto));
+        }
+
+        $fotoName = time() . '_' . $request->foto->getClientOriginalName();
+        $request->foto->move(public_path('images/profil_siswa/'), $fotoName);
+        $user->foto = $fotoName;
+        $user->save(); // Simpan foto ke tabel users
     }
+
+    return redirect('/admin/siswa/')->with('success', 'Data Siswa berhasil diupdate');
+}
+
+
 
     // Hapus siswa
     public function deleteSiswa($id)
@@ -272,6 +297,7 @@ class AdminController extends Controller
         'alamat' => 'required|string|max:50',
         'tgl_lahir' => 'required|string|max:30',
         'jabatan' => 'required|string|max:50',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
     ]);
 
     // Cari data user dan guru berdasarkan id user
@@ -292,6 +318,18 @@ class AdminController extends Controller
         'gender' => $request->gender,
         'jabatan' => $request->jabatan,
     ]);
+
+    // Update atau simpan foto jika ada
+    if ($request->hasFile('foto')) {
+        if ($user->foto && file_exists(public_path('images/profil_guru/' . $user->foto))) {
+            unlink(public_path('images/profil_guru/' . $user->foto));
+        }
+
+        $fotoName = time() . '_' . $request->foto->getClientOriginalName();
+        $request->foto->move(public_path('images/profil_guru/'), $fotoName);
+        $user->foto = $fotoName;
+        $user->save(); // Simpan foto ke tabel users
+    }
 
     return redirect('/admin/guru/')->with('success', 'Data guru berhasil diupdate');
     }

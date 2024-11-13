@@ -1,11 +1,12 @@
 <div class="container-fluid page-body-wrapper">
+
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
 
         @if(auth()->user()->isAdmin())
         <div class="user-profile">
         <div class="user-image">
-          <img src="{{ asset('Siswa') }}/images/faces/face28.png">
+          <img src="{{ auth()->user()->foto ? asset('images/profil_guru/' . auth()->user()->foto) : asset('images/default.png') }}" alt="User Profile Picture">
         </div>
         <div class="user-name">
             {{ auth()->user()->username }}
@@ -74,7 +75,7 @@
         @if(auth()->user()->isGuru())
         <div class="user-profile">
         <div class="user-image">
-          <img src="{{ asset('Siswa') }}/images/faces/face28.png">
+            <img src="{{ auth()->user()->foto ? asset('images/profil_guru/' . auth()->user()->foto) : asset('images/default.png') }}" alt="User Profile Picture">
         </div>
         <div class="user-name">
             {{ auth()->user()->username }}
@@ -129,8 +130,13 @@
           </a>
           <div class="collapse" id="auth">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="{{ route('guru.profil.profil_guru') }}"> Profil </a></li>
-              <li class="nav-item"> <a class="nav-link" href="{{ route('auth.change-password') }}"> Ganti Password </a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('guru.profil.profil_guru') }}"> Profil </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('auth.change-password') }}"> Ganti Password </a>
+                </li>
             </ul>
           </div>
         </li>
@@ -141,7 +147,7 @@
       @if(auth()->user()->isSiswa())
       <div class="user-profile">
       <div class="user-image">
-        <img src="{{ asset('Siswa') }}/images/faces/face28.png">
+        <img src="{{ auth()->user()->foto ? asset('images/profil_siswa/' . auth()->user()->foto) : asset('images/default.png') }}" alt="User Profile Picture">
       </div>
       <div class="user-name">
         {{ auth()->user()->username }}
@@ -192,8 +198,14 @@
         </a>
         <div class="collapse" id="auth">
           <ul class="nav flex-column sub-menu">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                style="display: none;">
+                @csrf
+            </form>
             <li class="nav-item"> <a class="nav-link" href="{{ route('siswa.profil_siswa') }}"> Profil </a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('auth.change-password') }}"> Ganti Password </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('auth.change-password') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                class="dropdown-item d-flex align-items-center"> Log Out </a></li>
           </ul>
         </div>
       </li>

@@ -35,7 +35,7 @@
                         alt="logo" />
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="index.html">
-                    <img src="{{ asset('Siswa') }}/images/logo-mini.svg" alt="logo" />
+                    <img src="https://disdikbud.banyuasinkab.go.id/wp-content/uploads/sites/269/2022/11/Logo-Tut-Wuri-Handayani-PNG-Warna.png" alt="logo" />
                 </a>
             </div>
 
