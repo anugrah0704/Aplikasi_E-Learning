@@ -1,160 +1,41 @@
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li style="padding: 70px 0 0;">
+                        <a href="index.html" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a>
+                    </li>
+                    <li>
+                        <a href="basic-table.html" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Basic Table</a>
+                    </li>
+                    <li>
+                        <a href="fontawesome.html" class="waves-effect"><i class="fa fa-font fa-fw" aria-hidden="true"></i>Icons</a>
+                    </li>
+                    <li>
+                        <a href="map-google.html" class="waves-effect"><i class="fa fa-globe fa-fw" aria-hidden="true"></i>Google Map</a>
+                    </li>
+                    <li>
+                        <a href="blank.html" class="waves-effect"><i class="fa fa-columns fa-fw" aria-hidden="true"></i>Blank Page</a>
+                    </li>
+                    <li>
+                        <a href="404.html" class="waves-effect"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>Error 404</a>
+                    </li>
 
-    <ul class="sidebar-nav" id="sidebar-nav">
-    @if(auth()->user()->isAdmin())
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('admin.dashboard')}}">
-          <i class="bi bi-grid"></i>
-          <span>DASHBOARD</span>
-        </a>
-      </li><!-- End Dashboard Admin  -->
+                </ul>
+                <div class="center p-20">
+                     <a href="https://wrappixel.com/templates/ampleadmin/" target="_blank" class="btn btn-danger btn-block waves-effect waves-light">Upgrade to Pro</a>
+                 </div>
+            </div>
 
-      <li class="nav-heading">Halaman Utama</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('admin.siswa.index') }}">
-          <i class="bi bi-grid"></i>
-          <span>Daftar Siswa</span>
-        </a>
-      </li><!-- End Courses  -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('admin.guru.index') }}">
-          <i class="bi bi-grid"></i>
-          <span>Daftar Guru</span>
-        </a>
-      </li><!-- End Courses  -->
-
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('admin.mapel.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Master Mapel</span>
-        </a>
-      </li><!-- End Master Mapel  -->
-
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('admin.kelas.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Master Kelas</span>
-        </a>
-      </li><!-- End Master Mapel  -->
-
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Menu Utama</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{route('admin.guru-mapel.index')}}">
-              <i class="bi bi-circle"></i><span>Guru Mata Pelajaran</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-layouts.html">
-              <i class="bi bi-circle"></i><span>Form Layouts</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-editors.html">
-              <i class="bi bi-circle"></i><span>Form Editors</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-validation.html">
-              <i class="bi bi-circle"></i><span>Form Validation</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Forms Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('admin.profil_admin', ['id' => $admin->id]) }}">Lihat Profil</a>
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
-
-
-      @endif
-
-
-
-{{-- =============================================================================================================== --}}
-{{-- =============================================================================================================== --}}
-
-
-
-      @if(auth()->user()->isGuru())
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('guru.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>DASHBOARD</span>
-        </a>
-      </li><!-- End Dashboard Guru  -->
-
-      <li class="nav-heading">Halaman Utama</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('guru.manajemen-ujian.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Management Ujian</span>
-        </a>
-      </li><!-- End Management Materi  -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('guru.materi.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Management Materi</span>
-        </a>
-      </li><!-- End Management Materi  -->
-
-      @endif
-
-
-{{-- =============================================================================================================== --}}
-{{-- =============================================================================================================== --}}
-
-
-      @if(auth()->user()->isSiswa())
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('siswa.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>DASHBOARD</span>
-        </a>
-      </li><!-- End Dashboard Siswa  -->
-
-      <li class="nav-heading">Halaman Utama</li>
-
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('siswa.ujian.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Ujian</span>
-        </a>
-      </li><!-- End Ujian  -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('siswa.materi.index')}}">
-          <i class="bi bi-grid"></i>
-          <span>Materi</span>
-        </a>
-      </li><!-- End Dashboard Siswa  -->
-
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('siswa.profil_siswa', ['id' => $user->id ?? '']) }}">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
-
-      @endif
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <div id="page-wrapper">
+            <div class="container-fluid">

@@ -141,6 +141,23 @@
           </div>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#pesan" aria-expanded="false" aria-controls="pesan">
+              <i class="mdi mdi-email-outline menu-icon"></i>
+              <span class="menu-title">Kotak Pesan</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="pesan">
+              <ul class="nav flex-column sub-menu">
+
+                <li class="nav-item"> <a class="nav-link" href="{{ route('guru.pesan.index') }}"> Pesan Masuk </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('guru.pesan.pengirim') }}"> Pesan Dikirim </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('guru.pesan.create') }}"> Kirim Pesan </a></li>
+
+              </ul>
+            </div>
+          </li>
+
       </ul>
       @endif
 
@@ -191,12 +208,12 @@
         </li>
 
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+        <a class="nav-link" data-toggle="collapse" href="#pesan" aria-expanded="false" aria-controls="pesan">
           <i class="icon-head menu-icon"></i>
           <span class="menu-title">User Pages</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="auth">
+        <div class="collapse" id="pesan">
           <ul class="nav flex-column sub-menu">
             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                 style="display: none;">
@@ -209,6 +226,24 @@
           </ul>
         </div>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+          <i class="mdi mdi-email-box menu-icon"></i>
+          <span class="menu-title">Kotak Pesan</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="auth">
+          <ul class="nav flex-column sub-menu">
+
+            <li class="nav-item"> <a class="nav-link" href="{{ route('pesan.index') }}"> Pesan Masuk </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('pesan.pengirim') }}"> Pesan Dikirim </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('pesan.create') }}"> Kirim Pesan </a></li>
+
+          </ul>
+        </div>
+      </li>
+
     </ul>
     @endif
 

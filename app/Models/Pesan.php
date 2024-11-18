@@ -12,6 +12,7 @@ class Pesan extends Model
     protected $fillable = [
         'pengirim_id',
         'penerima_id',
+        'judul',
         'isi_pesan',
         'is_read',
     ];
@@ -24,5 +25,10 @@ class Pesan extends Model
     public function penerima()
     {
         return $this->belongsTo(User::class, 'penerima_id');
+    }
+    // Relasi ke tabel balasan_pesan
+    public function balasan()
+    {
+        return $this->hasMany(BalasanPesan::class, 'pesan_id');
     }
 }

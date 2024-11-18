@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\PesanController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
@@ -520,8 +521,30 @@ Route::put('/guru/profil/{id}', [ProfileController::class, 'updateProfilGuru'])-
 
 });
 
+Route::prefix('siswa')->middleware('auth')->group(function () {
+    Route::get('/pesan', [PesanController::class, 'index'])->name('pesan.index');
+    Route::get('/pesan terkirim', [PesanController::class, 'pesan'])->name('pesan.pengirim');
+    Route::get('/pesan/kirim', [PesanController::class, 'create'])->name('pesan.create');
+    Route::post('/pesan/create', [PesanController::class, 'store'])->name('pesan.store');
+    Route::get('/pesan2/{id}', [PesanController::class, 'showSiswa2'])->name('siswa.pesan.show2');
+    Route::get('/pesan/{id}', [PesanController::class, 'showSiswa'])->name('siswa.pesan.show');
+    // Route untuk form edit pesan (menggunakan modal di view, tidak terpisah)
+    Route::put('pesan/{id}', [PesanController::class, 'update'])->name('pesan.update');
+    // Route untuk menghapus pesan
+    Route::delete('pesan/{id}', [PesanController::class, 'destroy'])->name('pesan.destroy');
+    Route::post('/pesan/balas/{id}', [PesanController::class, 'balas'])->name('pesan.balas');
 
+});
 
+Route::prefix('guru')->middleware('auth')->group(function () {
+    Route::get('/pesan', [PesanController::class, 'indexGuru'])->name('guru.pesan.index');
+    Route::get('/pesan/kirim', [PesanController::class, 'createGuru'])->name('guru.pesan.create');
+    Route::post('/pesan/kirim', [PesanController::class, 'storeGuru'])->name('guru.pesan.store');
+    Route::post('/pesan/{id}/reply', [PesanController::class, 'reply'])->name('pesan.reply');
+    Route::get('/pesan terkirim', [PesanController::class, 'pesanGuru'])->name('guru.pesan.pengirim');
+    Route::get('/pesan/{id}', [PesanController::class, 'showGuru'])->name('guru.pesan.show');
+    Route::get('/pesan2/{id}', [PesanController::class, 'showGuru2'])->name('guru.pesan.show2');
+});
 //============================== route untuk ganti password ===================================================
 
 Route::middleware(['auth'])->group(function () {

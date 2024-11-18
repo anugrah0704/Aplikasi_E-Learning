@@ -99,7 +99,7 @@
                                         <div class="input-group">
                                             <input type="number" name="nilai" class="form-control form-control-sm" value="{{ $pengumpulan->nilai ?? '' }}" placeholder="Masukkan nilai" min="0" max="100" required>
                                             <button type="submit" class="btn btn-primary btn-sm ml-1">
-                                                <i class="fas fa-save"></i> Simpan
+                                                <i class="fas fa-save"></i>
                                             </button>
                                         </div>
                                     </form>
@@ -108,7 +108,7 @@
 
                                 <td>
                                     <!-- Tindakan untuk mengedit atau menghapus jika diperlukan -->
-                                    <a href="{{ route('siswa.tugas.edit', $pengumpulan->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
+
                                     <form action="{{ route('siswa.tugas.destroyTugasSiswa', $pengumpulan->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
