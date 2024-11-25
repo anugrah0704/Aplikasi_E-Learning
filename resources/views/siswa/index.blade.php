@@ -39,6 +39,9 @@
         background-color: #333;
     }
 </style>
+
+<title>Dashboard</title>
+
 <body>
 
 

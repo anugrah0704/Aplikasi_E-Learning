@@ -11,9 +11,18 @@ class Video extends Model
 
     protected $fillable = [
         'judul',
-        'mapel',
-        'kelas',
+        'mapel_id',
+        'kelas_id',
         'file_path',
         'link_youtube',
     ];
+    public function mapel()
+{
+    return $this->belongsTo(Mapel::class, 'mapel_id');
+}
+
+public function kelas()
+{
+    return $this->belongsTo(Kelas::class, 'kelas_id');
+}
 }

@@ -1,6 +1,7 @@
 @extends('layout2.app')
 
 @section('konten')
+<title>Tugas Siswa</title>
     <div class="container">
         <h3 class="my-4">Daftar Tugas yang Dibuat</h3>
 

@@ -2,6 +2,7 @@
 
 @section('konten')
 
+<title>Dashboard</title>
 <div class="container mt-5">
     <div class="row mb-4">
         <div class="col-md-12 text-center">

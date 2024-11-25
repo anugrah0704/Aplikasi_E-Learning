@@ -1,6 +1,15 @@
 @extends('layout2.app')
 
 @section('konten')
+<style>
+    /* Mobile Optimization */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+</style>
+<title>Dashboard</title>
+
 <div class="container mt-4">
     <h3 class="text-center mb-4">Dashboard Guru</h3>
     <div class="row mb-4">
@@ -35,7 +44,7 @@
         </div>
 
         <!-- Upload Materi/Modul -->
-        <div class="col-md-3">
+        <div class="col-md-3 ">
             <div class="card text-center shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title text-warning"><i class="fas fa-file-upload"></i> Upload Materi/Modul</h5>
@@ -46,7 +55,7 @@
     </div>
 
     <!-- Tabel Mata Pelajaran yang Diampu -->
-    <div class="card shadow-sm">
+    <div class="card shadow-sm table-responsive">
         <div class="card-body">
             <h5 class="card-title text-center">Mata Pelajaran yang Diampu</h5>
             <table class="table table-bordered text-center">

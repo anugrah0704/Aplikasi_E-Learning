@@ -1,6 +1,7 @@
 @extends('layout2.app')
 
 @section('konten')
+<title>Tambah Tugas</title>
 <div class="container">
     <div class="card mt-4">
         <div class="card-header bg-primary text-white text-center">

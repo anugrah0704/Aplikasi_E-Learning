@@ -115,7 +115,13 @@
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">Management Materi</span>
             </a>
-          </li>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('guru.video.index') }}">
+              <i class="mdi mdi-laptop-account menu-icon"></i>
+              <span class="menu-title">Management Video</span>
+            </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('guru.tugas-siswa.index') }}">
             <i class="icon-help menu-icon"></i>
@@ -189,17 +195,22 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('siswa.ujian.index') }}">
-          <i class="mdi mdi-account-multiple menu-icon"></i>
+          <i class="mdi mdi-school menu-icon"></i>
           <span class="menu-title">Ujian </span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('siswa.materi.index') }}">
             <i class="mdi mdi-book-open-page-variant menu-icon"></i>
-
           <span class="menu-title">Materi</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('siswa.video') }}">
+          <i class="mdi mdi-laptop-account menu-icon"></i>
+          <span class="menu-title">Materi Video</span>
+        </a>
+    </li>
       <li class="nav-item">
           <a class="nav-link" href="{{ route('siswa.tugas.index') }}">
             <i class="mdi mdi-clipboard-text menu-icon"></i>

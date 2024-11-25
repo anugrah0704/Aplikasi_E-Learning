@@ -1,6 +1,7 @@
 @extends('layout2.app')
 
 @section('konten')
+<title>Profil</title>
 <div class="container my-5">
     <div class="card shadow-lg border-0">
         <div class="card-header bg-primary text-white text-center">

@@ -32,9 +32,14 @@ class Kelas extends Model
     {
         return $this->hasMany(User::class);
     }
-     // Relasi ke Ujian
-     public function ujians()
+    // Relasi ke Ujian
+    public function ujians()
      {
          return $this->hasMany(Ujian::class, 'kelas_id');
      }
+     public function videos()
+     {
+         return $this->hasMany(Video::class, 'kelas_id', 'kelas_id');
+     }
+
 }

@@ -24,15 +24,17 @@
     .btn {
         font-size: 0.9rem;
     }
+    /* Mobile Optimization */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
 </style>
 
+<title>Materi</title>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center">
         <h1>Daftar Materi</h1>
-
-
-
-
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahMateriModal">
             Tambah Materi
         </button>
@@ -50,6 +52,7 @@
 
 
     <!-- Tabel Daftar Materi -->
+    <div class="table-responsive">
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
@@ -70,11 +73,15 @@
                     <td>{{ $m->kelas->nama_kelas }}</td>
                     <td><a href="{{ asset('storage/' . $m->file_path) }}" target="_blank" class="btn btn-link">Lihat File</a></td>
                     <td>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMateriModal{{ $m->id }}">Edit</button>
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editMateriModal{{ $m->id }}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
                         <form action="{{ route('guru.materi.destroy', $m->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus materi ini?')">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus materi ini?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </form>
 
                     </td>
@@ -137,6 +144,7 @@
             @endforelse
         </tbody>
     </table>
+</div>
 </div>
 
 <!-- Modal Tambah Materi -->

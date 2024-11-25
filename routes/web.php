@@ -22,13 +22,14 @@ use App\Http\Controllers\KoreksiEssayController;
 use App\Http\Controllers\ManajemenPilihanGandaController;
 use App\Http\Controllers\ManajemenTugasController;
 use App\Http\Controllers\profileController;
+use App\Http\Controllers\VideoController;
 use App\Exports\SiswaExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
     return redirect()->route('login'); // Redirect to login page
 });
-
+Route::get('/login', [LoginController::class, 'Login'])->name('login'); // Menampilkan halaman login
 
 Route::middleware(['auth'])->group(function () {
     // Route Dashboard Admin
@@ -533,6 +534,7 @@ Route::prefix('siswa')->middleware('auth')->group(function () {
     // Route untuk menghapus pesan
     Route::delete('pesan/{id}', [PesanController::class, 'destroy'])->name('pesan.destroy');
     Route::post('/pesan/balas/{id}', [PesanController::class, 'balas'])->name('pesan.balas');
+    Route::get('/siswa/video', [VideoController::class, 'indexSiswa'])->name('siswa.video');
 
 });
 
@@ -554,6 +556,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('change-password', [UserController::class, 'updatePasswordSiswa'])->name('change-password.update');
 });
 
+
+
+Route::prefix('guru/video')->name('guru.video.')->middleware('auth')->group(function () {
+    Route::get('/', [VideoController::class, 'index'])->name('index'); // Halaman manajemen video
+    Route::post('/store/local', [VideoController::class, 'storeLocal'])->name('store.local'); // Upload lokal
+    Route::post('/store/youtube', [VideoController::class, 'storeYoutube'])->name('store.youtube'); // Upload YouTube
+    Route::delete('/{id}', [VideoController::class, 'destroy'])->name('destroy'); // Hapus video
+    Route::get('/video/play/{id}', [VideoController::class, 'play'])->name('video.play');
+});
 
 
 // Routes untuk Mata Pelajaran

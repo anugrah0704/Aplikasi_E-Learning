@@ -19,6 +19,10 @@ class Mapel extends Model
     {
         return $this->hasOne(guru::class);
     }
+    public function videos()
+    {
+        return $this->hasMany(Video::class, 'mapel_id');
+    }
     // Relasi ke Materi
     public function materi()
     {

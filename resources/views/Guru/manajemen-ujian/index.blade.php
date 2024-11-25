@@ -1,6 +1,15 @@
 @extends('layout2.app')
 
 @section('konten')
+
+<style>
+    /* Mobile Optimization */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+</style>
+<title>Manajemen Ujian</title>
 <div class="container">
     <h3 class="my-4">Menu Manajemen Ujian / Tugas</h3>
 
@@ -13,7 +22,7 @@
 
         </div>
 
-        <div class="card-body">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>

@@ -1,6 +1,7 @@
 @extends('layout2.app')
 
 @section('konten')
+<title>Ujian</title>
 <div class="container mt-5">
     <!-- Header Section -->
     <div class="text-center mb-4">

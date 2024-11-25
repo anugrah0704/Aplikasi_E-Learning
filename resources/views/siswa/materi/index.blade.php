@@ -1,6 +1,7 @@
 @extends('layout2.app')
 
 @section('konten')
+<title>Materi</title>
 <div class="container mt-5">
     <!-- Judul Halaman -->
     <div class="text-center mb-4">

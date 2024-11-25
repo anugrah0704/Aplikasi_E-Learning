@@ -1,6 +1,7 @@
 @extends('layout2.app')
 
 @section('konten')
+<title>Ganti Password</title>
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header bg-primary text-white text-center">

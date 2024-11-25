@@ -1,4 +1,6 @@
+
 @include('layout2.header') <!-- Include Header -->
+
 <div class="container-fluid">
     <div class="row">
         @include('layout2.side') <!-- Include Sidebar -->

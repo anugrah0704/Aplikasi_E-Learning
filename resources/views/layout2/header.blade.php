@@ -2,12 +2,15 @@
 <html lang="en">
 
 <head>
+
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+
     <!-- Link ke Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Regal Admin</title>
+
     <!-- base:css -->
     <link rel="stylesheet" href="{{ asset('Siswa') }}/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="{{ asset('Siswa') }}/vendors/feather/feather.css">
@@ -23,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('Siswa') }}/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('Siswa') }}/images/favicon.png" />
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>

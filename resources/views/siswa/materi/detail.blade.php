@@ -47,6 +47,7 @@
 }
 
 </style>
+<title>Detail Materi</title>
 <div class="container content-wrapper mt-4">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">

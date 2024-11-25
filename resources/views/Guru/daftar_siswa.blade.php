@@ -33,7 +33,7 @@
         margin-right: 5px;
     }
 </style>
-
+<title>Daftar Siswa</title>
 <div class="container mt-5">
     <div class="card-header bg-primary text-white text-center">
         <h1 class="font-weight-bold mb-0">Daftar Siswa yang Diampu</h1>
