@@ -3,73 +3,6 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
 
-        @if(auth()->user()->isAdmin())
-        <div class="user-profile">
-        <div class="user-image">
-          <img src="{{ auth()->user()->foto ? asset('images/profil_guru/' . auth()->user()->foto) : asset('images/default.png') }}" alt="User Profile Picture">
-        </div>
-        <div class="user-name">
-            {{ auth()->user()->username }}
-        </div>
-        <div class="user-designation">
-            {{ auth()->user()->role }}
-        </div>
-      </div>
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" href="{{route('admin.dashboard')}}">
-            <i class="icon-box menu-icon"></i>
-            <span class="menu-title">Dashboard</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('auth.change-password') }}">
-            <i class="mdi mdi-key-variant menu-icon"></i>
-            <span class="menu-title">Ganti Password</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('guru.daftar_siswa') }}">
-            <i class="mdi mdi-account-multiple menu-icon"></i>
-            <span class="menu-title">Daftar Siswa</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('guru.manajemen-ujian.index') }}">
-            <i class="mdi mdi-file-document-edit menu-icon"></i>
-            <span class="menu-title">Management Ujian</span>
-          </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('guru.materi.index') }}">
-              <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Management Materi</span>
-            </a>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('guru.tugas-siswa.index') }}">
-            <i class="icon-help menu-icon"></i>
-            <span class="menu-title">Tugas Siswa</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-            <i class="icon-head menu-icon"></i>
-            <span class="menu-title">User Pages</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="collapse" id="auth">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="{{ route('guru.profil.profil_guru') }}"> Profil </a></li>
-              <li class="nav-item"> <a class="nav-link" href="{{ route('auth.change-password') }}"> Ganti Password </a></li>
-            </ul>
-          </div>
-        </li>
-
-      </ul>
-      @endif
-
 
 
         @if(auth()->user()->isGuru())
@@ -124,7 +57,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('guru.tugas-siswa.index') }}">
-            <i class="icon-help menu-icon"></i>
+            <i class="mdi mdi-book-outline menu-icon"></i>
             <span class="menu-title">Tugas Siswa</span>
           </a>
         </li>
@@ -163,6 +96,13 @@
               </ul>
             </div>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('threads.index') }}">
+                <i class="mdi mdi-forum menu-icon"></i>
+            <span class="menu-title">Forum Diskusi</span>
+            </a>
+        </li>
 
       </ul>
       @endif
@@ -210,12 +150,12 @@
           <i class="mdi mdi-laptop-account menu-icon"></i>
           <span class="menu-title">Materi Video</span>
         </a>
-    </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{{ route('siswa.tugas.index') }}">
-            <i class="mdi mdi-clipboard-text menu-icon"></i>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('siswa.tugas.index') }}">
+                <i class="mdi mdi-clipboard-text menu-icon"></i>
             <span class="menu-title">Tugas</span>
-          </a>
+            </a>
         </li>
 
       <li class="nav-item">
@@ -254,6 +194,14 @@
           </ul>
         </div>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('threads.index') }}">
+            <i class="mdi mdi-forum menu-icon"></i>
+        <span class="menu-title">Forum Diskusi</span>
+        </a>
+    </li>
+
 
     </ul>
     @endif

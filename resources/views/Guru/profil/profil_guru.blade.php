@@ -1,19 +1,49 @@
 @extends('layout2.app')
 
 @section('konten')
+
+<style>
+    .profile-photo-container {
+    margin: 20px auto;
+    }
+
+    .profile-photo {
+        width: 150px;
+        height: 200px;
+        object-fit: cover;
+        border: 3px solid #6a1b9a; /* Warna border */
+        transition: transform 0.3s, box-shadow 0.3s; /* Animasi efek */
+    }
+
+    .profile-photo:hover {
+        transform: scale(1.1); /* Efek zoom */
+        box-shadow: 0 8px 15px rgba(106, 27, 154, 0.3); /* Bayangan lebih besar saat hover */
+    }
+
+</style>
 <title>Profil</title>
 <div class="container mt-5">
     <!-- Header -->
-    <div class="bg-primary text-white text-center py-5 rounded shadow-sm mb-5">
+    <div class="bg-primary text-white text-center py-5 rounded shadow-sm mb-3">
         <h1 class="fw-bold">Profil Guru</h1>
         <p class="mb-0">Lihat dan perbarui informasi profil Anda di sini.</p>
     </div>
+
+    @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li><i class="fas fa-exclamation-circle"></i> {{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
     <!-- Pesan Notifikasi -->
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">✓</button>
         </div>
     @endif
 
@@ -25,14 +55,15 @@
     @endif
 
     <!-- Card Profil -->
-    <div class="card shadow border-0 mb-5">
+    <div class="card shadow border-0 mb-2">
         <div class="card-body">
             <!-- Foto Profil -->
-            <div class="text-center mb-4">
+            <div class="profile-photo-container text-center">
                 <img src="{{ $guruData->foto ? asset('images/profil_guru/' . $guruData->foto) : asset('images/default.png') }}"
-                    class="rounded-circle shadow-sm hover-zoom"
-                    style="width: 150px; height: 150px; object-fit: cover;">
+                    class="profile-photo shadow rounded-circle"
+                    alt="Profil Guru">
             </div>
+
 
             <!-- Divider -->
             <hr class="mb-4">
@@ -103,11 +134,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ $guruData->email }}" required>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $guruData->email }}" >
                         </div>
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
                             <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $guruData->alamat }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jabatan" class="form-label">jabatan</label>
+                            <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ $guruData->jabatan }}" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>

@@ -2,8 +2,8 @@
 
 @section('content')
 <body>
-<div style="min-height: 100vh;
-            background-image: url('{{ asset('images/login.jpg') }}');
+<link rel="shortcut icon" href="{{ asset('images') }}/logoku.webp"/>
+<div id="background-container" style="min-height: 100vh;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -37,9 +37,13 @@
                 </div>
 
                 <!-- Input password -->
-                <div class="mb-4">
+                <div class="mb-4 position-relative">
                     <label for="password" class="form-label">{{ __('Password') }}</label>
-                    <input id="password" type="password" class="form-control bg-dark text-white border-0 @error('password') is-invalid @enderror" name="password" required placeholder="Enter your password">
+                    <input id="password" type="password" class="form-control bg-dark text-white border-0 @error('password') is-invalid @enderror"
+                        name="password" required placeholder="Enter your password">
+                    <span class="toggle-password" style="position: absolute; top: 55%; right: 10px;  cursor: pointer;">
+                        <i id="password-icon" class="fas fa-eye" style="color: #5e4c4c;"></i>
+                    </span>
 
                     @error('password')
                         <div class="invalid-feedback">
@@ -47,6 +51,7 @@
                         </div>
                     @enderror
                 </div>
+
 
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg" style="background: #6a1b9a; border-color: #6a1b9a;">
@@ -59,5 +64,38 @@
         </div>
     </div>
 </div>
+
+<style>
+    #background-container {
+        background-image: url('{{ asset('images/login_desktop.jpg') }}');
+    }
+
+    /* Ubah background untuk perangkat mobile */
+    @media (max-width: 768px) {
+        #background-container {
+            background-image: url('{{ asset('images/login-mobile.jpg') }}');
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = document.getElementById('password-icon');
+
+        document.querySelector('.toggle-password').addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        });
+    });
+</script>
+
 </body>
 @endsection

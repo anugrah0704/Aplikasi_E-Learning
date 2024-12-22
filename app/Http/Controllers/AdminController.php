@@ -29,11 +29,63 @@ class AdminController extends Controller
         }
 
         // Tampilkan halaman profil admin
-        return view('admin.profil_admin', compact('admin'));
+        return view('admin.profil.profil_admin', compact('admin'));
     }
 
     // Jika user bukan admin, redirect atau tampilkan pesan error
     return redirect('/home')->with('error', 'Akses ditolak, Anda bukan admin.');
+}
+
+// Tampilkan halaman edit profil
+public function editProfil($id)
+{
+    $admin = User::find($id);
+
+    if (!$admin || $admin->role !== 'admin') {
+        return redirect()->back()->with('error', 'Admin tidak ditemukan atau Anda tidak memiliki akses.');
+    }
+
+    return view('admin.profil.edit_profil', compact('admin'));
+}
+
+// Proses pembaruan profil
+public function updateProfil(Request $request, $id)
+{
+    $admin = User::find($id);
+
+    if (!$admin || $admin->role !== 'admin') {
+        return redirect()->back()->with('error', 'Admin tidak ditemukan atau Anda tidak memiliki akses.');
+    }
+
+    $validated = $request->validate([
+        'username' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $id,
+        'foto' => 'nullable|image|max:2048',
+    ]);
+
+    $admin->username = $validated['username'];
+    $admin->email = $validated['email'];
+
+    // Cek jika ada file foto yang diunggah
+    if ($request->hasFile('foto')) {
+        // Hapus foto lama jika ada
+        if ($admin->foto && file_exists(public_path($admin->foto))) {
+            unlink(public_path($admin->foto));
+        }
+
+        // Simpan foto baru di folder public/images/admin_photos
+        $file = $request->file('foto');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images/admin_photos'), $filename);
+
+        // Simpan path foto ke database
+        $admin->foto = 'images/admin_photos/' . $filename;
+    }
+
+    $admin->save();
+
+    return redirect()->route('admin.profil_admin', ['id' => $id])
+        ->with('success', 'Profil berhasil diperbarui!');
 }
 
 

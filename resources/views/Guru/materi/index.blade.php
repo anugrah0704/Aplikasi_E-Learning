@@ -32,13 +32,23 @@
 </style>
 
 <title>Materi</title>
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>Daftar Materi</h1>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahMateriModal">
+<div class="container my-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="m-0">Menu Manajemen Ujian / Tugas</h3>
+        <button type="button" class="btn btn-light text-primary shadow-sm" data-toggle="modal" data-target="#tambahMateriModal">
             Tambah Materi
         </button>
     </div>
+    <div class="card-body">
+        <h4 class="mb-3">Daftar Tugas dan Ujian</h4>
+        <p class="text-muted">
+            Anda dapat mengelola tugas dan ujian yang akan diberikan kepada siswa di sini.
+            Klik tombol <strong>+ Tambah Ujian</strong> untuk menambahkan ujian baru.
+        </p>
+    </div>
+</div>
+
 
     @if(session('success'))
     <div class="alert alert-success">

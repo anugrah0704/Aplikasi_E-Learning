@@ -1,49 +1,67 @@
 @extends('layout2.app')
 
 @section('konten')
-<div class="container">
-    <h3 class="my-4">Manajemen Soal Essay</h3>
+<div class="container my-4">
+    <h3 class="text-center mb-4">Manajemen Soal Essay</h3>
 
-    <div class="card">
-        <div class="card-header">
-            Daftar Soal Essay
-            <a href="{{ route('guru.manajemen-ujian.detailsoal', ['id' => $ujian_id]) }}" class="btn btn-secondary float-right">Back</a>
-            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#tambahSoalEssayModal">+ Tambah Soal</a>
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="h5">Daftar Soal Essay</span>
+            <div>
+                <a href="{{ route('guru.manajemen-ujian.detailsoal', ['id' => $ujian_id]) }}" class="btn btn-secondary btn-sm">Kembali</a>
+                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahSoalEssayModal">+ Tambah Soal</a>
+            </div>
         </div>
 
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Pertanyaan</th>
-                        <th>Tanggal Buat</th>
-                        <th>Edit</th>
-                        <th>Hapus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($soalEssay as $key => $soal)
-                    <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $soal->soal }}</td>
-                        <td>{{ $soal->created_at }}</td>
-                        <td><a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSoalEssayModal{{ $soal->id }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                        <td><a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusSoalEssayModal{{ $soal->id }}"><i class="fa-solid fa-trash"></i></a></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 5%;">No</th>
+                            <th>Pertanyaan</th>
+                            <th style="width: 15%;">Tanggal Buat</th>
+                            <th style="width: 10%;">Edit</th>
+                            <th style="width: 10%;">Hapus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($soalEssay as $key => $soal)
+                        <tr>
+                            <td class="text-center">{{ $key + 1 }}</td>
+                            <td>{{ $soal->soal }}</td>
+                            <td class="text-center">{{ $soal->created_at->format('d M Y') }}</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSoalEssayModal{{ $soal->id }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusSoalEssayModal{{ $soal->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Belum ada soal essay.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Paginate Links -->
-            {{ $soalEssay->links() }}
+            <div class="d-flex justify-content-center mt-3">
+                {{ $soalEssay->links() }}
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Modal Tambah Soal Essay -->
-<div class="modal fade" id="tambahSoalEssayModal" tabindex="-1" role="dialog" aria-labelledby="tambahSoalEssayModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="tambahSoalEssayModal" tabindex="-1" aria-labelledby="tambahSoalEssayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('guru.manajemen-ujian.essay.store', $ujian_id) }}" method="POST">
                 @csrf
@@ -56,7 +74,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="soal">Pertanyaan</label>
-                        <textarea class="form-control" name="soal" required></textarea>
+                        <textarea class="form-control" name="soal" rows="4" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -70,14 +88,14 @@
 
 <!-- Modal Edit Soal Essay -->
 @foreach($soalEssay as $soal)
-<div class="modal fade" id="editSoalEssayModal{{ $soal->id }}" tabindex="-1" role="dialog" aria-labelledby="editSoalEssayModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="editSoalEssayModal{{ $soal->id }}" tabindex="-1" aria-labelledby="editSoalEssayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('guru.manajemen-ujian.essay.update', ['ujian_id' => $ujian_id, 'id' => $soal->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editSoalEssayModalLabel">Edit Pertanyaan Essay</h5>
+                    <h5 class="modal-title" id="editSoalEssayModalLabel">Edit Soal Essay</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,7 +103,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="soal">Soal</label>
-                        <textarea class="form-control" name="soal" required>{{ $soal->soal }}</textarea>
+                        <textarea class="form-control" name="soal" rows="4" required>{{ $soal->soal }}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -100,8 +118,8 @@
 
 <!-- Modal Hapus Soal Essay -->
 @foreach($soalEssay as $soal)
-<div class="modal fade" id="hapusSoalEssayModal{{ $soal->id }}" tabindex="-1" role="dialog" aria-labelledby="hapusSoalEssayModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="hapusSoalEssayModal{{ $soal->id }}" tabindex="-1" aria-labelledby="hapusSoalEssayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('guru.manajemen-ujian.essay.destroy', ['ujian_id' => $ujian_id, 'id' => $soal->id]) }}" method="POST">
                 @csrf
@@ -113,7 +131,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Apakah Anda yakin ingin menghapus soal ini?
+                    <p>Apakah Anda yakin ingin menghapus soal ini?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

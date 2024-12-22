@@ -11,6 +11,10 @@ class UserController extends Controller
     {
         return view('auth.change-password');
     }
+    public function showChangePasswordForm2()
+    {
+        return view('auth.change-password2');
+    }
 
     public function updatePasswordadmin(Request $request)
     {
@@ -31,7 +35,7 @@ class UserController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->route('auth.change-password')->with('success', 'Password berhasil diubah');
+        return redirect()->route('auth.change-password2')->with('success', 'Password berhasil diubah');
     }
 
 
@@ -54,7 +58,7 @@ class UserController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->back()->with('success', 'Password berhasil diubah');
+        return redirect()->route('auth.change-password')->with('success', 'Password berhasil diubah');
     }
 
     public function updatePasswordGuru(Request $request)
@@ -76,9 +80,11 @@ class UserController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->route('guru.index')->with('success', 'Password berhasil diubah');
+        return redirect()->route('auth.change-password')->with('success', 'Password berhasil diubah');
     }
 
+
+    // ===============================================================================================================
 
 
 

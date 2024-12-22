@@ -1,15 +1,37 @@
 @extends('layout2.app')
 
 @section('konten')
+<style>
+    .profile-photo-container {
+    margin: 20px auto;
+    }
+
+    .profile-photo {
+        width: 150px;
+        height: 200px;
+        object-fit: cover;
+        border: 3px solid #6a1b9a; /* Warna border */
+        transition: transform 0.3s, box-shadow 0.3s; /* Animasi efek */
+    }
+
+    .profile-photo:hover {
+        transform: scale(1.1); /* Efek zoom */
+        box-shadow: 0 8px 15px rgba(106, 27, 154, 0.3); /* Bayangan lebih besar saat hover */
+    }
+
+</style>
+
 <title>Profil</title>
-<div class="container my-5">
+<div class="container my-2">
     <div class="card shadow-lg border-0">
         <div class="card-header bg-primary text-white text-center">
             <h3 class="mb-0">Profil Siswa</h3>
         </div>
         <div class="card-body p-5">
-            <div class="text-center mb-4">
-                <img src="{{ $user->foto ? asset('images/profil_siswa/' . $user->foto) : asset('images/default.png') }}" alt="Foto Profil" class="rounded-circle border" style="width: 150px; height: 150px; object-fit: cover;">
+            <div class="profile-photo-container text-center">
+                <img src="{{ $user->foto ? asset('images/profil_siswa/' . $user->foto) : asset('images/default.png') }}"
+                 class="profile-photo shadow rounded-circle"
+                 alt="Foto Profil">
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item d-flex justify-content-between align-items-center">

@@ -39,11 +39,12 @@
         <h1 class="font-weight-bold mb-0">Daftar Siswa yang Diampu</h1>
     </div>
     <div class="table-responsive rounded">
-        <table id="basic-datatables" class="table table-bordered table-hover text-center align-middle">
+        <table id="basic-datatables" class="display table table-striped table-hover text-center align-middle">
             <thead class="bg-primary text-white">
                 <tr>
                     <th><i class="fas fa-sort-numeric-down table-icon"></i>No</th>
                     <th><i class="fas fa-user table-icon"></i>Nama</th>
+                    <th><i class="fas fa-id-card table-icon"></i>NIS</th>
                     <th><i class="fas fa-id-card table-icon"></i>NISN</th>
                     <th><i class="fas fa-calendar table-icon"></i>Tanggal Lahir</th>
                     <th><i class="fas fa-school table-icon"></i>Kelas</th>
@@ -54,6 +55,7 @@
                     <tr class="text-center">
                         <td class="align-middle">{{ $loop->iteration }}</td>
                         <td class="align-middle">{{ $data->username }}</td>
+                        <td class="align-middle">{{ $data->siswa->nis ?? '-' }}</td>
                         <td class="align-middle">{{ $data->siswa->nisn ?? '-' }}</td>
                         <td class="align-middle">{{ $data->siswa->tgl_lahir ?? '-' }}</td>
                         <td class="align-middle">{{ $data->kelas->nama_kelas ?? '-' }}</td>

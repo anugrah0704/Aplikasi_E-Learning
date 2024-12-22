@@ -11,21 +11,36 @@ class VideoController extends Controller
 {
     // Menampilkan halaman manajemen video
     public function index()
-    {
-        $userId = auth()->user()->id; // ID user yang login
-        $mapel = GuruMapel::where('user_id', $userId)
-                ->join('mapels', 'guru_mapels.mapel_id', '=', 'mapels.id')
-                ->select('mapels.id', 'mapels.nama_mapel')
-                ->distinct()
-                ->get();
-        $kelas = GuruMapel::where('user_id', $userId)
-                ->join('kelas', 'guru_mapels.kelas_id', '=', 'kelas.id') // Join tabel kelas
-                ->select('kelas.id', 'kelas.nama_kelas') // Pilih kolom yang dibutuhkan
-                ->distinct()
-                ->get();
-                $videos = Video::with(['mapel', 'kelas'])->get(); // Pastikan relasi mapel dan kelas diload
-        return view('guru.manajemen-video.index', compact('videos','kelas','mapel'));
-    }
+{
+    $userId = auth()->user()->id; // ID user yang login
+
+    // Ambil mata pelajaran yang diampu oleh guru
+    $mapel = GuruMapel::where('user_id', $userId)
+            ->join('mapels', 'guru_mapels.mapel_id', '=', 'mapels.id')
+            ->select('mapels.id', 'mapels.nama_mapel')
+            ->distinct()
+            ->get();
+
+    // Ambil kelas yang diampu oleh guru
+    $kelas = GuruMapel::where('user_id', $userId)
+            ->join('kelas', 'guru_mapels.kelas_id', '=', 'kelas.id')
+            ->select('kelas.id', 'kelas.nama_kelas')
+            ->distinct()
+            ->get();
+
+    // Ambil video yang hanya terkait dengan mata pelajaran dan kelas yang diampu
+    $videos = Video::with(['mapel', 'kelas']) // Pastikan relasi mapel dan kelas diload
+            ->whereHas('mapel', function ($query) use ($mapel) {
+                $query->whereIn('id', $mapel->pluck('id')); // Filter berdasarkan mata pelajaran
+            })
+            ->whereHas('kelas', function ($query) use ($kelas) {
+                $query->whereIn('id', $kelas->pluck('id')); // Filter berdasarkan kelas
+            })
+            ->get();
+
+    return view('guru.manajemen-video.index', compact('videos', 'kelas', 'mapel'));
+}
+
 
     // Simpan video dari file lokal
     public function storeLocal(Request $request)

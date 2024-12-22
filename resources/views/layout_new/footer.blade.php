@@ -44,6 +44,7 @@
 <!-- Datatables -->
 <script src="{{asset('admin')}}/js/datatables.min.js"></script>
 
+
 <script>
     $(document).ready(function () {
       $("#basic-datatables").DataTable({});

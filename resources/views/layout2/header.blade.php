@@ -25,7 +25,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('Siswa') }}/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{ asset('Siswa') }}/images/favicon.png" />
+    <link rel="shortcut icon" href="{{ asset('images') }}/logoku.webp"/>
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
@@ -62,9 +62,7 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown d-lg-flex d-none">
-                        <button type="button" class="btn btn-info font-weight-bold">+ Create Siswa</button>
-                    </li>
+
                     <li class="nav-item dropdown d-flex">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
                             id="messageDropdown" href="#" data-toggle="dropdown">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\GuruController;
@@ -25,10 +26,16 @@ use App\Http\Controllers\profileController;
 use App\Http\Controllers\VideoController;
 use App\Exports\SiswaExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\CommentController;
+
 
 Route::get('/', function () {
-    return redirect()->route('login'); // Redirect to login page
+    return redirect()->route('homepage'); // Redirect to login page
 });
+
+Route::get('/home_page', [LandingController::class, 'home'])->name('homepage');
+Route::get('/about', [LandingController::class, 'about'])->name('About');
 Route::get('/login', [LoginController::class, 'Login'])->name('login'); // Menampilkan halaman login
 
 Route::middleware(['auth'])->group(function () {
@@ -68,11 +75,11 @@ Route::middleware(['auth'])->group(function () {
     })->name('guru.profil_guru');
 
     // Route Profile Admin
-    Route::get('/admin/profile/{id}', function () {
-        return (new RoleMiddleware)->handle(request(), function () {
-            return app()->call('App\Http\Controllers\AdminController@profil', ['id' => request()->route('id')]);
-        }, 'admin');
-    })->name('admin.profil_admin');
+    // Route::get('/admin/profile/{id}', function () {
+    //     return (new RoleMiddleware)->handle(request(), function () {
+    //         return app()->call('App\Http\Controllers\AdminController@profil', ['id' => request()->route('id')]);
+    //     }, 'admin');
+    // })->name('admin.profil_admin');
 
 // =====================================================================================================================================
 // =====================================================================================================================================
@@ -376,6 +383,12 @@ Route::middleware(['auth'])->group(function () {
 // =====================================================================================================================================
 
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/admin/profile/{id}', [AdminController::class, 'profil'])->name('admin.profil_admin');
+    Route::get('/admin/edit-profile/{id}', [AdminController::class, 'editProfil'])->name('admin.edit_profil');
+    Route::post('/admin/update-profile/{id}', [AdminController::class, 'updateProfil'])->name('admin.update_profil');
+});
+
 //==============================    Route SISWA ==========================================================
 
 Route::group(['middleware' => ['auth']], function () {
@@ -430,7 +443,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route untuk update pengumpulan tugas (PUT)
     Route::put('/siswa/pengumpulan/{id}', [TugasSiswaController::class, 'updateTugasSiswa'])->name('siswa.tugas.updateTugasSiswa');
 
-    Route::delete('/siswa/pengumpulan/{id}', [TugasSiswaController::class, 'destroyTugasSiswa'])->name('siswa.tugas.destroyTugasSiswa');
+   Route::delete('/siswa/pengumpulan/{id}', [TugasSiswaController::class, 'destroyTugasSiswa'])->name('siswa.tugas.destroyTugasSiswa');
 });
 
 // =====================================================================================================================================
@@ -551,9 +564,13 @@ Route::prefix('guru')->middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('change-password', [UserController::class, 'showChangePasswordForm'])->name('auth.change-password');
-    Route::post('change-password', [UserController::class, 'updatePasswordAdmin'])->name('change-password.update');
-    Route::post('change-password', [UserController::class, 'updatePasswordGuru'])->name('change-password.update');
-    Route::post('change-password', [UserController::class, 'updatePasswordSiswa'])->name('change-password.update');
+    Route::get('change-password/admin', [UserController::class, 'showChangePasswordForm2'])->name('auth.change-password2');
+    Route::post('change-password/admin', [UserController::class, 'updatePasswordAdmin'])->name('change-password.update');
+    Route::post('change-password/guru', [UserController::class, 'updatePasswordGuru'])->name('change-password.update');
+    Route::post('change-password/siswa', [UserController::class, 'updatePasswordSiswa'])->name('change-password.update');
+
+    Route::resource('threads', ThreadController::class);
+    Route::post('threads/{thread}/comments', [CommentController::class, 'store'])->name('comments.store');
 });
 
 
@@ -565,6 +582,10 @@ Route::prefix('guru/video')->name('guru.video.')->middleware('auth')->group(func
     Route::delete('/{id}', [VideoController::class, 'destroy'])->name('destroy'); // Hapus video
     Route::get('/video/play/{id}', [VideoController::class, 'play'])->name('video.play');
 });
+
+
+
+
 
 
 // Routes untuk Mata Pelajaran

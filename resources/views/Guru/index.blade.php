@@ -64,8 +64,7 @@
                         <th>No</th>
                         <th>Kelas</th>
                         <th>Nama Mapel</th>
-                        <th>Edit</th>
-                        <th>Hapus</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -74,8 +73,7 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $guruMapel->kelas->nama_kelas }}</td>
                             <td>{{ $guruMapel->mapel->nama_mapel }}</td>
-                            <td><a href="#" class="btn btn-warning btn-sm">Edit</a></td>
-                            <td><a href="#" class="btn btn-danger btn-sm">Hapus</a></td>
+
                         </tr>
                     @endforeach
                 </tbody>
